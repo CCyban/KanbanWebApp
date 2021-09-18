@@ -7,9 +7,9 @@
         style="max-width: 20rem;"
         class="mb-3">
         <b-card
-            title="Kanban Card Title">
+            :title="kanbanCard.Title">
             <b-card-text>
-                {{ content }}
+                {{ kanbanCard.Description }}
             </b-card-text>
         </b-card>
         <template #overlay>
@@ -24,8 +24,8 @@
             </div>
         </template>
     </b-overlay>
-    <b-modal v-model="showModal" hide-footer title="Using Component Methods" hide-header-close>
-        <kanban-card-edit @toggleModal="toggleModal()"/>
+    <b-modal v-model="showModal" hide-footer :title="kanbanCard.Title" hide-header-close size="xl">
+        <kanban-card-edit @toggleModal="toggleModal()" :kanbanCard="kanbanCard" @saveKanbanCard="kanbanCard = $event"/>
     </b-modal>
 </div>
 </template>
@@ -45,6 +45,14 @@ export default {
         return {
             isCardHovered: false,
             showModal: false,
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/19',
+                lastUpdated: '11/09/21',
+            }
         }
     },
     methods: {
@@ -58,7 +66,7 @@ export default {
         },
         toggleModal() {
             this.showModal = !this.showModal;
-        }
+        },
     }
 }
 </script>
