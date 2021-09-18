@@ -1,20 +1,26 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div>
+    <h1>
+        Account stuff
+    </h1>
+    <b-link to="/Kanbans">
+        <b-button variant="primary">
+            Kanbans page
+        </b-button>
+    </b-link>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'App',
+  name: 'Account',
+  components: {
+  },
   data() {
     return {
-      signedIn: Boolean,
     } 
-  },
-  created: function () {
-    this.signedIn = Math.random() < 0.5;
-  },
+  }
 }
 </script>
 

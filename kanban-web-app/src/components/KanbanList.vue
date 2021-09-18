@@ -1,25 +1,35 @@
 <template>
-  <div class="hello">
-    <h1>Kanban board list</h1>
-    <p>
-      Made using Vue.JS 3 and other stuff
-    </p>
-
-    <h3>Kanban boards</h3>
+  <div>
+    <h3
+      class="mb-4">
+      Current Kanban Boards
+    </h3>
     <ul>
-      <li v-for="value in kanbanBoards" v-bind:key="value">
-        {{ value }}
+      <li
+        v-for="kanbanBoard in kanbanBoards"
+        v-bind:key="kanbanBoard.name">
+          <b-card
+            :title="kanbanBoard.name"
+            style="max-width: 20rem;"
+            class="mb-2"
+          >
+          <b-card-text
+           v-text="kanbanBoard.date" />
+          <b-button
+            href="#"
+            variant="primary">
+            Go somewhere
+          </b-button>
+        </b-card>
       </li>
     </ul>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+    name: 'KanbanList',
   props: {
-    msg: String,
     kanbanBoards: Array,
   }
 }
@@ -37,8 +47,5 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>
