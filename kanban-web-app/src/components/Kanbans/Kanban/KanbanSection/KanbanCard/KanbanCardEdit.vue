@@ -1,17 +1,15 @@
 <template>
     <div>
         <b-row class="mb-4">
-            <b-col>
-                <b-form-group>
-                    <h5>Description: </h5>
-                    <b-form-textarea v-model="localKanbanCardCopy.Description" />
-                    <b-form-text
-                        text-variant="danger"
-                        v-if="!$v.localKanbanCardCopy.Description.required">
-                        *Description is required
-                    </b-form-text>
-                </b-form-group>
-            </b-col>
+            <b-form-group>
+                <h5>Description: </h5>
+                <b-form-textarea v-model="localKanbanCardCopy.Description" />
+                <b-form-text
+                    text-variant="danger"
+                    v-if="!$v.localKanbanCardCopy.Description.required">
+                    *Description is required
+                </b-form-text>
+            </b-form-group>
         </b-row>
         <b-row class="mb-4">
             <b-col>
@@ -57,10 +55,8 @@
             </b-col>
         </b-row>
 
-
         <template v-if="hasDataChanged">
-
-            <b-alert class="mt-4" variant="danger" :show="$v.localKanbanCardCopy.$invalid">
+            <b-alert variant="danger" :show="$v.localKanbanCardCopy.$invalid">
                 Please complete all requirements shown with a *
             </b-alert>
 
@@ -68,7 +64,6 @@
                 class="text-center">
                 <b-col>
                     <b-button
-                        class="mt-3"
                         variant="outline-danger"
                         block
                         @click="cancelCardData();">
@@ -77,9 +72,9 @@
                 </b-col>
                 <b-col>
                     <b-button
-                        class="mt-3"
                         variant="outline-success"
                         block
+                        :disabled="$v.localKanbanCardCopy.$invalid"
                         @click="saveCardData();">
                         Save Changes
                     </b-button>
@@ -108,10 +103,10 @@ export default {
             this.$emit('toggleModal');
         },
         saveCardData() {
-
-            this.$emit('saveKanbanCard', {...this.localKanbanCardCopy});
-            alert('saved');
-
+            if (!this.$v.localKanbanCardCopy.$invalid) {                
+                this.localKanbanCardCopy.lastUpdated = new Date().toLocaleDateString('en-UK', { day:'2-digit', month: '2-digit', year: 'numeric' });
+                this.$emit('saveKanbanCard', {...this.localKanbanCardCopy});
+            }
         },
         cancelCardData() {
             this.localKanbanCardCopy = {...this.kanbanCard};

@@ -50,8 +50,8 @@ export default {
                 Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
                 Priority: 9,
                 Estimation: '12 hours',
-                dateCreated: '12/05/19',
-                lastUpdated: '11/09/21',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
             }
         }
     },

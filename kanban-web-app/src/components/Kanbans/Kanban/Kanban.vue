@@ -1,24 +1,20 @@
 <template>
   <div>
-    <h3
+    <h2
       class="mb-4">
-      Some kanban with id of {{ Kanban.id }}, name of {{ Kanban.name }}, and date of {{ Kanban.date }}
-    </h3>
-
-
-
-      <div class="row">
-        <div class="col-sm">
-          <kanban-section :myArray="myArray1" :sectionHeader="'DEV'"></kanban-section>
-        </div>
-        <div class="col-sm">
-          <kanban-section :myArray="myArray2" :sectionHeader="'DT'"></kanban-section>
-        </div>
-        <div class="col-sm">
-          <kanban-section :myArray="myArray3" :sectionHeader="'QA'"></kanban-section>
-        </div>
+      {{ Kanban.name }}
+    </h2>
+    <div class="row">
+      <div class="col-sm">
+        <kanban-section :myArray="myArray1" :sectionHeader="'DEV'"></kanban-section>
       </div>
-
+      <div class="col-sm">
+        <kanban-section :myArray="myArray2" :sectionHeader="'DT'"></kanban-section>
+      </div>
+      <div class="col-sm">
+        <kanban-section :myArray="myArray3" :sectionHeader="'QA'"></kanban-section>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -83,7 +79,7 @@ export default {
 
       this.Kanban = {
           id: this.id,
-          name: "tempname",
+          name: "Sprint 26.1",
           date: Date.now(),
       }
   },
