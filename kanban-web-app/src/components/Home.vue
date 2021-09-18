@@ -4,7 +4,7 @@
     <p>
       Made using VueJS, and other stuff.
     </p>
-    <b-link v-if="signedIn" to="/Kanbans">
+    <b-link v-if="signedIn" to="/Kanban">
       <b-button variant="primary">
           See your kanbans
       </b-button>

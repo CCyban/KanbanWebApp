@@ -1,6 +1,7 @@
 import Home from './components/Home.vue'
-import Kanbans from './components/Kanbans.vue';
-import Account from './components/Account.vue';
+import Kanbans from './components/Kanbans/Kanbans.vue';
+import Kanban from './components/Kanbans/Kanban/Kanban.vue'
+import Account from './components/Account/Account.vue';
 
 export const routes = [
     {
@@ -8,8 +9,12 @@ export const routes = [
         component: Home
     },
     {
-        path: '/kanbans',
-        component: Kanbans
+        path: '/kanban',
+        component: Kanbans,
+    },
+    {
+        path: '/kanban/:id',
+        component: Kanban
     },
     {
         path: '/user',

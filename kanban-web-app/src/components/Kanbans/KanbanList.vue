@@ -15,11 +15,12 @@
           >
           <b-card-text
            v-text="kanbanBoard.date" />
-          <b-button
-            href="#"
-            variant="primary">
-            Go somewhere
-          </b-button>
+           <b-link to="/Kanban/10">
+            <b-button
+              variant="success">
+              Open Kanban
+            </b-button>
+           </b-link>
         </b-card>
       </li>
     </ul>
@@ -28,7 +29,7 @@
 
 <script>
 export default {
-    name: 'KanbanList',
+  name: 'KanbanList',
   props: {
     kanbanBoards: Array,
   }
