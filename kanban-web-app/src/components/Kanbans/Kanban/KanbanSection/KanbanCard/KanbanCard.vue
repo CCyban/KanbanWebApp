@@ -1,4 +1,5 @@
 <template>
+<div>
     <b-overlay
         v-b-hover="hoverHandle"
         :show="isCardHovered"
@@ -16,24 +17,34 @@
             <b-button
                 variant="outline-success"
                 size="sm"
-                @click="show = false">
+                @click="showModal = true">
                     Open
                 <b-icon icon="pencil-square" />
             </b-button>
             </div>
         </template>
     </b-overlay>
+    <b-modal v-model="showModal" hide-footer title="Using Component Methods" hide-header-close>
+        <kanban-card-edit @toggleModal="toggleModal()"/>
+    </b-modal>
+</div>
 </template>
 
 <script>
+import KanbanCardEdit from './KanbanCardEdit.vue'
+
 export default {
     name: 'KanbanCard',
     props: {
         content: String,
     },
+    components: {
+        KanbanCardEdit,
+    },
     data() {
         return {
             isCardHovered: false,
+            showModal: false,
         }
     },
     methods: {
@@ -44,6 +55,9 @@ export default {
             else {
                 this.isCardHovered = false;
             }
+        },
+        toggleModal() {
+            this.showModal = !this.showModal;
         }
     }
 }
