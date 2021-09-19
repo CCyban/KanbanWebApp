@@ -9,6 +9,9 @@
         <b-card
             :title="kanbanCard.Title">
             <b-card-text>
+                <p><b-avatar />{{ kanbanCard.assignedTo }}</p>
+            </b-card-text>
+            <b-card-text class="text-truncate">
                 {{ kanbanCard.Description }}
             </b-card-text>
         </b-card>
@@ -25,34 +28,43 @@
         </template>
     </b-overlay>
     <b-modal v-model="showModal" hide-footer :title="kanbanCard.Title" hide-header-close size="xl">
-        <kanban-card-edit @toggleModal="toggleModal()" :kanbanCard="kanbanCard" @saveKanbanCard="kanbanCard = $event"/>
+        <b-container slot="modal-header">
+            <b-row>
+                <b-col>
+                    <h5>
+                        {{ kanbanCard.Title }}
+                    </h5>
+                </b-col>
+                <b-col align-self="end" cols="auto" class="mb-auto">
+                    <b-button variant="danger" class="p-0" size="lg" @click="toggleModal()">
+                        <b-icon icon="x" font-scale="1" class="m-1"></b-icon>
+                    </b-button>
+                </b-col>
+            </b-row>
+        </b-container>
+        <kanban-card-details @toggleModal="toggleModal()" :kanbanCard="kanbanCard" :saveKanbanCardEmit="saveKanbanCardEmit"/>
     </b-modal>
 </div>
 </template>
 
 <script>
-import KanbanCardEdit from './KanbanCardEdit.vue'
+import KanbanCardDetails from './KanbanCardDetails.vue'
 
 export default {
     name: 'KanbanCard',
     props: {
-        content: String,
+        kanbanCard: Object,
+        saveKanbanCard: Function,
+        index: Number,
     },
     components: {
-        KanbanCardEdit,
+        KanbanCardDetails,
     },
     data() {
         return {
             isCardHovered: false,
             showModal: false,
-            kanbanCard: {
-                Title: 'Issue with saving profile password',
-                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
-                Priority: 9,
-                Estimation: '12 hours',
-                dateCreated: '12/05/2019',
-                lastUpdated: '11/09/2021',
-            }
+            kabanCard: Object,
         }
     },
     methods: {
@@ -67,6 +79,12 @@ export default {
         toggleModal() {
             this.showModal = !this.showModal;
         },
-    }
+        saveKanbanCardEmit(kanbanCard) {
+            this.saveKanbanCard(                {
+                    index: this.index,
+                    newKanbanCard: {...kanbanCard} 
+                })
+        }
+    },
 }
 </script>

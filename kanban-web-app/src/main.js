@@ -25,10 +25,10 @@ const router = new VueRouter({
 
 Vue.config.productionTip = false
 
-if (process.env.NODE_ENV === 'development') {
-  const VueAxe = require('vue-axe').default
-  Vue.use(VueAxe)
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const VueAxe = require('vue-axe').default
+//   Vue.use(VueAxe)
+// }
 
 new Vue({
   router,

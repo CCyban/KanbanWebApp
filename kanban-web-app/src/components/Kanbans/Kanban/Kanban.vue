@@ -32,44 +32,224 @@ export default {
           Kanban: Object,
           myArray1: [
             {
-              id: 11,
-              name: 'col1test1'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
             {
-              id: 12,
-              name: 'col1test2'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
             {
-              id: 13,
-              name: 'col1test3'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
           ],
           myArray2: [
             {
-              id: 21,
-              name: 'col2test1'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
             {
-              id: 22,
-              name: 'col2test2'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
             {
-              id: 23,
-              name: 'col2test3'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
           ],
           myArray3: [
             {
-              id: 31,
-              name: 'col3test1'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
             {
-              id: 32,
-              name: 'col3test2'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
             {
-              id: 33,
-              name: 'col3test3'
+            kanbanCard: {
+                Title: 'Issue with saving profile password',
+                Description: "When clicking the save button in in account management, the website pretends everything is okay but it doesn't actually save the password",
+                Priority: 9,
+                Estimation: '12 hours',
+                dateCreated: '12/05/2019',
+                lastUpdated: '11/09/2021',
+                Comments: [
+                    {
+                        Comment: "Can someone add an estimate?", 
+                        Author: "Head of Development",
+                        Date: '12/06/2019'
+                    },
+                    {
+                        Comment: "Added an estimate after speaking about it with the team!",
+                        Author: "Scrum Master",
+                        Date: '24/08/2020'
+                    }
+                ],
+                assignedTo: "Tom Scott",
+                Author: "Bob Smith"
+            }
             },
           ]
       }

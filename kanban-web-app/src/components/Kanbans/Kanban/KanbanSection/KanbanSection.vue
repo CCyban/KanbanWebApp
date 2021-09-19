@@ -1,7 +1,7 @@
 <template>
     <div>
         <draggable v-model="copyOfReceivedArray" group="people" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card">
-            <kanban-card v-for="element in copyOfReceivedArray" :key="element.id" :content="element.name" class="kanban-card" />
+            <kanban-card v-for="(element, index) in copyOfReceivedArray" :key="index" :index="index" :kanbanCard="element.kanbanCard" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
             <kanban-section-header slot="header" :sectionHeader="sectionHeader" />
         </draggable>
     </div>
@@ -23,7 +23,7 @@ export default {
         myArray: Array,
         sectionHeader: String,
     },
-    created: function () {
+    beforeMount: function () {
         this.copyOfReceivedArray = this.myArray;
     },
     data() {
@@ -39,6 +39,12 @@ export default {
                 disabled: false,
                 ghostClass: "ghost"
             };
+        }
+    },
+    methods: {
+        saveKanbanCard(cursedObject) {
+            alert(cursedObject.index);
+            this.copyOfReceivedArray[cursedObject.index].kanbanCard = cursedObject.newKanbanCard;
         }
     }
 }
