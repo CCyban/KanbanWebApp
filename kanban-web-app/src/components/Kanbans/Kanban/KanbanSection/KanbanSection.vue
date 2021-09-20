@@ -1,7 +1,7 @@
 <template>
     <div>
-        <draggable v-model="copyOfReceivedArray" group="people" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card">
-            <kanban-card v-for="(element, index) in copyOfReceivedArray" :key="index" :index="index" :kanbanCard="element.kanbanCard" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
+        <draggable v-model="localCopyOfSection" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
+            <kanban-card v-for="(element, index) in localCopyOfSection" :key="index" :index="index" :kanbanCard="element.kanbanCard" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
             <kanban-section-header slot="header" :sectionHeader="sectionHeader" />
         </draggable>
     </div>
@@ -20,31 +20,38 @@ export default {
       KanbanSectionHeader,
     },
     props: {
-        myArray: Array,
+        kanbanSection: Array,
         sectionHeader: String,
-    },
-    beforeMount: function () {
-        this.copyOfReceivedArray = this.myArray;
+        sectionIndex: Number,
+        saveKanbanSection: Function,
     },
     data() {
         return {
-            copyOfReceivedArray: Array,
+            localCopyOfSection: this.kanbanSection,
         }
     },
     computed: {
         dragOptions() {
             return {
                 animation: 200,
-                group: "description",
+                group: "section",
                 disabled: false,
-                ghostClass: "ghost"
             };
         }
     },
     methods: {
         saveKanbanCard(cursedObject) {
-            alert(cursedObject.index);
             this.copyOfReceivedArray[cursedObject.index].kanbanCard = cursedObject.newKanbanCard;
+            this.updateKanbanSectionData();
+        },
+        sectionOrderUpdated() {
+            this.updateKanbanSectionData();
+        },
+        updateKanbanSectionData() {
+            this.saveKanbanSection({
+                sectionIndex: this.sectionIndex,
+                newKanbanSection: Object.values({...this.copyOfReceivedArray}),
+            })
         }
     }
 }
