@@ -257,6 +257,7 @@ export default {
     //   }
   },
   methods: {
+      // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
     saveKanbanSection(payload) {
         this.Kanban[payload.sectionIndex] = payload.newKanbanSection;
     }

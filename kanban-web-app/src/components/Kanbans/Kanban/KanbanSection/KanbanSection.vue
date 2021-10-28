@@ -41,16 +41,20 @@ export default {
     },
     methods: {
         saveKanbanCard(cursedObject) {
-            this.copyOfReceivedArray[cursedObject.index].kanbanCard = cursedObject.newKanbanCard;
+            // Saves to the local copy
+            this.localCopyOfSection[cursedObject.index].kanbanCard = cursedObject.newKanbanCard;
+
             this.updateKanbanSectionData();
         },
         sectionOrderUpdated() {
+            // Updates the data side of the Vue page when the user drags a card around so it matches the visually changed state
             this.updateKanbanSectionData();
         },
         updateKanbanSectionData() {
+            // Updates the section's data based on the edited local copy
             this.saveKanbanSection({
                 sectionIndex: this.sectionIndex,
-                newKanbanSection: Object.values({...this.copyOfReceivedArray}),
+                newKanbanSection: Object.values({...this.localCopyOfSection}),
             })
         }
     }

@@ -48,12 +48,8 @@ export default {
     },
     methods: {
         hoverHandle(isHovered) {
-            if (isHovered) {
-                this.isCardHovered = true;
-            }
-            else {
-                this.isCardHovered = false;
-            }
+            // Hover event on the card is used to toggle a boolean to show the overlay of said card
+            this.isCardHovered = isHovered;
         }
     }
 }

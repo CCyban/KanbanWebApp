@@ -70,17 +70,14 @@ export default {
     },
     methods: {
         hoverHandle(isHovered) {
-            if (isHovered) {
-                this.isCardHovered = true;
-            }
-            else {
-                this.isCardHovered = false;
-            }
+            // Hover event on the card is used to toggle a boolean to show the overlay of said card
+            this.isCardHovered = isHovered; 
         },
         toggleModal() {
             this.showModal = !this.showModal;
         },
         saveKanbanCardEmit(kanbanCard) {
+            // Updates the higher component with the new card data as well as the index of the section this component is used for
             this.saveKanbanCard(                {
                     index: this.index,
                     newKanbanCard: {...kanbanCard} 

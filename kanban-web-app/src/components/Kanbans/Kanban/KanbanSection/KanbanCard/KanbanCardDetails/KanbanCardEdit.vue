@@ -11,12 +11,12 @@
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Title.required">
-                    *Title is required
+                    * Title is required
                 </b-form-text>
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Title.maxLength">
-                    *No longer than 256 characters
+                    * No longer than {{ $v.localKanbanCardCopy.Title.$params.maxLength.max }} characters
                 </b-form-text>
             </b-form-group>
         </b-row>
@@ -31,12 +31,12 @@
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Description.required">
-                    *Description is required
+                    * Description is required
                 </b-form-text>
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Description.maxLength">
-                    *No longer than 4096 characters
+                    * No longer than {{ $v.localKanbanCardCopy.Description.$params.maxLength.max }} characters
                 </b-form-text>
             </b-form-group>
         </b-row>
@@ -47,23 +47,23 @@
                     <b-form-input
                         type="number"
                         v-model="localKanbanCardCopy.Priority"
-                        min=0
-                        max=99
+                        :min='$v.localKanbanCardCopy.Priority.$params.minValue.min'
+                        :max='$v.localKanbanCardCopy.Priority.$params.maxValue.max'
                     />
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Priority.minValue">
-                        *No negatives
+                        * No negatives
                     </b-form-text>
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Priority.maxValue">
-                        *No longer than 2 digits
+                        * No longer than 2 digits
                     </b-form-text>
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Priority.required">
-                        *Please enter a value
+                        * Please enter a value
                     </b-form-text>
                 </b-form-group>
             </b-col>
@@ -74,7 +74,7 @@
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Estimation.maxLength">
-                        *No longer than 64 characters
+                        * No longer than {{ $v.localKanbanCardCopy.Estimation.$params.maxLength.max }} characters
                     </b-form-text>
                 </b-form-group>
             </b-col>
@@ -93,7 +93,7 @@
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.assignedTo.maxLength">
-                        *No longer than 64 characters
+                        * No longer than {{ $v.localKanbanCardCopy.assignedTo.$params.maxLength.max }} characters
                     </b-form-text>
                 </b-form-group>
             </b-col>
@@ -115,9 +115,8 @@
 
         <template v-if="hasDataChanged">
             <b-alert variant="danger" class="text-center" :show="$v.localKanbanCardCopy.$invalid">
-                Please complete all requirements shown with a *
+                Before Saving: Please complete all requirements shown with a *
             </b-alert>
-
             <b-row
                 class="text-center">
                 <b-col>
@@ -143,7 +142,7 @@
 </template>
 
 <script>
-import { required, maxValue, minValue, maxLength } from 'vuelidate/lib/validators'
+import { required, minValue, maxValue, maxLength } from 'vuelidate/lib/validators'
 export default {
   name: 'KanbanCardEdit',
   props: {
@@ -152,16 +151,19 @@ export default {
   },
     methods: {
         saveCardData() {
+            // Component's event method to save the new card data
             if (!this.$v.localKanbanCardCopy.$invalid) {                
                 this.localKanbanCardCopy.lastUpdated = new Date().toLocaleDateString('en-UK', { day:'2-digit', month: '2-digit', year: 'numeric' });
                 this.saveKanbanCardEmit(this.localKanbanCardCopy);
             }
         },
         cancelCardData() {
+            // Discards the newly altered card data
             this.localKanbanCardCopy = {...this.kanbanCard};
         },
     },
     validations: {
+        // Vuelidate validation to cover the card's data changes
         localKanbanCardCopy: {
             Title: {
                 required,
@@ -185,15 +187,16 @@ export default {
         }
     },
     data() {
-    return {
-        localKanbanCardCopy: undefined,
-    }
+        return {
+            localKanbanCardCopy: undefined,
+        }
     },
     beforeMount: function() {
         this.localKanbanCardCopy = {...this.kanbanCard};
     },
     computed: {
         hasDataChanged() {
+            // Detects if the kanban's card data has been altered
             return Object.entries(this.kanbanCard).toString() != Object.entries(this.localKanbanCardCopy).toString();
         }
     }

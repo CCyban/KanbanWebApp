@@ -21,6 +21,7 @@ export default {
     },
     methods: {
         hideModal() {
+            // Emits togglable method execution to parent component in order to toggle the modal off
             this.$emit('toggleModal');
         },
     },

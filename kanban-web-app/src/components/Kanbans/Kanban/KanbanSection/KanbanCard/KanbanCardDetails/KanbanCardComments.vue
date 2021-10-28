@@ -4,13 +4,16 @@
         <div>
             <h4>Comments</h4>
             <b-list-group>
-                <b-list-group-item v-for="Comment in kanbanCard.Comments" :key="Comment.Comment"> 
+                <b-list-group-item v-for="Comment in kanbanCard.Comments" :key="Comment.Comment" class="overflow-auto"> 
                      <p><b-avatar />{{ Comment.Author }} - {{ Comment.Date }}</p>
                     {{ Comment.Comment }}
                 </b-list-group-item>
                 <b-list-group-item>
                     <p><b-avatar />You - Today</p>
-                    <b-textarea v-model="newComment" />
+                    <b-textarea v-model="newComment"/>
+                    <b-alert variant="danger" class="text-center mt-4" :show="!$v.newComment.maxLength">
+                        Before Submitting: No longer than {{ $v.newComment.$params.maxLength.max }} characters in a comment
+                    </b-alert>
                     <template v-if="newComment">
                         <b-row
                             class="text-center mt-3">
@@ -26,6 +29,7 @@
                                 <b-button
                                     variant="outline-success"
                                     block
+                                    :disabled='!$v.newComment.maxLength'
                                     @click="saveComment();">
                                     Submit Comment
                                 </b-button>
@@ -39,6 +43,7 @@
 </template>
 
 <script>
+import { maxLength } from 'vuelidate/lib/validators'
 export default {
     name: 'KanbanCardComments',
     props: {
@@ -50,8 +55,15 @@ export default {
             newComment: "",
         }
     },
+    validations: {
+        // Vuelidate validation to cover the card's data changes
+        newComment: {
+            maxLength: maxLength(4096),
+        }
+    },
     methods: {
         saveComment() {
+            // Component's event method to save a new comment on the card
             let localKanbanCardCopy = {...this.kanbanCard};
             localKanbanCardCopy.Comments.push({
                 Comment: this.newComment,
@@ -62,6 +74,7 @@ export default {
             this.newComment = "";
         },
         discardComment() {
+            // Discards the newly typed comment
             this.newComment = "";
         },
     }
