@@ -112,7 +112,6 @@
                 </b-form-group>
             </b-col>
         </b-row>
-
         <template v-if="hasDataChanged">
             <b-alert variant="danger" class="text-center" :show="$v.localKanbanCardCopy.$invalid">
                 Before Saving: Please complete all requirements shown with a *

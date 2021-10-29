@@ -1,8 +1,8 @@
 <template>
     <div>
-        <draggable v-model="localCopyOfSection" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
-            <kanban-card v-for="(element, index) in localCopyOfSection" :key="index" :index="index" :kanbanCard="element.kanbanCard" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
-            <kanban-section-header slot="header" :sectionHeader="sectionHeader" />
+        <draggable v-model="localCopyOfSection.kanbanSectionCards" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
+            <kanban-card v-for="(element, index) in localCopyOfSection.kanbanSectionCards" :key="index" :index="index" :kanbanCard="element" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
+            <kanban-section-header slot="header" :sectionHeader="localCopyOfSection.kanbanSectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader"/>
         </draggable>
     </div>
 </template>
@@ -20,8 +20,7 @@ export default {
       KanbanSectionHeader,
     },
     props: {
-        kanbanSection: Array,
-        sectionHeader: String,
+        kanbanSection: Object,
         sectionIndex: Number,
         saveKanbanSection: Function,
     },
@@ -41,8 +40,14 @@ export default {
     },
     methods: {
         saveKanbanCard(cursedObject) {
-            // Saves to the local copy
-            this.localCopyOfSection[cursedObject.index].kanbanCard = cursedObject.newKanbanCard;
+            // Receives a change to the local copy & calls a method to pass the update further up
+            this.$set(this.localCopyOfSection.kanbanSectionCards, cursedObject.index, cursedObject.newKanbanCard);
+
+            this.updateKanbanSectionData();
+        },
+        saveKanbanSectionHeader(newKanbanSectionHeader) {
+            // Receives a change to the local copy & calls a method to pass the update further up
+            this.localCopyOfSection.kanbanSectionHeader = newKanbanSectionHeader;
 
             this.updateKanbanSectionData();
         },
@@ -56,7 +61,7 @@ export default {
                 sectionIndex: this.sectionIndex,
                 newKanbanSection: Object.values({...this.localCopyOfSection}),
             })
-        }
+        },
     }
 }
 </script>

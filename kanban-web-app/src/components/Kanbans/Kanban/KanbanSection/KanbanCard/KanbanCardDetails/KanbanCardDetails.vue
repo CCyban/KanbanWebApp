@@ -1,6 +1,7 @@
 <template>
     <div>
         <kanban-card-edit :kanbanCard="kanbanCard" :saveKanbanCardEmit="saveKanbanCardEmit" />
+        <hr class="my-4" />
         <kanban-card-comments :kanbanCard="kanbanCard" :saveKanbanCardEmit="saveKanbanCardEmit" />
     </div>
 </template>

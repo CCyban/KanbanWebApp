@@ -1,16 +1,19 @@
 <template>
     <div>
-        <hr />
         <div>
-            <h4>Comments</h4>
+            <h2 class="my-4">Comments</h2>
             <b-list-group>
                 <b-list-group-item v-for="Comment in kanbanCard.Comments" :key="Comment.Comment" class="overflow-auto"> 
-                     <p><b-avatar />{{ Comment.Author }} - {{ Comment.Date }}</p>
+                     <h5><b-avatar square /> {{ Comment.Author }} - {{ Comment.Date }}</h5>
                     {{ Comment.Comment }}
                 </b-list-group-item>
                 <b-list-group-item>
-                    <p><b-avatar />You - Today</p>
-                    <b-textarea v-model="newComment"/>
+                    <h5><b-avatar /> You - Today</h5>
+                    <b-textarea
+                        v-model="newComment"
+                        rows=4
+                        max-rows="32"
+                    />
                     <b-alert variant="danger" class="text-center mt-4" :show="!$v.newComment.maxLength">
                         Before Submitting: No longer than {{ $v.newComment.$params.maxLength.max }} characters in a comment
                     </b-alert>

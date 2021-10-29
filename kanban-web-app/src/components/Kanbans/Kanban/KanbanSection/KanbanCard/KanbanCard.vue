@@ -32,9 +32,9 @@
             <b-container slot="modal-header">
                 <b-row>
                     <b-col>
-                        <h5>
+                        <h1>
                             {{ kanbanCard.Title }}
-                        </h5>
+                        </h1>
                     </b-col>
                     <b-col align-self="end" cols="auto" class="mb-auto">
                         <b-button variant="danger" class="p-0" size="lg" @click="toggleModal()">
