@@ -2,8 +2,9 @@ import Home from './components/Home.vue'
 import Kanbans from './components/Kanbans/Kanbans.vue';
 import Kanban from './components/Kanbans/Kanban/Kanban.vue'
 import Account from './components/Account/Account.vue';
+import { RouteConfig } from 'vue-router';
 
-export const routes = [
+export const routes: Array<RouteConfig> = [
     {
         path: '',
         component: Home

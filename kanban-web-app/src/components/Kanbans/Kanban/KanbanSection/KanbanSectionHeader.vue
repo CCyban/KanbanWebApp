@@ -47,10 +47,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import kanbanSectionDetails from './KanbanSectionDetails.vue'
 
-export default {
+export default Vue.extend({
     name: 'KanbanSectionHeader',
     components: {
         kanbanSectionDetails
@@ -64,22 +65,22 @@ export default {
     data() {
         return {
             isCardHovered: false,
-            localSectionHeaderCopy: undefined,
+            localSectionHeaderCopy: "",
             showEditModal: false,
         }
     },
     beforeMount: function() {
-        this.localSectionHeaderCopy = {...this.sectionHeader};
+        this.localSectionHeaderCopy = this.sectionHeader;
     },
     methods: {
-        hoverHandle(isHovered) {
+        hoverHandle(isHovered: any) {
             // Hover event on the card is used to toggle a boolean to show the overlay of said card
             this.isCardHovered = isHovered;
         },
         closeModal() {
-            this.showEditModal = this.showDeleteModal = false;
+            this.showEditModal = false;
         }
 
     }
-}
+})
 </script>

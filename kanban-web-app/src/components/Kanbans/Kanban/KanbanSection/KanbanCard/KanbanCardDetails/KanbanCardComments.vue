@@ -46,9 +46,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { maxLength } from 'vuelidate/lib/validators'
-export default {
+
+export default Vue.extend({    
     name: 'KanbanCardComments',
     props: {
         kanbanCard: Object,
@@ -82,5 +84,5 @@ export default {
             this.newComment = "";
         },
     }
-}
+})
 </script>

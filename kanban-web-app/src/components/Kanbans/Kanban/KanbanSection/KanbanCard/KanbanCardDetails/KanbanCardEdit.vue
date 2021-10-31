@@ -162,14 +162,21 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { required, minValue, maxValue, maxLength } from 'vuelidate/lib/validators'
-export default {
-  name: 'KanbanCardEdit',
-  props: {
-      kanbanCard: Object,
-      saveKanbanCardEmit: Function,
-  },
+
+export default Vue.extend({
+    name: 'KanbanCardEdit',
+    props: {
+        kanbanCard: Object,
+        saveKanbanCardEmit: Function,
+    },
+      data() {
+        return {
+            localKanbanCardCopy: undefined,
+        }
+    },
     methods: {
         saveCardData() {
             // Component's event method to save the new card data
@@ -207,11 +214,6 @@ export default {
             }
         }
     },
-    data() {
-        return {
-            localKanbanCardCopy: undefined,
-        }
-    },
     beforeMount: function() {
         this.localKanbanCardCopy = {...this.kanbanCard};
     },
@@ -221,5 +223,5 @@ export default {
             return Object.entries(this.kanbanCard).toString() != Object.entries(this.localKanbanCardCopy).toString();
         },
     }
-}
+})
 </script>

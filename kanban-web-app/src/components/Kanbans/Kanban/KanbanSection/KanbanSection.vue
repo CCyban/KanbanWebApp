@@ -7,12 +7,13 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import draggable from 'vuedraggable'
 import KanbanCard from './KanbanCard/KanbanCard.vue'
 import KanbanSectionHeader from './KanbanSectionHeader.vue'
 
-export default {
+export default Vue.extend({
     name: 'KanbanSection',
     components: {
       draggable,
@@ -46,13 +47,13 @@ export default {
         }
     },
     methods: {
-        saveKanbanCard(cursedObject) {
+        saveKanbanCard(cursedObject: any) {
             // Receives a change to the local copy & calls a method to pass the update further up
             this.$set(this.localCopyOfSection.kanbanSectionCards, cursedObject.index, cursedObject.newKanbanCard);
 
             this.updateKanbanSectionData();
         },
-        saveKanbanSectionHeader(newKanbanSectionHeader) {
+        saveKanbanSectionHeader(newKanbanSectionHeader: String) {
             // Receives a change to the local copy & calls a method to pass the update further up
             this.localCopyOfSection.kanbanSectionHeader = newKanbanSectionHeader;
 
@@ -74,5 +75,5 @@ export default {
             this.deleteKanbanSection(this.sectionIndex);
         },
     }
-}
+})
 </script>

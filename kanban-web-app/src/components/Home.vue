@@ -14,17 +14,16 @@
   </b-jumbotron>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'Home',
-  data() {
-    return {
-      signedIn: Boolean,
-    } 
-  },
-  created: function () {
-    this.signedIn = Math.random() < 0.5;
-  },
-}
+  computed: {
+    signedIn() {
+      return Math.random() < 0.5;
+    }
+  }
+})
 </script>
 

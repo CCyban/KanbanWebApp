@@ -48,10 +48,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import KanbanCardDetails from './KanbanCardDetails/KanbanCardDetails.vue'
 
-export default {
+export default Vue.extend({
     name: 'KanbanCard',
     props: {
         kanbanCard: Object,
@@ -69,14 +70,14 @@ export default {
         }
     },
     methods: {
-        hoverHandle(isHovered) {
+        hoverHandle(isHovered: boolean) {
             // Hover event on the card is used to toggle a boolean to show the overlay of said card
             this.isCardHovered = isHovered; 
         },
         toggleModal() {
             this.showModal = !this.showModal;
         },
-        saveKanbanCardEmit(kanbanCard) {
+        saveKanbanCardEmit(kanbanCard: any) {
             // Updates the higher component with the new card data as well as the index of the section this component is used for
             this.saveKanbanCard(                {
                     index: this.index,
@@ -84,7 +85,7 @@ export default {
                 })
         }
     },
-}
+})
 </script>
 
 

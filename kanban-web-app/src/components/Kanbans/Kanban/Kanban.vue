@@ -12,10 +12,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import KanbanSection from './KanbanSection/KanbanSection.vue'
+import { Route } from 'vue-router'
 
-export default {
+export default Vue.extend({
   name: 'Kanban',
   components: {
     KanbanSection,
@@ -180,12 +182,12 @@ export default {
   },
   methods: {
       // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
-    saveKanbanSection(payload) {
+    saveKanbanSection(payload: any) {
         this.Kanban[payload.sectionIndex] = payload.newKanbanSection;
     },
-    deleteKanbanSection(sectionIndex) {
+    deleteKanbanSection(sectionIndex: number) {
         this.Kanban.splice(sectionIndex, 1);
     }
   }
-}
+})
 </script>

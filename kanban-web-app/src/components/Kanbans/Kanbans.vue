@@ -7,10 +7,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import KanbanList from '../Kanbans/KanbanList.vue'
 
-export default {
+export default Vue.extend({
   name: 'Kanbans',
   components: {
     KanbanList
@@ -33,5 +34,5 @@ export default {
       ]
     } 
   }
-}
+})
 </script>

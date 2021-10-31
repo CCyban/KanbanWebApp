@@ -6,11 +6,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import KanbanCardEdit from './KanbanCardEdit.vue'
 import KanbanCardComments from './KanbanCardComments.vue'
 
-export default {
+export default Vue.extend({
     name: 'KanbanCardDetails',
     props: {
         kanbanCard: Object,
@@ -26,5 +27,5 @@ export default {
             this.$emit('toggleModal');
         },
     },
-}
+})
 </script>

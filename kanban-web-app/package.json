@@ -17,13 +17,17 @@
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
+    "@types/vuelidate": "^0.7.15",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-typescript": "^4.5.15",
     "@vue/cli-service": "~4.5.0",
+    "@vue/eslint-config-typescript": "^9.0.0",
     "axe-core": "^4.3.3",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "typescript": "^4.4.4",
     "vue-axe": "^2.4.4",
     "vue-template-compiler": "^2.6.11"
   },
@@ -34,7 +38,8 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "@vue/typescript/recommended"
     ],
     "parserOptions": {
       "parser": "babel-eslint"

@@ -7,21 +7,22 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import Navbar from './components/Navbar.vue'
 
-export default {
+export default Vue.extend({
   name: 'App',
   components: {
     Navbar: Navbar,
   },
   data() {
     return {
-      signedIn: Boolean,
+      signedIn: false,
     } 
   },
   created: function () {
     this.signedIn = Math.random() < 0.5;
   },
-}
+})
 </script>

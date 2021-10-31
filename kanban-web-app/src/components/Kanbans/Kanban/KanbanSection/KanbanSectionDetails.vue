@@ -50,9 +50,11 @@
 </template>
 
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { required, maxLength } from 'vuelidate/lib/validators'
-export default {
+
+export default Vue.extend({
     props: {
         sectionHeader: String,
         saveKanbanSectionHeader: Function,
@@ -61,7 +63,7 @@ export default {
     },
     data() {
         return {
-            localSectionHeaderCopy: String,
+            localSectionHeaderCopy: this.sectionHeader,
         }
     },
     validations: {
@@ -71,11 +73,8 @@ export default {
             maxLength: maxLength(256)
         },
     },
-    beforeMount: function() {
-        this.localSectionHeaderCopy = this.sectionHeader;
-    },
     computed: {
-        invalidFeedback() {
+        invalidFeedback() : String {
             if (!this.$v.localSectionHeaderCopy.required) {
                 return "Requires input"
             }
@@ -87,5 +86,5 @@ export default {
             }
         }
     }
-}
+})
 </script>
