@@ -6,7 +6,7 @@
     </h2>
     <div class="row">
       <div v-for="(kanbanSection, index) in Kanban" :key="index" class="col-sm">
-        <kanban-section :kanbanSection="kanbanSection" :sectionIndex="index" :saveKanbanSection="saveKanbanSection"></kanban-section>
+        <kanban-section :kanbanSection="kanbanSection" :sectionIndex="index" :saveKanbanSection="saveKanbanSection" :deleteKanbanSection="deleteKanbanSection"></kanban-section>
       </div>
     </div>
   </div>
@@ -169,7 +169,6 @@ export default {
                 ]
             },
         ],
-        kanbanSectionHeader: ['Todo', 'Dev', 'Testing']
       }
   },
   created: function () {
@@ -184,6 +183,9 @@ export default {
     saveKanbanSection(payload) {
         this.Kanban[payload.sectionIndex] = payload.newKanbanSection;
     },
+    deleteKanbanSection(sectionIndex) {
+        this.Kanban.splice(sectionIndex, 1);
+    }
   }
 }
 </script>

@@ -21,15 +21,8 @@
                     size="sm"
                     @click="showEditModal = true"
                     class="mb-1">
-                        Edit Name
+                        Edit
                     <b-icon icon="pencil-square" />
-                </b-button>
-                <b-button
-                    variant="outline-danger"
-                    size="sm"
-                    @click="showDeleteModal = true">
-                        Delete
-                    <b-icon icon="x-circle" />
                 </b-button>
                 </div>
             </template>
@@ -39,7 +32,7 @@
                 <b-row>
                     <b-col>
                         <h1>
-                            Edit the Section Header
+                            {{ sectionHeader }}
                         </h1>
                     </b-col>
                     <b-col align-self="end" cols="auto" class="mb-auto">
@@ -49,24 +42,7 @@
                     </b-col>
                 </b-row>
             </b-container>
-            <kanban-section-details @closeModal="closeModal()" :sectionHeader="sectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader"/>
-        </b-modal>
-        <b-modal v-model="showDeleteModal" hide-footer title="Delete Section Header" hide-header-close size="xl">
-            <b-container slot="modal-header">
-                <b-row>
-                    <b-col>
-                        <h1>
-                            Some h1 text
-                        </h1>
-                    </b-col>
-                    <b-col align-self="end" cols="auto" class="mb-auto">
-                        <b-button variant="danger" class="p-0" size="lg" @click="toggleModal()">
-                            <b-icon icon="x" font-scale="1" class="m-1"></b-icon>
-                        </b-button>
-                    </b-col>
-                </b-row>
-            </b-container>
-            <kanban-section-details @closeModal="closeModal()" :sectionHeader="sectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader"/>
+            <kanban-section-details @closeModal="closeModal()" :sectionHeader="sectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader" :hasCards="hasCards" :deleteSection="deleteSection"/>
         </b-modal>
     </div>
 </template>
@@ -82,13 +58,14 @@ export default {
     props: {
         sectionHeader: String,
         saveKanbanSectionHeader: Function,
+        hasCards: Boolean,
+        deleteSection: Function,
     },
     data() {
         return {
             isCardHovered: false,
             localSectionHeaderCopy: undefined,
             showEditModal: false,
-            showDeleteModal: false,
         }
     },
     beforeMount: function() {
@@ -98,9 +75,6 @@ export default {
         hoverHandle(isHovered) {
             // Hover event on the card is used to toggle a boolean to show the overlay of said card
             this.isCardHovered = isHovered;
-        },
-        toggleModal() {
-            this.showModal = !this.showModal;
         },
         closeModal() {
             this.showEditModal = this.showDeleteModal = false;

@@ -15,7 +15,8 @@
                         max-rows="32"
                     />
                     <b-alert variant="danger" class="text-center mt-4" :show="!$v.newComment.maxLength">
-                        Before Submitting: No longer than {{ $v.newComment.$params.maxLength.max }} characters in a comment
+                        <b-icon-exclamation-circle font-scale="1.15" />
+                        No longer than {{ $v.newComment.$params.maxLength.max }} characters in a comment
                     </b-alert>
                     <template v-if="newComment">
                         <b-row
@@ -30,7 +31,7 @@
                             </b-col>
                             <b-col>
                                 <b-button
-                                    variant="outline-success"
+                                    variant="success"
                                     block
                                     :disabled='!$v.newComment.maxLength'
                                     @click="saveComment();">

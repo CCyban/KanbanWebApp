@@ -2,7 +2,7 @@
     <div>
         <draggable v-model="localCopyOfSection.kanbanSectionCards" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
             <kanban-card v-for="(element, index) in localCopyOfSection.kanbanSectionCards" :key="index" :index="index" :kanbanCard="element" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
-            <kanban-section-header slot="header" :sectionHeader="localCopyOfSection.kanbanSectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader"/>
+            <kanban-section-header slot="header" :sectionHeader="localCopyOfSection.kanbanSectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader" :hasCards="localCopyOfSection.kanbanSectionCards.length > 0" :deleteSection="deleteSection"/>
         </draggable>
     </div>
 </template>
@@ -23,10 +23,17 @@ export default {
         kanbanSection: Object,
         sectionIndex: Number,
         saveKanbanSection: Function,
+        deleteKanbanSection: Function,
     },
     data() {
         return {
             localCopyOfSection: this.kanbanSection,
+        }
+    },
+    watch: {
+        // Maybe delete? Check if truly needed (runs when a section is deleted)
+        kanbanSection: function (val) {
+            this.localCopyOfSection = {...val};
         }
     },
     computed: {
@@ -61,6 +68,10 @@ export default {
                 sectionIndex: this.sectionIndex,
                 newKanbanSection: Object.values({...this.localCopyOfSection}),
             })
+        },
+        deleteSection() {
+            // Add text
+            this.deleteKanbanSection(this.sectionIndex);
         },
     }
 }

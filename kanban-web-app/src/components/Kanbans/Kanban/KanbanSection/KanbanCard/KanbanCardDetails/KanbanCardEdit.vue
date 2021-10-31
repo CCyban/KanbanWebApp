@@ -6,17 +6,21 @@
                 <b-form-textarea
                     rows=2
                     max-rows="6"
-                    v-model="localKanbanCardCopy.Title"
+                    v-model="$v.localKanbanCardCopy.Title.$model"
+                    :state="!$v.localKanbanCardCopy.Title.$invalid"
+                    class="overflow-auto"
                 />
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Title.required">
-                    * Title is required
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                    Title is required
                 </b-form-text>
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Title.maxLength">
-                    * No longer than {{ $v.localKanbanCardCopy.Title.$params.maxLength.max }} characters
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                    No longer than {{ $v.localKanbanCardCopy.Title.$params.maxLength.max }} characters
                 </b-form-text>
             </b-form-group>
         </b-row>
@@ -27,16 +31,20 @@
                     rows=4
                     max-rows="32"
                     v-model="localKanbanCardCopy.Description"
+                    :state="!$v.localKanbanCardCopy.Description.$invalid"
+                    class="overflow-auto"
                 />
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Description.required">
-                    * Description is required
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                    Description is required
                 </b-form-text>
                 <b-form-text
                     text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Description.maxLength">
-                    * No longer than {{ $v.localKanbanCardCopy.Description.$params.maxLength.max }} characters
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                    No longer than {{ $v.localKanbanCardCopy.Description.$params.maxLength.max }} characters
                 </b-form-text>
             </b-form-group>
         </b-row>
@@ -49,32 +57,41 @@
                         v-model="localKanbanCardCopy.Priority"
                         :min='$v.localKanbanCardCopy.Priority.$params.minValue.min'
                         :max='$v.localKanbanCardCopy.Priority.$params.maxValue.max'
+                        :state="!$v.localKanbanCardCopy.Priority.$invalid"
                     />
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Priority.minValue">
-                        * No negatives
+                        <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        No negatives
                     </b-form-text>
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Priority.maxValue">
-                        * No longer than 2 digits
+                        <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        No longer than 2 digits
                     </b-form-text>
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Priority.required">
-                        * Please enter a value
+                        <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        Please enter a value
                     </b-form-text>
                 </b-form-group>
             </b-col>
             <b-col>
                 <b-form-group>
                     <h5>Estimation: </h5>
-                    <b-form-input type="text" v-model="localKanbanCardCopy.Estimation" />
+                    <b-form-input
+                        type="text"
+                        v-model="localKanbanCardCopy.Estimation"
+                        :state="!$v.localKanbanCardCopy.Estimation.$invalid"
+                    />
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.Estimation.maxLength">
-                        * No longer than {{ $v.localKanbanCardCopy.Estimation.$params.maxLength.max }} characters
+                        <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        No longer than {{ $v.localKanbanCardCopy.Estimation.$params.maxLength.max }} characters
                     </b-form-text>
                 </b-form-group>
             </b-col>
@@ -89,11 +106,15 @@
             <b-col>
                 <b-form-group>
                     <h5>Assigned To: </h5>
-                    <b-form-input type="text" v-model="localKanbanCardCopy.assignedTo" />
+                    <b-form-input
+                        type="text"
+                        v-model="localKanbanCardCopy.assignedTo"
+                        :state="!$v.localKanbanCardCopy.assignedTo.$invalid"/>
                     <b-form-text
                         text-variant="danger"
                         v-if="!$v.localKanbanCardCopy.assignedTo.maxLength">
-                        * No longer than {{ $v.localKanbanCardCopy.assignedTo.$params.maxLength.max }} characters
+                        <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        No longer than {{ $v.localKanbanCardCopy.assignedTo.$params.maxLength.max }} characters
                     </b-form-text>
                 </b-form-group>
             </b-col>
@@ -114,7 +135,8 @@
         </b-row>
         <template v-if="hasDataChanged">
             <b-alert variant="danger" class="text-center" :show="$v.localKanbanCardCopy.$invalid">
-                Before Saving: Please complete all requirements shown with a *
+                Before Saving: Please complete all fields shown with a
+                <b-icon-exclamation-circle font-scale="1.15" />
             </b-alert>
             <b-row
                 class="text-center">
@@ -128,7 +150,7 @@
                 </b-col>
                 <b-col>
                     <b-button
-                        variant="outline-success"
+                        variant="success"
                         block
                         :disabled="$v.localKanbanCardCopy.$invalid"
                         @click="saveCardData();">
@@ -197,7 +219,7 @@ export default {
         hasDataChanged() {
             // Detects if the kanban's card data has been altered
             return Object.entries(this.kanbanCard).toString() != Object.entries(this.localKanbanCardCopy).toString();
-        }
+        },
     }
 }
 </script>
