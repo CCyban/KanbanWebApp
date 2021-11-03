@@ -1,8 +1,8 @@
 <template>
     <div>
-        <draggable v-model="localCopyOfSection.kanbanSectionCards" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
-            <kanban-card v-for="(element, index) in localCopyOfSection.kanbanSectionCards" :key="index" :index="index" :kanbanCard="element" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
-            <kanban-section-header slot="header" :sectionHeader="localCopyOfSection.kanbanSectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader" :hasCards="localCopyOfSection.kanbanSectionCards.length > 0" :deleteSection="deleteSection"/>
+        <draggable v-model="localCopyOfSection.SectionCards" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
+            <kanban-card v-for="(element, index) in localCopyOfSection.SectionCards" :key="index" :index="index" :kanbanCard="element" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
+            <kanban-section-header slot="header" :sectionHeader="localCopyOfSection.SectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader" :hasCards="localCopyOfSection.SectionCards.length > 0" :deleteSection="deleteSection"/>
         </draggable>
     </div>
 </template>
@@ -49,13 +49,13 @@ export default Vue.extend({
     methods: {
         saveKanbanCard(cursedObject: any) {
             // Receives a change to the local copy & calls a method to pass the update further up
-            this.$set(this.localCopyOfSection.kanbanSectionCards, cursedObject.index, cursedObject.newKanbanCard);
+            this.$set(this.localCopyOfSection.SectionCards, cursedObject.index, cursedObject.newKanbanCard);
 
             this.updateKanbanSectionData();
         },
         saveKanbanSectionHeader(newKanbanSectionHeader: String) {
             // Receives a change to the local copy & calls a method to pass the update further up
-            this.localCopyOfSection.kanbanSectionHeader = newKanbanSectionHeader;
+            this.localCopyOfSection.SectionHeader = newKanbanSectionHeader;
 
             this.updateKanbanSectionData();
         },
@@ -67,7 +67,7 @@ export default Vue.extend({
             // Updates the section's data based on the edited local copy
             this.saveKanbanSection({
                 sectionIndex: this.sectionIndex,
-                newKanbanSection: Object.values({...this.localCopyOfSection}),
+                newSection: Object.values({...this.localCopyOfSection}),
             })
         },
         deleteSection() {

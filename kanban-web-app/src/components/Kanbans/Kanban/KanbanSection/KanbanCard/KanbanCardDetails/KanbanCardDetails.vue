@@ -22,7 +22,7 @@ export default Vue.extend({
         KanbanCardEdit,
     },
     methods: {
-        hideModal() {
+        hideModal(): void {
             // Emits togglable method execution to parent component in order to toggle the modal off
             this.$emit('toggleModal');
         },

@@ -163,29 +163,31 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, { PropType } from 'vue';
 import { required, minValue, maxValue, maxLength } from 'vuelidate/lib/validators'
+
+import { IKanbanSectionCard } from '@/interfaces/IKanbanSectionCard'
 
 export default Vue.extend({
     name: 'KanbanCardEdit',
     props: {
-        kanbanCard: Object,
+        kanbanCard: Object as PropType<IKanbanSectionCard>,
         saveKanbanCardEmit: Function,
     },
-      data() {
+    data() {
         return {
-            localKanbanCardCopy: undefined,
+            localKanbanCardCopy: undefined as unknown as IKanbanSectionCard,
         }
     },
     methods: {
-        saveCardData() {
+        saveCardData(): void {
             // Component's event method to save the new card data
             if (!this.$v.localKanbanCardCopy.$invalid) {                
                 this.localKanbanCardCopy.lastUpdated = new Date().toLocaleDateString('en-UK', { day:'2-digit', month: '2-digit', year: 'numeric' });
                 this.saveKanbanCardEmit(this.localKanbanCardCopy);
             }
         },
-        cancelCardData() {
+        cancelCardData(): void {
             // Discards the newly altered card data
             this.localKanbanCardCopy = {...this.kanbanCard};
         },
@@ -218,9 +220,11 @@ export default Vue.extend({
         this.localKanbanCardCopy = {...this.kanbanCard};
     },
     computed: {
-        hasDataChanged() {
-            // Detects if the kanban's card data has been altered
-            return Object.entries(this.kanbanCard).toString() != Object.entries(this.localKanbanCardCopy).toString();
+        hasDataChanged: {
+            get(): boolean {
+                // Detects if the kanban's card data has been altered
+                return Object.entries(this.kanbanCard).toString() != Object.entries(this.localKanbanCardCopy).toString();
+            }
         },
     }
 })
