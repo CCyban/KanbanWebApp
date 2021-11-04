@@ -7,8 +7,10 @@
             style="max-width: 20rem;"
             class="mb-3 kanban-card-overlay">
             <b-card
-                :title="kanbanCard.Title"
                 class="unselectable">
+                <h1 class="h4">
+                    {{ kanbanCard.Title }}
+                </h1>
                 <b-card-text>
                     <p><b-avatar />{{ kanbanCard.assignedTo }}</p>
                 </b-card-text>
@@ -28,7 +30,7 @@
                 </div>
             </template>
         </b-overlay>
-        <b-modal v-model="showModal" hide-footer :title="kanbanCard.Title" hide-header-close size="xl">
+        <b-modal v-model="showModal" hide-footer :title="kanbanCard.Title" hide-header-close size="xl" aria-label="Kanban Card Details" >
             <b-container slot="modal-header">
                 <b-row>
                     <b-col>

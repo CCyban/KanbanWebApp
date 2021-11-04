@@ -1,10 +1,14 @@
 <template>
     <div>
         <b-form-group class="mb-5"
-            :state="!$v.localSectionHeaderCopy.$invalid">
-            <h5>Section Header:</h5>
+            :state="!$v.localSectionHeaderCopy.$invalid"
+            label-for="headerInput">
+            <template #label>
+                <h2 class="h5">Section Header:</h2>
+            </template>
             <b-input-group>
                 <b-form-input
+                    id="headerInput"
                     type="text"
                     v-model="localSectionHeaderCopy" 
                     :state="!$v.localSectionHeaderCopy.$invalid"
@@ -27,17 +31,20 @@
             </b-form-text>
         </b-form-group>
 
-        <b-form-group>
-            <h5>Delete Section</h5>
+        <b-form-group
+            label-for="deleteSectionButton">
+            <template #label>
+                <h2 class="h5">Delete Section</h2>
+            </template>
             <b-form-text
                 v-if="hasCards"
                 text-variant="danger">
                 <b-icon-exclamation-circle-fill font-scale="1.15" />
                 All cards must be removed from the section before deleting it
             </b-form-text>
-
             <div class="d-grid gap-2">
                 <b-button
+                    id="deleteSectionButton"
                     variant="danger"
                     block
                     :disabled="hasCards"

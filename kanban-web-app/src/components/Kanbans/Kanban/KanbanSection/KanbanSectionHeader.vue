@@ -7,12 +7,14 @@
             style="max-width: 20rem;"
             class="mb-3">
             <b-card
-                :title="sectionHeader"
                 style="max-width: 20rem;"
                 class="mb-3 p-1"
                 border-variant="dark"
                 bg-variant="light"
                 text-variant="dark">
+                <h2 class="h3">
+                    {{ sectionHeader }}
+                </h2>
             </b-card>
             <template #overlay>
                 <div class="text-center">
@@ -27,7 +29,7 @@
                 </div>
             </template>
         </b-overlay>
-        <b-modal v-model="showEditModal" hide-footer title="Edit Section Header" hide-header-close size="xl">
+        <b-modal v-model="showEditModal" hide-footer title="Edit Section Header" hide-header-close size="xl" aria-label="Kanban Section Header Details">
             <b-container slot="modal-header">
                 <b-row>
                     <b-col>

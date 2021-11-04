@@ -1,9 +1,13 @@
 <template>
     <div>
         <b-row class="mb-4">
-            <b-form-group>
-                <h5>Title: </h5>
+            <b-form-group
+                label-for="titleInput">
+            <template #label>
+                <h2 class="h5">Title: </h2>
+            </template>
                 <b-form-textarea
+                    id="titleInput"
                     rows=2
                     max-rows="6"
                     v-model="$v.localKanbanCardCopy.Title.$model"
@@ -25,9 +29,13 @@
             </b-form-group>
         </b-row>
         <b-row class="mb-4">
-            <b-form-group>
-                <h5>Description: </h5>
+            <b-form-group
+                label-for="descriptionInput">
+                <template #label>
+                <h2 class="h5">Description: </h2>
+                </template>
                 <b-form-textarea
+                    id="descriptionInput"
                     rows=4
                     max-rows="32"
                     v-model="localKanbanCardCopy.Description"
@@ -50,9 +58,13 @@
         </b-row>
         <b-row class="mb-4">
             <b-col>
-                <b-form-group>
-                    <h5>Priority: </h5>
+                <b-form-group
+                    label-for="priorityInput">
+                    <template #label>
+                        <h2 class="h5">Priority: </h2>
+                    </template>
                     <b-form-input
+                        id="priorityInput"
                         type="number"
                         v-model="localKanbanCardCopy.Priority"
                         :min='$v.localKanbanCardCopy.Priority.$params.minValue.min'
@@ -80,9 +92,13 @@
                 </b-form-group>
             </b-col>
             <b-col>
-                <b-form-group>
-                    <h5>Estimation: </h5>
+                <b-form-group
+                    label-for="estimationInput">
+                    <template #label>
+                        <h2 class="h5">Estimation: </h2>
+                    </template>
                     <b-form-input
+                        id="estimationInput"
                         type="text"
                         v-model="localKanbanCardCopy.Estimation"
                         :state="!$v.localKanbanCardCopy.Estimation.$invalid"
@@ -98,15 +114,25 @@
         </b-row>
         <b-row class="mb-4">
             <b-col>
-                <b-form-group>
-                    <h5>Author: </h5>
-                    <p>{{ localKanbanCardCopy.Author }}</p>
+                <b-form-group
+                    label-for="authorInput">
+                    <template #label>
+                        <h2 class="h5">Author: </h2>
+                    </template>
+                    <p
+                        id="authorInput">
+                        {{ localKanbanCardCopy.Author }}
+                    </p>
                 </b-form-group>
             </b-col>
             <b-col>
-                <b-form-group>
-                    <h5>Assigned To: </h5>
+                <b-form-group
+                    label-for="assignedToInput">
+                    <template #label>
+                        <h2 class="h5">Assigned To: </h2>
+                    </template>
                     <b-form-input
+                        id="assignedToInput"
                         type="text"
                         v-model="localKanbanCardCopy.assignedTo"
                         :state="!$v.localKanbanCardCopy.assignedTo.$invalid"/>
@@ -121,15 +147,27 @@
         </b-row>
         <b-row class="mb-4">
             <b-col>
-                <b-form-group>
-                    <h5>Date Created: </h5>
-                    <p>{{ localKanbanCardCopy.dateCreated }}</p>
+                <b-form-group
+                    label-for="dateCreatedInput">
+                    <template #label>
+                        <h2 class="h5">Date Created: </h2>
+                    </template>
+                    <p
+                        id="dateCreatedInput">
+                        {{ localKanbanCardCopy.dateCreated }}
+                    </p>
                 </b-form-group>
             </b-col>
             <b-col>
-                <b-form-group>
-                    <h5>Last Updated: </h5>
-                    <p>{{ localKanbanCardCopy.lastUpdated }}</p>
+                <b-form-group
+                    label-for="lastUpdatedInput">
+                    <template #label>
+                        <h2 class="h5">Last Updated: </h2>
+                    </template>
+                    <p
+                        id="lastUpdatedInput">
+                        {{ localKanbanCardCopy.lastUpdated }}
+                    </p>
                 </b-form-group>
             </b-col>
         </b-row>

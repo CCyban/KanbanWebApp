@@ -3,33 +3,45 @@
         <b-card text-variant="white" bg-variant="dark" class="text-center">
             <template 
                 v-if="isTitleEditable">
-                <b-input-group>
+                <b-input-group class="mb-3">
                     <b-input 
                         v-model="computedTitle"
+                        :state="!$v.newTitle.$invalid"
                     />
                     <b-input-group-append>
                         <b-button 
                             variant="success" 
                             size="sm" 
-                            @click="saveNewTitle(); toggleEditableTitle();">
+                            @click="saveNewTitle(); toggleEditableTitle();"
+                            :disabled="Title === newTitle || $v.newTitle.$invalid"
+                            title="Save Kanban Title Edit">
                             <b-icon 
                                 class="align-middle" 
                                 icon="check2" 
                                 font-scale="2"
+                                aria-label="Save Kanban Title Edit"
                             />
                         </b-button>
                         <b-button 
                             variant="danger" 
                             size="sm" 
-                            @click="toggleEditableTitle">
+                            @click="newTitle=Title; toggleEditableTitle();"
+                            title="Cancel Kanban Title Edit">
                             <b-icon 
                                 class="align-middle" 
                                 icon="x" 
                                 font-scale="2"
+                                aria-label="Cancel Kanban Title Edit"
                             />
                         </b-button>
                     </b-input-group-append>
                 </b-input-group>
+                <b-form-text
+                    text-variant="danger"
+                    v-if="$v.newTitle.$invalid">
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                    {{ invalidFeedback }}
+                </b-form-text>
             </template>
             <h1 v-else>
                 <b-row
@@ -48,11 +60,13 @@
                             <b-button 
                                 variant="outline-light" 
                                 size="sm" 
-                                @click="toggleEditableTitle">
+                                @click="toggleEditableTitle()"
+                                title="Edit Kanban Title">
                                 <b-icon 
                                     class="align-middle" 
                                     icon="pencil-square" 
                                     font-scale="1.75"
+                                    aria-label="Edit Kanban Title"
                                 />
                             </b-button>
                         </template>
@@ -64,7 +78,9 @@
                 <b-link
                     v-bind:to="id">
                     <b-button 
-                        variant="outline-light">
+                        variant="outline-light"
+                        title="Kanban Link"
+                        aria-label="Kanban Link">
                         Kanban Board ID: {{ id }}
                     </b-button>
                 </b-link>
@@ -75,8 +91,10 @@
 
 
 <script lang="ts">
-
 import Vue from 'vue'
+import { required, maxLength } from 'vuelidate/lib/validators'
+
+
 export default Vue.extend({
     props: {
         id: String,
@@ -88,6 +106,13 @@ export default Vue.extend({
             isTitleEditable: false,
             newTitle: "",
         }
+    },
+    validations: {
+        // Vuelidate validation to cover the component's data changes
+        newTitle: {
+            required,
+            maxLength: maxLength(256)
+        },
     },
     created: function() {
         this.newTitle = this.Title;
@@ -108,7 +133,18 @@ export default Vue.extend({
             set(newTitle: string): void {
                 this.newTitle =  newTitle;
             }
+        },
+        invalidFeedback() : String {
+            if (!this.$v.newTitle.required) {
+                return "Requires input"
+            }
+            else if (!this.$v.newTitle.maxLength) {
+                return "No longer than " + this.$v.newTitle.$params.maxLength.max + " characters";
+            }
+            else {
+                return "Invalid state, please refresh"
+            }
         }
-    }
+    },
 })
 </script>

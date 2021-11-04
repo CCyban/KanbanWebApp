@@ -3,43 +3,57 @@
         <div>
             <h2 class="my-4">Comments</h2>
             <b-list-group>
-                <b-list-group-item v-for="Comment in kanbanCard.Comments" :key="Comment.Comment" class="overflow-auto"> 
-                     <h5><b-avatar square /> {{ Comment.Author }} - {{ Comment.Date }}</h5>
-                    {{ Comment.Comment }}
+                <b-list-group-item v-for="(Comment, index) in kanbanCard.Comments" :key="Comment.Comment" class="overflow-auto">
+                    <b-form-group
+                        :label-for="'comment_' + index">
+                        <template #label>
+                            <h2 class="h5"><b-avatar square /> {{ Comment.Author }} - {{ Comment.Date }}</h2>
+                        </template>
+                        <p
+                            :id="'comment_' + index">
+                            {{ Comment.Comment }}
+                        </p>
+                    </b-form-group>
                 </b-list-group-item>
                 <b-list-group-item>
-                    <h5><b-avatar /> You - Today</h5>
-                    <b-textarea
-                        v-model="newComment"
-                        rows=4
-                        max-rows="32"
-                    />
-                    <b-alert variant="danger" class="text-center mt-4" :show="!$v.newComment.maxLength">
-                        <b-icon-exclamation-circle font-scale="1.15" />
-                        No longer than {{ $v.newComment.$params.maxLength.max }} characters in a comment
-                    </b-alert>
-                    <template v-if="newComment">
-                        <b-row
-                            class="text-center mt-3">
-                            <b-col>
-                                <b-button
-                                    variant="outline-danger"
-                                    block
-                                    @click="discardComment();">
-                                    Discard Comment
-                                </b-button>
-                            </b-col>
-                            <b-col>
-                                <b-button
-                                    variant="success"
-                                    block
-                                    :disabled='!$v.newComment.maxLength'
-                                    @click="saveComment();">
-                                    Submit Comment
-                                </b-button>
-                            </b-col>
-                        </b-row>
-                    </template>
+                    <b-form-group
+                        label-for="newCommentInput">
+                        <template #label>
+                            <h2 class="h5"><b-avatar /> You - Today</h2>
+                        </template>
+                        <b-textarea
+                            id="newCommentInput"
+                            v-model="newComment"
+                            rows=4
+                            max-rows="32"
+                        />
+                        <b-alert variant="danger" class="text-center mt-4" :show="!$v.newComment.maxLength">
+                            <b-icon-exclamation-circle font-scale="1.15" />
+                            No longer than {{ $v.newComment.$params.maxLength.max }} characters in a comment
+                        </b-alert>
+                        <template v-if="newComment">
+                            <b-row
+                                class="text-center mt-3">
+                                <b-col>
+                                    <b-button
+                                        variant="outline-danger"
+                                        block
+                                        @click="discardComment();">
+                                        Discard Comment
+                                    </b-button>
+                                </b-col>
+                                <b-col>
+                                    <b-button
+                                        variant="success"
+                                        block
+                                        :disabled='!$v.newComment.maxLength'
+                                        @click="saveComment();">
+                                        Submit Comment
+                                    </b-button>
+                                </b-col>
+                            </b-row>
+                        </template>
+                    </b-form-group>
                 </b-list-group-item>
             </b-list-group>
         </div>
