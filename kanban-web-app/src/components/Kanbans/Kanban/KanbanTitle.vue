@@ -1,6 +1,6 @@
 <template>
     <div class="mb-4">
-        <b-card text-variant="white" bg-variant="dark" class="text-center">
+        <b-card class="text-center card-brand-variant">
             <template 
                 v-if="isTitleEditable">
                 <b-input-group class="mb-3">
@@ -14,6 +14,7 @@
                             size="sm" 
                             @click="saveNewTitle(); toggleEditableTitle();"
                             :disabled="Title === newTitle || $v.newTitle.$invalid"
+                            v-b-tooltip.hover
                             title="Save Kanban Title Edit">
                             <b-icon 
                                 class="align-middle" 
@@ -26,6 +27,7 @@
                             variant="danger" 
                             size="sm" 
                             @click="newTitle=Title; toggleEditableTitle();"
+                            v-b-tooltip.hover
                             title="Cancel Kanban Title Edit">
                             <b-icon 
                                 class="align-middle" 
@@ -61,6 +63,7 @@
                                 variant="outline-light" 
                                 size="sm" 
                                 @click="toggleEditableTitle()"
+                                v-b-tooltip.hover
                                 title="Edit Kanban Title">
                                 <b-icon 
                                     class="align-middle" 
@@ -79,8 +82,8 @@
                     v-bind:to="id">
                     <b-button 
                         variant="outline-light"
-                        title="Kanban Link"
-                        aria-label="Kanban Link">
+                        v-b-tooltip.hover
+                        title="Kanban Link">
                         Kanban Board ID: {{ id }}
                     </b-button>
                 </b-link>
@@ -148,3 +151,14 @@ export default Vue.extend({
     },
 })
 </script>
+
+<style scoped>
+	.card-brand-variant {
+		background-image:
+		linear-gradient(
+			to bottom right,
+			#A9043A, #63048C
+		);
+		color: white;
+	}
+</style>

@@ -18,8 +18,10 @@
                         variant="success"
                         size="md"
                         @click="saveKanbanSectionHeader(localSectionHeaderCopy)"
-                        :disabled="sectionHeader === localSectionHeaderCopy || $v.localSectionHeaderCopy.$invalid">
-                        Change
+                        :disabled="sectionHeader === localSectionHeaderCopy || $v.localSectionHeaderCopy.$invalid"
+                        v-b-tooltip.hover
+                        title="Save Edited Section Header">
+                        Save
                     </b-button>
                 </b-input-group-append>
             </b-input-group>
@@ -42,16 +44,30 @@
                 <b-icon-exclamation-circle-fill font-scale="1.15" />
                 All cards must be removed from the section before deleting it
             </b-form-text>
-            <div class="d-grid gap-2">
-                <b-button
-                    id="deleteSectionButton"
-                    variant="danger"
-                    block
-                    :disabled="hasCards"
-                    @click="deleteSection()">
-                    Delete Section
-                </b-button>
-            </div>
+                <div class="d-grid gap-2 my-2">
+                    <b-button
+                        variant="warning"
+                        :disabled="hasCards"
+                        v-b-toggle.delete-collapse
+                        v-b-tooltip.hover
+                        title="Delete Kanban Section">
+                        Delete Section
+                    </b-button>
+                </div>
+                <b-collapse id="delete-collapse">
+                    <div class="d-grid gap-2">
+                        <b-button
+                            id="deleteSectionButton"
+                            variant="danger"
+                            block
+                            :disabled="hasCards"
+                            @click="deleteSection()"
+                            v-b-tooltip.hover
+                            title="Delete Kanban Section Confirmation">
+                            I Am Sure
+                        </b-button>
+                    </div>
+                </b-collapse>
         </b-form-group>
     </div>
 </template>

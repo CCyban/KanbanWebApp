@@ -119,10 +119,12 @@
                     <template #label>
                         <h2 class="h5">Author: </h2>
                     </template>
-                    <p
-                        id="authorInput">
-                        {{ localKanbanCardCopy.Author }}
-                    </p>
+                    <b-form-input
+                        id="authorInput"
+                        type="text"
+                        :value="localKanbanCardCopy.Author"
+                        disabled
+                    />
                 </b-form-group>
             </b-col>
             <b-col>
@@ -152,10 +154,12 @@
                     <template #label>
                         <h2 class="h5">Date Created: </h2>
                     </template>
-                    <p
-                        id="dateCreatedInput">
-                        {{ localKanbanCardCopy.dateCreated }}
-                    </p>
+                    <b-form-input
+                        id="dateCreatedInput"
+                        type="text"
+                        :value="localKanbanCardCopy.dateCreated"
+                        disabled
+                    />
                 </b-form-group>
             </b-col>
             <b-col>
@@ -164,10 +168,12 @@
                     <template #label>
                         <h2 class="h5">Last Updated: </h2>
                     </template>
-                    <p
-                        id="lastUpdatedInput">
-                        {{ localKanbanCardCopy.lastUpdated }}
-                    </p>
+                    <b-form-input
+                        id="lastUpdatedInput"
+                        type="text"
+                        :value="localKanbanCardCopy.lastUpdated"
+                        disabled
+                    />
                 </b-form-group>
             </b-col>
         </b-row>
@@ -251,10 +257,11 @@ export default Vue.extend({
             },
             assignedTo: {
                 maxLength: maxLength(64),
-            }
+            },
         }
     },
     beforeMount: function() {
+        // Creates a raw object copy
         this.localKanbanCardCopy = {...this.kanbanCard};
     },
     computed: {

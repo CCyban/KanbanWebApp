@@ -11,13 +11,13 @@
           <b-card
             :title="kanbanBoard.name"
             style="max-width: 20rem;"
-            class="mb-2"
+            class="mb-2 card-brand-variant"
           >
           <b-card-text
            v-text="kanbanBoard.date" />
            <b-link to="/Kanban/10">
             <b-button
-              variant="success">
+              variant="outline-light">
               Open Kanban
             </b-button>
            </b-link>
@@ -40,15 +40,24 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+	h3 {
+		margin: 40px 0 0;
+	}
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+	li {
+		display: inline-block;
+		margin: 0 10px;
+	}
+
+	.card-brand-variant {
+		background-image:
+		linear-gradient(
+			to bottom right,
+			#A9043A, #63048C
+		);
+		color: white;
+	}
 </style>

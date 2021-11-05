@@ -1,9 +1,9 @@
 <template>
-  <b-navbar role="navigation" type="dark" variant="dark" class="mb-5" sticky>
+  <b-navbar role="navigation" type="dark" class="mb-5 navbar-brand-gradient" sticky>
     <b-navbar-nav>
-      <b-nav-item to="/">Home</b-nav-item>
-      <b-nav-item to="/Kanban">Kanbans</b-nav-item>
-      <b-nav-item to="/User">User</b-nav-item>
+      <b-nav-item class="navbar-item-brand-variant" to="/">Home</b-nav-item>
+      <b-nav-item class="navbar-item-brand-variant" to="/Kanban">Kanbans</b-nav-item>
+      <b-nav-item class="navbar-item-brand-variant" to="/User">User</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
@@ -15,3 +15,16 @@ export default Vue.extend({
   name: 'Navbar',
 })
 </script>
+
+<style scoped>
+  .navbar-brand-gradient {
+    background-image: 
+      linear-gradient(
+        to right,
+        #4500BA, #CC0000
+      );
+  }
+  .nav-li {
+    color: white;
+  }
+</style>
