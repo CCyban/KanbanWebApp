@@ -18,7 +18,7 @@
             <template #overlay>
                 <div class="text-center">
                 <b-button
-                    variant="warning"
+                    variant="secondary"
                     size="sm"
                     @click="showEditModal = true"
                     class="mb-1"
@@ -98,7 +98,7 @@ export default Vue.extend({
         background-image:
             linear-gradient(
                 to bottom right,
-                #CB0002, #9E0375
+                #CF003C, #9E0375
             );
         color: white;
     }

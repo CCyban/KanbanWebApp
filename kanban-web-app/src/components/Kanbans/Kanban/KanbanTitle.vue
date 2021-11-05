@@ -1,6 +1,6 @@
 <template>
     <div class="mb-4">
-        <b-card class="text-center card-brand-variant">
+        <b-card class="text-center">
             <template 
                 v-if="isTitleEditable">
                 <b-input-group class="mb-3">
@@ -60,7 +60,7 @@
                         lg="2">
                         <template v-if="!isTitleEditable">
                             <b-button 
-                                variant="outline-light" 
+                                variant="outline-dark" 
                                 size="sm" 
                                 @click="toggleEditableTitle()"
                                 v-b-tooltip.hover
@@ -81,7 +81,7 @@
                 <b-link
                     v-bind:to="id">
                     <b-button 
-                        variant="outline-light"
+                        variant="outline-dark"
                         v-b-tooltip.hover
                         title="Kanban Link">
                         Kanban Board ID: {{ id }}
@@ -151,14 +151,3 @@ export default Vue.extend({
     },
 })
 </script>
-
-<style scoped>
-	.card-brand-variant {
-		background-image:
-		linear-gradient(
-			to bottom right,
-			#A9043A, #63048C
-		);
-		color: white;
-	}
-</style>

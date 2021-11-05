@@ -43,7 +43,8 @@
             </b-form-group>
             <b-button
                 variant="outline-light"
-                :disabled="$v.$invalid">
+                :disabled="$v.$invalid"
+                @click="attemptSignIn()">
                 Sign In
             </b-button>
         </b-form>
@@ -94,6 +95,12 @@ export default Vue.extend({
             else {
                 return "Invalid state, please refresh";
             }
+        }
+    },
+    methods: {
+        attemptSignIn() {
+            // check sign in stuff here
+            
         }
     }
 })
