@@ -1,8 +1,15 @@
 <template>
   <div>
-    <h1>
-        Kanban stuff
-    </h1>
+    <div
+        class="mb-4 px-2 mr-auto text-left">
+        <h1
+            class="font-brand-simple">
+            View Kanbans
+        </h1>
+        <h3>
+            Kanbans<b-icon-caret-down-fill class="font-brand-simple"/>
+        </h3>
+    </div>
     <KanbanList :kanbanBoards="kanbanBoards"/>
   </div>
 </template>
@@ -29,7 +36,39 @@ export default Vue.extend({
         },
         {
           name: "Name #3",
-          date: undefined, 
+          date: Date.now(), 
+        },
+		{
+          name: "Name #4",
+          date: Date.now(), 
+        },
+        {
+          name: "Name #5",
+          date: Date.now(), 
+        },
+		{
+          name: "Name #6",
+          date: Date.now(), 
+        },
+        {
+          name: "Name #7",
+          date: Date.now(), 
+        },
+		{
+          name: "Name #8",
+          date: Date.now(), 
+        },
+        {
+          name: "Name #9",
+          date: Date.now(), 
+        },
+		{
+          name: "Name #10",
+          date: Date.now(), 
+        },
+        {
+          name: "Name #11",
+          date: Date.now(), 
         },
       ]
     } 

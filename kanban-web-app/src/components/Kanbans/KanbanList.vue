@@ -1,29 +1,38 @@
 <template>
   <div>
-    <h3
-      class="mb-4">
-      Current Kanban Boards
-    </h3>
-    <ul>
-      <li
-        v-for="kanbanBoard in kanbanBoards"
-        v-bind:key="kanbanBoard.name">
-          <b-card
-            :title="kanbanBoard.name"
-            style="max-width: 20rem;"
-            class="mb-2 card-brand-variant"
-          >
-          <b-card-text
-           v-text="kanbanBoard.date" />
-           <b-link to="/Kanban/10">
-            <b-button
-              variant="outline-light">
-              Open Kanban
-            </b-button>
-           </b-link>
-        </b-card>
-      </li>
-    </ul>
+	<router-link
+		v-for="kanbanBoard in kanbanBoards"
+		v-bind:key="kanbanBoard.name"
+		to="/Kanban/10"
+		tag="button"
+		class="col-sm btn btn-brand-variant btn-lg m-3 p-3">
+		<b-icon-kanban-fill
+				font-scale="2.75"
+				class="mb-4"/>
+		<b-card-title
+			v-text="kanbanBoard.name"
+		/>
+		<b-card-text
+			v-text="kanbanBoard.date"
+		/>
+	</router-link>
+
+
+	<router-link
+		to="/Kanban/New"
+		tag="button"
+		class="col-sm btn btn-brand-variant btn-lg m-3 p-3">
+		<b-icon-plus-circle-fill
+				font-scale="2.75"
+				class="mb-4"/>
+		<b-card-title>
+			Create New
+		</b-card-title>
+		<b-card-text>
+			Kanban Board
+		</b-card-text>
+	</router-link>
+
   </div>
 </template>
 
@@ -40,24 +49,17 @@ export default Vue.extend({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-	h3 {
-		margin: 40px 0 0;
-	}
-	ul {
-		list-style-type: none;
-		padding: 0;
-	}
-	li {
-		display: inline-block;
-		margin: 0 10px;
-	}
-
-	.card-brand-variant {
+	.btn-brand-variant {
 		background-image:
-		linear-gradient(
-			to bottom right,
-			#A9043A, #63048C
-		);
+			linear-gradient(
+				to bottom right,
+				#A9043A, #63048C
+			);
+		transition: transform 0.3s;
 		color: white;
 	}
+    .btn-brand-variant:hover {
+        transform: scale(1.08); 
+		color: white;
+    }
 </style>

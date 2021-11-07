@@ -1,36 +1,33 @@
 <template>
-  <b-jumbotron class="jumbotron-brand-variant px-5 pt-5" header="Kanban Board Web App" lead="Made using VueJS, and other stuff">
-    <hr class="my-4" />
-        <b-row
-            class="vh-40">
-
+	<b-jumbotron class="jumbotron-brand-variant p-5" header="Kanban Board Web App" lead="Made using VueJS, and other stuff">
+		<hr class="my-4" />
+		<b-row
+			class="vh-40">
 			<router-link
 				:to="signedIn ? '/Kanban' : '/User/SignIn'"
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
-                <b-icon-gear
-                    font-scale="2.75"
+				<b-icon-gear
+					font-scale="2.75"
 					class="mb-4"/>
-                <h3>
+				<h3>
 					View Kanbans
 				</h3>
-                <small>
+				<small>
 					A list of all kanbans you have access to
 				</small>
 			</router-link>
-
 			<router-link
 				to="/User"
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
 				<b-icon-newspaper
-                        font-scale="2.75"
+						font-scale="2.75"
 						class="mb-4"/>
-                <h3>Account Management</h3>
+				<h3>Account Management</h3>
 			</router-link>
-			
-        </b-row>
-  </b-jumbotron>
+		</b-row>
+	</b-jumbotron>
 </template>
 
 <script lang="ts">
@@ -57,12 +54,12 @@ export default Vue.extend({
 	}
 
     .btn-brand-big {
-		transition: transform 0.5s;
         color: white;
+        transition: transform 0s;
     }
-    .btn-brand-big:hover {
-        transform: scale(1.1); 
+    .btn-brand-big:hover { 
 		color: white;
+      	box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.05);
     }
 	.vh-40 {
 		height: 40vh!important;

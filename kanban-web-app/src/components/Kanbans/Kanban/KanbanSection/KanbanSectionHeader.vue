@@ -18,7 +18,7 @@
             <template #overlay>
                 <div class="text-center">
                 <b-button
-                    variant="secondary"
+                    variant="light"
                     size="sm"
                     @click="showEditModal = true"
                     class="mb-1"

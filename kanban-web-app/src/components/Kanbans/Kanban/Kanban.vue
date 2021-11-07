@@ -39,7 +39,7 @@ export default Vue.extend({
             "Some kanban title", 
             [
                 new CKanbanSection(
-                    "some section header", 
+                    "TODO", 
                     [
                         new CKanbanSectionCard(
                             "Some card title", 
@@ -88,7 +88,7 @@ export default Vue.extend({
                     ]
                 ),
                 new CKanbanSection(
-                    "some 2section header", 
+                    "DEV", 
                     [
                         new CKanbanSectionCard(
                             "Some card title", 
@@ -159,7 +159,7 @@ export default Vue.extend({
                     ]
                 ),
                 new CKanbanSection(
-                    "some 3section header", 
+                    "DT", 
                     [
                         new CKanbanSectionCard(
                             "Some card title", 
@@ -186,7 +186,78 @@ export default Vue.extend({
                     ]
                 ),
                 new CKanbanSection(
-                    "some 4section header", 
+                    "QA", 
+                    [
+                        new CKanbanSectionCard(
+                            "Some card title", 
+                            "Some card desc", 
+                            73, 
+                            "Some card est", 
+                            "Some card author",
+                            "Some card assignedTo",
+                            "Some card date", 
+                            "Some card last", 
+                            [
+                                new CKanbanCardComment(
+                                    "This is a comment hi", 
+                                    "Some randomo", 
+                                    "02/11/08"
+                                ), 
+                                new CKanbanCardComment(
+                                    "Some comment", 
+                                    "Some Author", 
+                                    "Some Date"
+                                )
+                            ]
+                        ),
+                        new CKanbanSectionCard(
+                            "Some 2card title", 
+                            "Some 2card desc", 
+                            73, 
+                            "Some 2card est", 
+                            "Some 2card author",
+                            "Some 2card assignedTo",
+                            "Some 2card date", 
+                            "Some 2card last", 
+                            [
+                                new CKanbanCardComment(
+                                    "This is a comment hi", 
+                                    "Some randomo", 
+                                    "02/11/08"
+                                ), 
+                                new CKanbanCardComment(
+                                    "Some comment", 
+                                    "Some Author", 
+                                    "Some Date"
+                                )
+                            ]
+                        ),
+                        new CKanbanSectionCard(
+                            "Some 3card title", 
+                            "Some 3card desc", 
+                            73, 
+                            "Some 3card est", 
+                            "Some 3card author",
+                            "Some 3card assignedTo",
+                            "Some 3card date", 
+                            "Some 3card last", 
+                            [
+                                new CKanbanCardComment(
+                                    "This is a comment hi", 
+                                    "Some randomo", 
+                                    "02/11/08"
+                                ), 
+                                new CKanbanCardComment(
+                                    "Some comment", 
+                                    "Some Author", 
+                                    "Some Date"
+                                )
+                            ]
+                        )
+                    ]
+                ),
+                new CKanbanSection(
+                    "DONE", 
                     [
                         new CKanbanSectionCard(
                             "Some card title", 

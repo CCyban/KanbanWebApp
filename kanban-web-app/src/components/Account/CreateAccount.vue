@@ -1,23 +1,12 @@
 <template>
-    <b-card class="card-brand-variant p-5">
-        <div
-            class="mb-4 mr-auto text-center">
-            <h1
-                class="font-brand-simple">
-                Account Management
-            </h1>
-            <h3>
-                Create Account<b-icon-caret-down-fill class="font-brand-simple"/>
-            </h3>
-        </div>
+	<b-jumbotron class="jumbotron-brand-variant p-5" header="Create Account" lead="Join the fun!">
+		<hr class="my-4" />
         <b-form>
             <b-form-group 
                 class="mb-4" 
                 label="Username:" 
                 label-for="usernameInput" 
-                label-class="mb-1"
-                :invalid-feedback="usernameFeedback"
-                :state="$v.Username.$dirty ? !$v.Username.$invalid : null">
+                label-class="mb-1">
                 <b-form-input 
                     v-model="Username" 
                     :state="$v.Username.$dirty ? !$v.Username.$invalid : null"
@@ -25,14 +14,16 @@
                     id="usernameInput" 
                     type="text" 
                     label />
+                <b-alert variant="danger" class="text-center mt-2 p-2" :show="$v.Username.$dirty ? $v.Username.$invalid : null">
+                    <b-icon-exclamation-circle font-scale="1.15" />
+                    {{ usernameFeedback }}
+                </b-alert>
             </b-form-group>
             <b-form-group
                 class="mb-4" 
                 label="Password:" 
                 label-for="passwordInput" 
-                label-class="mb-1"
-                :invalid-feedback="passwordFeedback"
-                :state="$v.Password.$dirty ? !$v.Password.$invalid : null">
+                label-class="mb-1">
                 <b-form-input 
                     v-model="Password" 
                     :state="$v.Password.$dirty ? !$v.Password.$invalid : null"
@@ -40,14 +31,16 @@
                     id="passwordInput" 
                     type="password" 
                     label />
+                <b-alert variant="danger" class="text-center mt-2 p-2" :show="$v.Password.$dirty ? $v.Password.$invalid : null">
+                    <b-icon-exclamation-circle font-scale="1.15" />
+                    {{ passwordFeedback }}
+                </b-alert>
             </b-form-group>
             <b-form-group
                 class="mb-4" 
                 label="Confirm Password:" 
                 label-for="confirmPasswordInput" 
-                label-class="mb-1"
-                :invalid-feedback="confirmPasswordFeedback"
-                :state="$v.confirmPassword.$dirty ? !$v.confirmPassword.$invalid : null">
+                label-class="mb-1">
                 <b-form-input 
                     v-model="confirmPassword" 
                     :state="$v.confirmPassword.$dirty ? !$v.confirmPassword.$invalid : null"
@@ -55,14 +48,21 @@
                     id="confirmPasswordInput" 
                     type="password" 
                     label />
+                <b-alert variant="danger" class="text-center mt-2 p-2" :show="$v.confirmPassword.$dirty ? $v.confirmPassword.$invalid : null">
+                    <b-icon-exclamation-circle font-scale="1.15" />
+                    {{ confirmPasswordFeedback }}
+                </b-alert>
             </b-form-group>
-            <b-button
-                variant="success"
-                :disabled="$v.$invalid">
-                Create Account
-            </b-button>
+            <div class="d-grid mt-5">
+                <b-button
+                    class="btn-brand-variant"
+                    :disabled="$v.$invalid"
+                    @click="attemptCreateAccount">
+                    Create Account
+                </b-button>
+            </div>
         </b-form>
-    </b-card>
+    </b-jumbotron>
 </template>
 
 <script lang="ts">
@@ -126,17 +126,44 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         }
+    },
+    methods: {
+        attemptCreateAccount() {
+            // run create account stuff here
+            console.log('attempt');
+        }
     }
 })
 </script>
 
 <style scoped>
-    .card-brand-variant {
+    .jumbotron-brand-variant {
         background-image:
             linear-gradient(
                 to bottom right,
-                #63048C, #4500B9
+                #A9043A, #63048C
             );
 		color: white;
+	}
+
+    .btn-brand-variant {
+        border-style: none;
+        background-image:
+            linear-gradient(
+                to bottom right,
+                #8C05A2, #4500B9
+            );
+        transition: transform 0.5s;
+        color: white;
+    }
+    .btn-brand-variant:hover {
+        background-image:
+            linear-gradient(
+                to bottom right,
+                #8C05A2, #4500B9
+            );
+        color: white;
+        cursor: pointer;
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.05);
     }
 </style>
