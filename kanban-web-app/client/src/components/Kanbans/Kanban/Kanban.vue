@@ -21,9 +21,9 @@ import KanbanSection from './KanbanSection/KanbanSection.vue'
 
 // Classes
 import { CKanban } from '@/classes/CKanban';
-import { CKanbanSection } from '@/classes/CKanbanSection'
+import { CKanbanSection } from '@/classes/CKanbanSection';
 import { CKanbanSectionCard } from '@/classes/CKanbanSectionCard';
-import { CKanbanCardComment } from '@/classes/CKanbanCardComment'
+import { CKanbanCardComment } from '@/classes/CKanbanCardComment';
 
 export default Vue.extend({
   name: 'Kanban',
