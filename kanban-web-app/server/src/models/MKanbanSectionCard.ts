@@ -2,12 +2,8 @@ import mongoose from 'mongoose'
 
 import { IKanbanSectionCard } from '@/interfaces/IKanbanSectionCard'
 import { kanbanCardCommentsSchema } from './MKanbanCardComments'
-import { kanbanSectionCardsSchema } from './MKanbanSectionCards'
 
-
-const implementedModel = mongoose.model('kanbanCardCommentsModel', kanbanCardCommentsSchema);
-
-export const kanbanSectionCardSchema = implementedModel.discriminator('kanbanSectionCardModel', new mongoose.Schema<IKanbanSectionCard>({
+export const kanbanSectionCardSchema = new mongoose.Schema<IKanbanSectionCard>({
     Title: {
         type: String,
         required: true
@@ -40,4 +36,4 @@ export const kanbanSectionCardSchema = implementedModel.discriminator('kanbanSec
         type: String,
         required: true
     }
-}));
+}).add(kanbanCardCommentsSchema);

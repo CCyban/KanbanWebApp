@@ -9,6 +9,9 @@ import { CKanbanSectionCard } from "../classes/CKanbanSectionCard";
 import { CKanbanSections } from "../classes/CKanbanSections";
 import { CKanbanCardComments } from "../classes/CKanbanCardComments";
 import { CKanbanSectionCards } from "../classes/CKanbanSectionCards";
+import { kanbanSchema } from "../models/MKanban";
+import { IKanban } from "../interfaces/IKanban";
+import { model } from "mongoose";
 
 // Global Config
 export const kanbansRouter = express.Router();
@@ -48,75 +51,82 @@ kanbansRouter.get("/:id", async (req: Request, res: Response) => {
 kanbansRouter.post("/", async (req: Request, res: Response) => {
     if (collections.kanbans != undefined) {
         try {
+            console.log(req.body as CKanban);
+
             const newKanban = req.body as CKanban;
 
-            const someKanban = new CKanban(
-                "Some kanban title", 
-                [
-                    new CKanbanSection(
-                        "TODO", 
-                        [
-                            new CKanbanSectionCard(
-                                "Some card title", 
-                                "Some card desc", 
-                                73, 
-                                "Some card est", 
-                                "Some card author",
-                                "Some card assignedTo",
-                                "Some card date", 
-                                "Some card last", 
-                                [
-                                    new CKanbanCardComment(
-                                        "This is a comment hi", 
-                                        "Some randomo", 
-                                        "02/11/08"
-                                    ), 
-                                    new CKanbanCardComment(
-                                        "Some comment", 
-                                        "Some Author", 
-                                        "Some Date"
-                                    )
-                                ]
-                            ),
+            // const someKanban = new CKanban(
+            //     "Some kanban title", 
+            //     [
+            //         new CKanbanSection(
+            //             "TODO", 
+            //             [
+            //                 new CKanbanSectionCard(
+            //                     "Some card title", 
+            //                     "Some card desc", 
+            //                     73, 
+            //                     "Some card est", 
+            //                     "Some card author",
+            //                     "Some card assignedTo",
+            //                     "Some card date", 
+            //                     "Some card last", 
+            //                     [
+            //                         new CKanbanCardComment(
+            //                             "This is a comment hi", 
+            //                             "Some randomo", 
+            //                             "02/11/08"
+            //                         ), 
+            //                         new CKanbanCardComment(
+            //                             "Some comment", 
+            //                             "Some Author", 
+            //                             "Some Date"
+            //                         )
+            //                     ]
+            //                 ),
 
-                            new CKanbanSectionCard(
-                                "Some 2card title", 
-                                "Some 2card desc", 
-                                73, 
-                                "Some 2card est", 
-                                "Some 2card author",
-                                "Some 2card assignedTo",
-                                "Some 2card date", 
-                                "Some 2card last", 
-                                [
-                                    new CKanbanCardComment(
-                                        "This is a comment hi", 
-                                        "Some randomo", 
-                                        "02/11/08"
-                                    ), 
-                                    new CKanbanCardComment(
-                                        "Some comment", 
-                                        "Some Author", 
-                                        "Some Date"
-                                    )
-                                ]
-                            ),
-                        ]
-                    )
-                ]
-            );
+            //                 new CKanbanSectionCard(
+            //                     "Some 2card title", 
+            //                     "Some 2card desc", 
+            //                     73, 
+            //                     "Some 2card est", 
+            //                     "Some 2card author",
+            //                     "Some 2card assignedTo",
+            //                     "Some 2card date", 
+            //                     "Some 2card last", 
+            //                     [
+            //                         new CKanbanCardComment(
+            //                             "This is a comment hi", 
+            //                             "Some randomo", 
+            //                             "02/11/08"
+            //                         ), 
+            //                         new CKanbanCardComment(
+            //                             "Some comment", 
+            //                             "Some Author", 
+            //                             "Some Date"
+            //                         )
+            //                     ]
+            //                 ),
+            //             ]
+            //         )
+            //     ]
+            // );
     
 
-            console.log(someKanban);
+            const kanbanModel = model('KanbanModel', kanbanSchema);
 
-            const result = await collections.kanbans.insertOne(someKanban);
+            const kanbanDocument = new kanbanModel(newKanban);
 
-            result
-                ? res.status(201).send(`Successfully created a new kanban with id ${result.insertedId}`)
+            await kanbanDocument.validate();
+
+            const Result = await collections.kanbans.insertOne(kanbanDocument);
+
+            Result
+                ? res.status(201).send(`Successfully created a new kanban with id ${Result.insertedId}`)
                 : res.status(500).send("Failed to create a new kanban.");
-        } catch (error: any) {
-            console.error(error);
-            res.status(400).send(error.message);
+
+        } catch (Error: any) {
+            console.error(Error);
+            res.status(400).send(Error.message);
         }
     }
 });

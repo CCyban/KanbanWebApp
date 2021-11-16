@@ -4,9 +4,11 @@ import mongodb, { ObjectId } from 'mongodb'
 // External Dependencies
 import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
+import { connect } from 'http2';
+import mongoose, { Connection } from 'mongoose'
 
 // Global Variables
-export const collections: { kanbans?: mongoDB.Collection } = {}
+export const collections: { kanbans?: mongoose.Collection } = {}
 
 // Initalise connection
 export default async function connectToDatabase () {
@@ -18,19 +20,17 @@ export default async function connectToDatabase () {
     // console.log(process.env.DB_CONN_STRING as string);
     // TODO: GET ENVs working
 
-    // const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.DB_CONN_STRING as string);
-    const client: mongoDB.MongoClient = new mongoDB.MongoClient("mongodb://localhost:27017");
 
-    await client.connect();
+    const databaseName = "some_database2";
 
-    // const db: mongoDB.Db = client.db(process.env.DB_NAME);
-    const db: mongoDB.Db = client.db("some_database");
+    const dbConnection: Connection = await mongoose.createConnection('mongodb://localhost:27017/' + databaseName);
 
 
-    // const kanbansCollection: mongoDB.Collection = db.collection(process.env.GAMES_COLLECTION_NAME as string);
-    const kanbansCollection: mongoDB.Collection = db.collection("some_collection");
+    const kanbansCollection: mongoose.Collection = dbConnection.collection("some_collection2");
 
     collections.kanbans = kanbansCollection;
-        
-    console.log(`Successfully connected to database: ${db.databaseName} and collection: ${kanbansCollection.collectionName}`);
+
+    dbConnection.on('connected', function() {
+        console.log(`Successfully connected to database: ${databaseName} and collection: ${kanbansCollection.collectionName}`);
+    });
 }
