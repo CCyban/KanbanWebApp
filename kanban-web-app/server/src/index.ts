@@ -7,7 +7,7 @@ import { kanbansRouter } from "./routes/kanbans.router";
 import { Console } from 'console';
 
 const app = express();
-const port = 8080; // default port to listen
+const port = 8090;
 
 connectToDatabase()
     .then(() => {
