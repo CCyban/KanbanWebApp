@@ -1,6 +1,6 @@
 import { IKanbanCardComments } from "./IKanbanCardComments";
 
-export interface IKanbanSectionCard {
+export interface IKanbanSectionCard extends IKanbanCardComments {
     Title: string;
     Description: string;
     Priority: number;
@@ -9,5 +9,4 @@ export interface IKanbanSectionCard {
     assignedTo: string;
     dateCreated: string;
     lastUpdated: string;
-    Comments?: IKanbanCardComments;
 }

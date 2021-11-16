@@ -1,3 +1,4 @@
+import { IKanbanSection } from "@/interfaces/IKanbanSection";
 import { IKanban } from "../interfaces/IKanban";
 import { IKanbanSections } from "../interfaces/IKanbanSections";
 
@@ -5,11 +6,11 @@ import { IKanbanSections } from "../interfaces/IKanbanSections";
 export class CKanban implements IKanban {
 
     KanbanTitle: string;
-    KanbanSections: IKanbanSections;
+    KanbanSections: Array<IKanbanSection>;
     
     constructor(
         _KanbanTitle: string,
-        _KanbanSections: IKanbanSections
+        _KanbanSections: Array<IKanbanSection>
     ) {
         this.KanbanTitle = _KanbanTitle;
         this.KanbanSections = _KanbanSections;

@@ -1,6 +1,5 @@
 import { IKanbanSections } from "./IKanbanSections";
 
-export interface IKanban {
+export interface IKanban extends IKanbanSections {
     KanbanTitle: string;
-    KanbanSections: IKanbanSections;
 }

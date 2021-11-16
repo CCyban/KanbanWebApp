@@ -1,5 +1,6 @@
 import { IKanbanSectionCard } from "@/interfaces/IKanbanSectionCard";
 import { IKanbanCardComments } from "@/interfaces/IKanbanCardComments";
+import { IKanbanCardComment } from "@/interfaces/IKanbanCardComment";
 
 
 export class CKanbanSectionCard implements IKanbanSectionCard {
@@ -12,7 +13,7 @@ export class CKanbanSectionCard implements IKanbanSectionCard {
     assignedTo: string;
     dateCreated: string;
     lastUpdated: string;
-    Comments?: IKanbanCardComments;
+    Comments: Array<IKanbanCardComment>;
 
     constructor(
         _Title: string,
@@ -23,7 +24,7 @@ export class CKanbanSectionCard implements IKanbanSectionCard {
         _assignedTo: string,
         _dateCreated: string,
         _lastUpdated: string,
-        _Comments?: IKanbanCardComments,
+        _Comments: Array<IKanbanCardComment>,
     ) {
         this.Title = _Title;
         this.Description = _Description;
