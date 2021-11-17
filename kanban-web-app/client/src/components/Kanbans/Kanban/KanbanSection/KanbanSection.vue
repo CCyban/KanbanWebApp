@@ -8,6 +8,8 @@
 </template>
 
 <script lang="ts">
+import { IKanbanSection } from '@/interfaces/IKanbanSection';
+import { IKanbanSections } from '@/interfaces/IKanbanSections';
 import Vue from 'vue';
 import draggable from 'vuedraggable'
 import KanbanCard from './KanbanCard/KanbanCard.vue'
@@ -28,13 +30,13 @@ export default Vue.extend({
     },
     data() {
         return {
-            localCopyOfSection: this.kanbanSection,
+            localCopyOfSection: undefined as unknown as IKanbanSection,
         }
     },
     watch: {
         // Maybe delete? Check if truly needed (runs when a section is deleted)
-        kanbanSection: function (val) {
-            this.localCopyOfSection = {...val};
+        kanbanSection: function (newKanbanSection: IKanbanSection) {
+            this.localCopyOfSection = JSON.parse(JSON.stringify(newKanbanSection));
         }
     },
     computed: {
@@ -44,7 +46,13 @@ export default Vue.extend({
                 group: "section",
                 disabled: false,
             };
-        }
+        },
+        hasDataChanged: {
+            get(): boolean {
+                // Detects if the kanban section's data has been altered
+                return JSON.stringify(this.kanbanSection) != JSON.stringify(this.localCopyOfSection);
+            }
+        },
     },
     methods: {
         saveKanbanCard(cursedObject: any) {
@@ -53,7 +61,7 @@ export default Vue.extend({
 
             this.updateKanbanSectionData();
         },
-        saveKanbanSectionHeader(newKanbanSectionHeader: String) {
+        saveKanbanSectionHeader(newKanbanSectionHeader: string) {
             // Receives a change to the local copy & calls a method to pass the update further up
             this.localCopyOfSection.SectionHeader = newKanbanSectionHeader;
 
@@ -67,13 +75,16 @@ export default Vue.extend({
             // Updates the section's data based on the edited local copy
             this.saveKanbanSection({
                 sectionIndex: this.sectionIndex,
-                newSection: ({...this.localCopyOfSection}),
+                newSection: this.localCopyOfSection,
             })
         },
         deleteSection() {
             // Add text
             this.deleteKanbanSection(this.sectionIndex);
         },
-    }
+    },
+    beforeMount: function() {
+        this.localCopyOfSection = JSON.parse(JSON.stringify(this.kanbanSection));
+    },
 })
 </script>

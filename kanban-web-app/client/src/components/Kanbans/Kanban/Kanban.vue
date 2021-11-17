@@ -2,7 +2,7 @@
     <div
 	 	v-if="localKanbanCopy !== undefined">
         <kanban-title :id="id" :Title="localKanbanCopy.KanbanTitle" :updateTitle="updateKanbanTitle" />
-        <template v-if="hasDataChanged && !updateFailed">
+        <template v-if="hasDataChanged && !kanbanUpdateFailed">
             <hr />
             <b-card bg-variant="danger" text-variant="white" class="text-center">
                 Save Changes?
@@ -15,7 +15,7 @@
             </b-card>
             <hr />
         </template>
-		<template v-else-if="updateFailed">
+		<template v-else-if="kanbanUpdateFailed">
             <hr />
             <b-card bg-variant="danger" text-variant="white" class="text-center">
                 Failed to save changes
@@ -55,7 +55,7 @@ export default Vue.extend({
         id: this.$route.params.id,
         Kanban: undefined as unknown as IKanban,
 		localKanbanCopy: undefined as unknown as IKanban,
-		updateFailed: false,
+		kanbanUpdateFailed: false,
     }
   },
   created: function () {      
@@ -66,7 +66,7 @@ export default Vue.extend({
   methods: {
       // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
     saveKanbanSection(payload: any) {
-		this.localKanbanCopy.KanbanSections[payload.sectionIndex] = payload.newSection;
+        this.$set(this.localKanbanCopy.KanbanSections, payload.sectionIndex, JSON.parse(JSON.stringify(payload.newSection)));
     },
     deleteKanbanSection(sectionIndex: number) {
 		this.localKanbanCopy.KanbanSections.splice(sectionIndex, 1);
@@ -79,8 +79,8 @@ export default Vue.extend({
     },
 	saveKanban() {
 		axios.put('http://localhost:8090/kanbans/' + this.id, this.localKanbanCopy)
-			.then(res => res.status == 200 ? this.Kanban = this.localKanbanCopy : this.updateFailed = true)
-			.catch(() => this.updateFailed = true);
+			.then(res => res.status == 200 ? this.Kanban = this.localKanbanCopy : this.kanbanUpdateFailed = true)
+			.catch(() => this.kanbanUpdateFailed = true);
 	},
   },
 	watch: {

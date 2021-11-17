@@ -139,6 +139,7 @@ kanbansRouter.put("/:id", async (req: Request, res: Response) => {
             const updatedKanban: CKanban = req.body as CKanban;
             const query = { _id: new ObjectId(id) };
 
+            // Removes the MongoDB _id when updating an item so it does not conflict
             if (updatedKanban._id) {
                 delete updatedKanban._id;
             }
