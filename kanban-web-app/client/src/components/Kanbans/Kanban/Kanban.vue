@@ -1,19 +1,40 @@
 <template>
-  <div>
-      <kanban-title :id="id" :Title="newKanban.KanbanTitle" :updateTitle="updateKanbanTitle">
-      </kanban-title>
-    <div class="row">
-      <div v-for="(kanbanSection, index) in newKanban.KanbanSections" :key="index" class="col-sm">
-        <kanban-section :kanbanSection="kanbanSection" :sectionIndex="index" :saveKanbanSection="saveKanbanSection" :deleteKanbanSection="deleteKanbanSection"></kanban-section>
-      </div>
+    <div
+	 	v-if="localKanbanCopy !== undefined">
+        <kanban-title :id="id" :Title="localKanbanCopy.KanbanTitle" :updateTitle="updateKanbanTitle" />
+        <template v-if="hasDataChanged && !updateFailed">
+            <hr />
+            <b-card bg-variant="danger" text-variant="white" class="text-center">
+                Save Changes?
+                <b-button variant="light" class="mx-2" @click="saveKanban()">
+                    Yes
+                </b-button>
+                <b-button variant="outline-light" class="mx-2" @click="deepCloneKanban()">
+                    No
+                </b-button>
+            </b-card>
+            <hr />
+        </template>
+		<template v-else-if="updateFailed">
+            <hr />
+            <b-card bg-variant="danger" text-variant="white" class="text-center">
+                Failed to save changes
+            </b-card>
+            <hr />
+        </template>
+        <div class="row">
+            <div v-for="(kanbanSection, index) in localKanbanCopy.KanbanSections" :key="index" class="col-sm">
+                <kanban-section :kanbanSection="kanbanSection" :sectionIndex="index" :saveKanbanSection="saveKanbanSection" :deleteKanbanSection="deleteKanbanSection"></kanban-section>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
 // General
 import Vue from 'vue';
-import { Route } from 'vue-router'
+import { Route } from 'vue-router';
+import axios, { AxiosResponse } from 'axios';
 
 // Components
 import KanbanTitle from './KanbanTitle.vue'
@@ -21,9 +42,7 @@ import KanbanSection from './KanbanSection/KanbanSection.vue'
 
 // Classes
 import { CKanban } from '@/classes/CKanban';
-import { CKanbanSection } from '@/classes/CKanbanSection';
-import { CKanbanSectionCard } from '@/classes/CKanbanSectionCard';
-import { CKanbanCardComment } from '@/classes/CKanbanCardComment';
+import { IKanban } from '@/interfaces/IKanban';
 
 export default Vue.extend({
   name: 'Kanban',
@@ -34,321 +53,48 @@ export default Vue.extend({
   data() {
     return {
         id: this.$route.params.id,
-
-        newKanban: new CKanban(
-            "Some kanban title", 
-            [
-                new CKanbanSection(
-                    "TODO", 
-                    [
-                        new CKanbanSectionCard(
-                            "Some card title", 
-                            "Some card desc", 
-                            73, 
-                            "Some card est", 
-                            "Some card author",
-                            "Some card assignedTo",
-                            "Some card date", 
-                            "Some card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                        new CKanbanSectionCard(
-                            "Some 2card title", 
-                            "Some 2card desc", 
-                            73, 
-                            "Some 2card est", 
-                            "Some 2card author",
-                            "Some 2card assignedTo",
-                            "Some 2card date", 
-                            "Some 2card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                    ]
-                ),
-                new CKanbanSection(
-                    "DEV", 
-                    [
-                        new CKanbanSectionCard(
-                            "Some card title", 
-                            "Some card desc", 
-                            73, 
-                            "Some card est", 
-                            "Some card author",
-                            "Some card assignedTo",
-                            "Some card date", 
-                            "Some card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                        new CKanbanSectionCard(
-                            "Some 2card title", 
-                            "Some 2card desc", 
-                            73, 
-                            "Some 2card est", 
-                            "Some 2card author",
-                            "Some 2card assignedTo",
-                            "Some 2card date", 
-                            "Some 2card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                        new CKanbanSectionCard(
-                            "Some 3card title", 
-                            "Some 3card desc", 
-                            73, 
-                            "Some 3card est", 
-                            "Some 3card author",
-                            "Some 3card assignedTo",
-                            "Some 3card date", 
-                            "Some 3card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        )
-                    ]
-                ),
-                new CKanbanSection(
-                    "DT", 
-                    [
-                        new CKanbanSectionCard(
-                            "Some card title", 
-                            "Some card desc", 
-                            73, 
-                            "Some card est", 
-                            "Some card author",
-                            "Some card assignedTo",
-                            "Some card date", 
-                            "Some card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                    ]
-                ),
-                new CKanbanSection(
-                    "QA", 
-                    [
-                        new CKanbanSectionCard(
-                            "Some card title", 
-                            "Some card desc", 
-                            73, 
-                            "Some card est", 
-                            "Some card author",
-                            "Some card assignedTo",
-                            "Some card date", 
-                            "Some card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                        new CKanbanSectionCard(
-                            "Some 2card title", 
-                            "Some 2card desc", 
-                            73, 
-                            "Some 2card est", 
-                            "Some 2card author",
-                            "Some 2card assignedTo",
-                            "Some 2card date", 
-                            "Some 2card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                        new CKanbanSectionCard(
-                            "Some 3card title", 
-                            "Some 3card desc", 
-                            73, 
-                            "Some 3card est", 
-                            "Some 3card author",
-                            "Some 3card assignedTo",
-                            "Some 3card date", 
-                            "Some 3card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        )
-                    ]
-                ),
-                new CKanbanSection(
-                    "DONE", 
-                    [
-                        new CKanbanSectionCard(
-                            "Some card title", 
-                            "Some card desc", 
-                            73, 
-                            "Some card est", 
-                            "Some card author",
-                            "Some card assignedTo",
-                            "Some card date", 
-                            "Some card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                        new CKanbanSectionCard(
-                            "Some 2card title", 
-                            "Some 2card desc", 
-                            73, 
-                            "Some 2card est", 
-                            "Some 2card author",
-                            "Some 2card assignedTo",
-                            "Some 2card date", 
-                            "Some 2card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        ),
-                        new CKanbanSectionCard(
-                            "Some 3card title", 
-                            "Some 3card desc", 
-                            73, 
-                            "Some 3card est", 
-                            "Some 3card author",
-                            "Some 3card assignedTo",
-                            "Some 3card date", 
-                            "Some 3card last", 
-                            [
-                                new CKanbanCardComment(
-                                    "This is a comment hi", 
-                                    "Some randomo", 
-                                    "02/11/08"
-                                ), 
-                                new CKanbanCardComment(
-                                    "Some comment", 
-                                    "Some Author", 
-                                    "Some Date"
-                                )
-                            ]
-                        )
-                    ]
-                )
-            ]
-        ),
+        Kanban: undefined as unknown as IKanban,
+		localKanbanCopy: undefined as unknown as IKanban,
+		updateFailed: false,
     }
   },
-  created: function () {
-    //   console.log('Run code here to fetch kanban data off id ' + this.id);
-
-    //   this.Kanban = {
-    //      stuff from API
-    //   }
+  created: function () {      
+	axios.get('http://localhost:8090/kanbans/' + this.id)
+	.then(res => this.Kanban = res.data as CKanban)
+	.catch(error => console.log(error));
   },
   methods: {
       // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
     saveKanbanSection(payload: any) {
-        this.newKanban.KanbanSections[payload.sectionIndex] = payload.newSection;
+		this.localKanbanCopy.KanbanSections[payload.sectionIndex] = payload.newSection;
     },
     deleteKanbanSection(sectionIndex: number) {
-        this.newKanban.KanbanSections.splice(sectionIndex, 1);
+		this.localKanbanCopy.KanbanSections.splice(sectionIndex, 1);
     },
     updateKanbanTitle(newTitle: string) {
-        this.newKanban.KanbanTitle = newTitle;
+        this.localKanbanCopy.KanbanTitle = newTitle;
+    },
+	deepCloneKanban() {
+        this.localKanbanCopy = JSON.parse(JSON.stringify(this.Kanban));
+    },
+	saveKanban() {
+		axios.put('http://localhost:8090/kanbans/' + this.id, this.localKanbanCopy)
+			.then(res => res.status == 200 ? this.Kanban = this.localKanbanCopy : this.updateFailed = true)
+			.catch(() => this.updateFailed = true);
+	},
+  },
+	watch: {
+		Kanban: function () {
+			this.deepCloneKanban();
+		}
+	},
+	computed: {
+        hasDataChanged: {
+            get(): boolean {
+                // Detects if the kanban's data has been altered
+                return JSON.stringify(this.Kanban) != JSON.stringify(this.localKanbanCopy);
+            }
+        },
     }
-  }
 })
 </script>

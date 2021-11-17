@@ -9,6 +9,8 @@ import { Console } from 'console';
 const app = express();
 const port = 8090;
 
+app.use(cors());
+
 connectToDatabase()
     .then(() => {
         app.use("/kanbans", kanbansRouter);

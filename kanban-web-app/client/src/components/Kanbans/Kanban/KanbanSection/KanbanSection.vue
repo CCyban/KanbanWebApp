@@ -67,7 +67,7 @@ export default Vue.extend({
             // Updates the section's data based on the edited local copy
             this.saveKanbanSection({
                 sectionIndex: this.sectionIndex,
-                newSection: Object.values({...this.localCopyOfSection}),
+                newSection: ({...this.localCopyOfSection}),
             })
         },
         deleteSection() {

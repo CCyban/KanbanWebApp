@@ -117,9 +117,6 @@ export default Vue.extend({
             maxLength: maxLength(256)
         },
     },
-    created: function() {
-        this.newTitle = this.Title;
-    },
     methods: {
         toggleEditableTitle(): void {
             this.isTitleEditable = !this.isTitleEditable;
@@ -139,6 +136,10 @@ export default Vue.extend({
         },
         invalidFeedback() : String {
             if (!this.$v.newTitle.required) {
+                // Runs to ensure that the invalid feedback is not being triggered because the title data has not been filled in yet
+                if (this.newTitle != this.Title) {
+                    this.newTitle = this.Title;
+                }
                 return "Requires input"
             }
             else if (!this.$v.newTitle.maxLength) {

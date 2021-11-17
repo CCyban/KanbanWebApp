@@ -1,3 +1,5 @@
 import { IKanbanCardComment } from "./IKanbanCardComment";
 
-export interface IKanbanCardComments extends Array<IKanbanCardComment> {}
+export interface IKanbanCardComments { 
+    Comments: Array<IKanbanCardComment>
+}

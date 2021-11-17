@@ -1,19 +1,19 @@
 <template>
   <div>
 	<router-link
-		v-for="kanbanBoard in kanbanBoards"
-		v-bind:key="kanbanBoard.name"
-		to="/Kanban/10"
+		v-for="kanbanBoard in kanbanData.Kanbans"
+		v-bind:key="kanbanBoard._id"
+		:to="'/Kanban/' + kanbanBoard._id"
 		tag="button"
 		class="col-sm btn btn-brand-variant btn-lg m-3 p-3">
 		<b-icon-kanban-fill
 				font-scale="2.75"
 				class="mb-4"/>
 		<b-card-title
-			v-text="kanbanBoard.name"
+			v-text="kanbanBoard.KanbanTitle"
 		/>
 		<b-card-text
-			v-text="kanbanBoard.date"
+			v-text="kanbanBoard.KanbanSections.length + (kanbanBoard.KanbanSections.length == 1 ? ' section' : ' sections')"
 		/>
 	</router-link>
 
@@ -37,13 +37,16 @@
 </template>
 
 <script lang="ts">
+import { CKanbans } from '@/classes/CKanbans';
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'KanbanList',
-  props: {
-    kanbanBoards: Array,
-  }
+	name: 'KanbanList',
+	props: {
+		kanbanData: {
+			type: CKanbans
+		}
+	},
 })
 </script>
 

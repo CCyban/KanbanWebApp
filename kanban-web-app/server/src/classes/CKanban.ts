@@ -1,12 +1,12 @@
 import { IKanbanSection } from "@/interfaces/IKanbanSection";
 import { IKanban } from "../interfaces/IKanban";
-import { IKanbanSections } from "../interfaces/IKanbanSections";
 
 
 export class CKanban implements IKanban {
 
     KanbanTitle: string;
     KanbanSections: Array<IKanbanSection>;
+    _id?: string;
     
     constructor(
         _KanbanTitle: string,

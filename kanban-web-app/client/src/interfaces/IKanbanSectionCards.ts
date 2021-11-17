@@ -1,3 +1,5 @@
 import { IKanbanSectionCard } from "./IKanbanSectionCard";
 
-export interface IKanbanSectionCards extends Array<IKanbanSectionCard> {}
+export interface IKanbanSectionCards {
+    SectionCards: Array<IKanbanSectionCard>
+}

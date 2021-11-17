@@ -1,6 +1,5 @@
 import { IKanbanSectionCards } from "./IKanbanSectionCards";
 
-export interface IKanbanSection {
+export interface IKanbanSection extends IKanbanSectionCards {
     SectionHeader: string;
-    SectionCards: IKanbanSectionCards;
 }
