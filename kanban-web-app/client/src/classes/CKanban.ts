@@ -8,10 +8,10 @@ export class CKanban implements IKanban {
     KanbanSections: Array<IKanbanSection>;
     
     constructor(
-        _KanbanTitle: string,
-        _KanbanSections: Array<IKanbanSection>
+        _KanbanTitle?: string,
+        _KanbanSections?: Array<IKanbanSection>
     ) {
-        this.KanbanTitle = _KanbanTitle;
-        this.KanbanSections = _KanbanSections;
+        this.KanbanTitle = _KanbanTitle ?? "";
+        this.KanbanSections = _KanbanSections ?? [];
     }
 }

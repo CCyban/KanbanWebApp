@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div v-if="addKanbanSection">
+        <kanban-section-header isNew :addKanbanSection="addKanbanSection" />
+    </div>
+    <div v-else>
         <draggable v-model="localCopyOfSection.SectionCards" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
             <kanban-section-header slot="header" :sectionHeader="localCopyOfSection.SectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader" :hasCards="localCopyOfSection.SectionCards.length > 0" :deleteSection="deleteSection"/>
             <kanban-card v-for="(element, index) in localCopyOfSection.SectionCards" :key="index" :index="index" :kanbanCard="element" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
@@ -27,6 +30,7 @@ export default Vue.extend({
         sectionIndex: Number,
         saveKanbanSection: Function,
         deleteKanbanSection: Function,
+        addKanbanSection: Function,
     },
     data() {
         return {

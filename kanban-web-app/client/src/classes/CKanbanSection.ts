@@ -8,10 +8,10 @@ export class CKanbanSection implements IKanbanSection {
     SectionCards: Array<IKanbanSectionCard>;
     
     constructor(
-        _SectionHeader: string,
-        _SectionCards: Array<IKanbanSectionCard>
+        _SectionHeader?: string,
+        _SectionCards?: Array<IKanbanSectionCard>
     ) {
-        this.SectionHeader = _SectionHeader;
-        this.SectionCards = _SectionCards;
+        this.SectionHeader = _SectionHeader ?? "";
+        this.SectionCards = _SectionCards ?? [];
     }
 }

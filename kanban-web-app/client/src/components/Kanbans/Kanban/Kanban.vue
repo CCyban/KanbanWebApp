@@ -26,6 +26,9 @@
             <div v-for="(kanbanSection, index) in localKanbanCopy.KanbanSections" :key="index" class="col-sm">
                 <kanban-section :kanbanSection="kanbanSection" :sectionIndex="index" :saveKanbanSection="saveKanbanSection" :deleteKanbanSection="deleteKanbanSection"></kanban-section>
             </div>
+            <div class="col-sm">
+            <kanban-section :kanbanSection="getNewKanbanSection()" :addKanbanSection="addKanbanSection"></kanban-section>
+            </div>
         </div>
     </div>
 </template>
@@ -43,6 +46,8 @@ import KanbanSection from './KanbanSection/KanbanSection.vue'
 // Classes
 import { CKanban } from '@/classes/CKanban';
 import { IKanban } from '@/interfaces/IKanban';
+import { CKanbanSection } from '@/classes/CKanbanSection';
+import { IKanbanSection } from '@/interfaces/IKanbanSection';
 
 export default Vue.extend({
   name: 'Kanban',
@@ -59,9 +64,15 @@ export default Vue.extend({
     }
   },
   created: function () {      
-	axios.get('http://localhost:8090/kanbans/' + this.id)
-	.then(res => this.Kanban = res.data as CKanban)
-	.catch(error => console.log(error));
+    if (this.id === 'New') {
+        const newKanban = new CKanban();
+        this.Kanban = newKanban;
+    }
+    else {
+        axios.get('http://localhost:8090/kanbans/' + this.id)
+        .then(res => this.Kanban = res.data as CKanban)
+        .catch(error => console.log(error));
+    }
   },
   methods: {
       // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
@@ -70,6 +81,11 @@ export default Vue.extend({
     },
     deleteKanbanSection(sectionIndex: number) {
 		this.localKanbanCopy.KanbanSections.splice(sectionIndex, 1);
+    },
+    addKanbanSection() {
+        this.localKanbanCopy.KanbanSections.push(
+            new CKanbanSection('#' + (this.localKanbanCopy.KanbanSections.length + 1))
+        );
     },
     updateKanbanTitle(newTitle: string) {
         this.localKanbanCopy.KanbanTitle = newTitle;
@@ -82,6 +98,9 @@ export default Vue.extend({
 			.then(res => res.status == 200 ? this.Kanban = this.localKanbanCopy : this.kanbanUpdateFailed = true)
 			.catch(() => this.kanbanUpdateFailed = true);
 	},
+    getNewKanbanSection() {
+        return new CKanbanSection();
+    }
   },
 	watch: {
 		Kanban: function () {

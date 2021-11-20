@@ -12,12 +12,31 @@
                 class="mb-3 p-1 card-brand-variant"
                 border-variant="dark">
                 <h2 class="h3 text-uppercase">
-                    {{ sectionHeader }}
+                    <template v-if="isNew">
+                        <div class="text-center">
+                        <b-icon-plus-circle />
+                        </div>
+                    </template>
+                    <template v-else>
+                        {{ sectionHeader }}
+                    </template>
                 </h2>
             </b-card>
             <template #overlay>
                 <div class="text-center">
                 <b-button
+                    v-if="isNew"
+                    variant="light"
+                    size="sm"
+                    @click="addKanbanSection()"
+                    class="mb-1"
+                    v-b-tooltip.hover
+                    title="Create New Section">
+                        Add New
+                    <b-icon icon="plus-circle" />
+                </b-button>
+                <b-button
+                    v-else
                     variant="light"
                     size="sm"
                     @click="showEditModal = true"
@@ -69,6 +88,8 @@ export default Vue.extend({
         saveKanbanSectionHeader: Function,
         hasCards: Boolean,
         deleteSection: Function,
+        isNew: Boolean,
+        addKanbanSection: Function,
     },
     data() {
         return {
@@ -87,8 +108,7 @@ export default Vue.extend({
         },
         closeModal() {
             this.showEditModal = false;
-        }
-
+        },
     }
 })
 </script>
