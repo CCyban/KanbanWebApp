@@ -63,7 +63,12 @@ export default Vue.extend({
   },
   created: function () {      
     if (this.id === 'New') {
-        const newKanban = new CKanban();
+        const newKanban = new CKanban('New Kanban');
+
+        axios.post('http://localhost:8090/kanbans/', newKanban)
+        .then(res => this.id = res.data._id)
+        .catch(error => console.log(error));
+
         this.Kanban = newKanban;
     }
     else {

@@ -55,63 +55,6 @@ kanbansRouter.post("/", async (req: Request, res: Response) => {
 
             const newKanban = req.body as CKanban;
 
-            // const someKanban = new CKanban(
-            //     "Some kanban title", 
-            //     [
-            //         new CKanbanSection(
-            //             "TODO", 
-            //             [
-            //                 new CKanbanSectionCard(
-            //                     "Some card title", 
-            //                     "Some card desc", 
-            //                     73, 
-            //                     "Some card est", 
-            //                     "Some card author",
-            //                     "Some card assignedTo",
-            //                     "Some card date", 
-            //                     "Some card last", 
-            //                     [
-            //                         new CKanbanCardComment(
-            //                             "This is a comment hi", 
-            //                             "Some randomo", 
-            //                             "02/11/08"
-            //                         ), 
-            //                         new CKanbanCardComment(
-            //                             "Some comment", 
-            //                             "Some Author", 
-            //                             "Some Date"
-            //                         )
-            //                     ]
-            //                 ),
-
-            //                 new CKanbanSectionCard(
-            //                     "Some 2card title", 
-            //                     "Some 2card desc", 
-            //                     73, 
-            //                     "Some 2card est", 
-            //                     "Some 2card author",
-            //                     "Some 2card assignedTo",
-            //                     "Some 2card date", 
-            //                     "Some 2card last", 
-            //                     [
-            //                         new CKanbanCardComment(
-            //                             "This is a comment hi", 
-            //                             "Some randomo", 
-            //                             "02/11/08"
-            //                         ), 
-            //                         new CKanbanCardComment(
-            //                             "Some comment", 
-            //                             "Some Author", 
-            //                             "Some Date"
-            //                         )
-            //                     ]
-            //                 ),
-            //             ]
-            //         )
-            //     ]
-            // );
-    
-
             const kanbanModel = model('KanbanModel', kanbanSchema);
 
             const kanbanDocument = new kanbanModel(newKanban);
@@ -121,7 +64,7 @@ kanbansRouter.post("/", async (req: Request, res: Response) => {
             const Result = await collections.kanbans.insertOne(kanbanDocument);
 
             Result
-                ? res.status(201).send(`Successfully created a new kanban with id ${Result.insertedId}`)
+                ? res.status(201).send({ _id: Result.insertedId })
                 : res.status(500).send("Failed to create a new kanban.");
 
         } catch (Error: any) {
