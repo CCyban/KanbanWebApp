@@ -1,5 +1,11 @@
 <template>
-  <div>
+	<b-progress
+		v-if="isLoading"
+		value="100"
+		variant="success"
+		animated
+	/>
+  <div v-else>
 	<router-link
 		v-for="kanbanBoard in kanbanData.Kanbans"
 		v-bind:key="kanbanBoard._id"
@@ -32,7 +38,6 @@
 			Kanban Board
 		</b-card-text>
 	</router-link>
-
   </div>
 </template>
 
@@ -45,6 +50,9 @@ export default Vue.extend({
 	props: {
 		kanbanData: {
 			type: CKanbans
+		},
+		isLoading: {
+			type: Boolean
 		}
 	},
 })

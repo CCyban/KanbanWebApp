@@ -1,6 +1,17 @@
 <template>
+    <div	
+        v-if="isLoading">
+        <h1>
+            Loading Kanban...
+        </h1>
+        <b-progress
+            value="100"
+            variant="success"
+            animated
+        />
+    </div>
     <div
-	 	v-if="localKanbanCopy !== undefined">
+	 	v-else>
         <kanban-title :id="id" :Title="localKanbanCopy.KanbanTitle" :updateTitle="updateKanbanTitle" :deleteKanban="deleteKanban" />
         <template v-if="hasDataChanged && !kanbanUpdateFailed">
             <hr />
@@ -59,6 +70,7 @@ export default Vue.extend({
         Kanban: undefined as unknown as IKanban,
 		localKanbanCopy: undefined as unknown as IKanban,
 		kanbanUpdateFailed: false,
+        isLoading: true,
     }
   },
   created: function () {      
@@ -66,14 +78,20 @@ export default Vue.extend({
         const newKanban = new CKanban('New Kanban');
 
         axios.post('http://localhost:8090/kanbans/', newKanban)
-        .then(res => this.id = res.data._id)
+        .then(res => { 
+            this.id = res.data._id;
+            this.isLoading = false;
+        })
         .catch(error => console.log(error));
 
         this.Kanban = newKanban;
     }
     else {
         axios.get('http://localhost:8090/kanbans/' + this.id)
-        .then(res => this.Kanban = res.data as CKanban)
+        .then(res => { 
+            this.Kanban = res.data as CKanban
+            this.isLoading = false;
+        })
         .catch(error => console.log(error));
     }
   },

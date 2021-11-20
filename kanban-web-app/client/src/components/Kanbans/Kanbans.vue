@@ -10,7 +10,7 @@
             Kanbans<b-icon-caret-down-fill class="font-brand-simple"/>
         </h3>
     </div>
-    <KanbanList :kanbanData="kanbanData"/>
+    <KanbanList :kanbanData="kanbanData" :isLoading="isLoading"/>
   </div>
 </template>
 
@@ -28,11 +28,15 @@ export default Vue.extend({
 	data() {
 		return {
 			kanbanData: undefined || new CKanbans(),
+			isLoading: true,
 		}
 	},
 	created: function () {		
 		axios.get('http://localhost:8090/kanbans/')
-			.then(res => this.kanbanData = new CKanbans(res.data))
+			.then(res => {
+				this.kanbanData = new CKanbans(res.data);
+				this.isLoading = false;
+			})
 			.catch(error => console.log(error));
 	},
 })
