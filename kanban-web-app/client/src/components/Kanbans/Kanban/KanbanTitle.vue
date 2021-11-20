@@ -58,21 +58,33 @@
                     </b-col>
                     <b-col 
                         lg="2">
-                        <template v-if="!isTitleEditable">
-                            <b-button 
-                                variant="outline-dark" 
-                                size="sm" 
-                                @click="toggleEditableTitle()"
-                                v-b-tooltip.hover
-                                title="Edit Kanban Title">
-                                <b-icon 
-                                    class="align-middle" 
-                                    icon="pencil-square" 
-                                    font-scale="1.75"
-                                    aria-label="Edit Kanban Title"
-                                />
-                            </b-button>
-                        </template>
+                        <b-button 
+                            variant="outline-dark" 
+                            size="sm" 
+                            @click="toggleEditableTitle()"
+                            v-b-tooltip.hover
+                            title="Edit Kanban Title"
+                            class="mx-3">
+                            <b-icon 
+                                class="align-middle" 
+                                icon="pencil-square" 
+                                font-scale="1.75"
+                                aria-label="Edit Kanban Title"
+                            />
+                        </b-button>
+                        <b-button 
+                            variant="outline-dark" 
+                            size="sm" 
+                            @click="deleteKanban()"
+                            v-b-tooltip.hover
+                            title="Delete Kanban">
+                            <b-icon 
+                                class="align-middle" 
+                                icon="x-circle" 
+                                font-scale="1.75"
+                                aria-label="Delete Kanban"
+                            />
+                        </b-button>
                     </b-col>
                 </b-row>
             </h1>
@@ -103,6 +115,7 @@ export default Vue.extend({
         id: String,
         Title: String,
         updateTitle: Function,
+        deleteKanban: Function,
     },
     data() {
         return {

@@ -1,7 +1,7 @@
 <template>
     <div
 	 	v-if="localKanbanCopy !== undefined">
-        <kanban-title :id="id" :Title="localKanbanCopy.KanbanTitle" :updateTitle="updateKanbanTitle" />
+        <kanban-title :id="id" :Title="localKanbanCopy.KanbanTitle" :updateTitle="updateKanbanTitle" :deleteKanban="deleteKanban" />
         <template v-if="hasDataChanged && !kanbanUpdateFailed">
             <hr />
             <b-card bg-variant="danger" text-variant="white" class="text-center">
@@ -103,6 +103,14 @@ export default Vue.extend({
 	},
     getNewKanbanSection() {
         return new CKanbanSection();
+    },
+    deleteKanban() {
+        const confirmRequest = confirm("Are you absolutely sure you want to delete this Kanban? \nNo take-backsies!");
+        if (confirmRequest) {
+            axios.delete('http://localhost:8090/kanbans/' + this.id)
+                .then(res => this.$router.push({ path: '/kanban' }))
+                .catch(error => console.log(error));
+        }
     }
   },
 	watch: {
