@@ -44,12 +44,6 @@
                 />
                 <b-form-text
                     text-variant="danger"
-                    v-if="!$v.localKanbanCardCopy.Description.required">
-                    <b-icon-exclamation-circle-fill font-scale="1.15" />
-                    Description is required
-                </b-form-text>
-                <b-form-text
-                    text-variant="danger"
                     v-if="!$v.localKanbanCardCopy.Description.maxLength">
                     <b-icon-exclamation-circle-fill font-scale="1.15" />
                     No longer than {{ $v.localKanbanCardCopy.Description.$params.maxLength.max }} characters
@@ -244,13 +238,12 @@ export default Vue.extend({
                 maxLength: maxLength(256)
             },
             Description: {
-                required,
                 maxLength: maxLength(4096)
             },
             Priority: {
+                required,
                 maxValue: maxValue(99),
                 minValue: minValue(0),
-                required,
             },
             Estimation: {
                 maxLength: maxLength(64),

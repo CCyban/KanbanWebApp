@@ -81,7 +81,7 @@
                     </b-col>
                 </b-row>
             </b-container>
-            <kanban-card-details @toggleModal="toggleModal()" :kanbanCard="kanbanCard" :saveKanbanCardEmit="saveKanbanCardEmit"/>
+            <kanban-card-details @toggleModal="toggleModal()" :kanbanCard="kanbanCard" :saveKanbanCardEmit="saveKanbanCardEmit" :deleteKanbanCard="deleteKanbanCard"/>
         </b-modal>
     </div>
 </template>
@@ -97,6 +97,7 @@ export default Vue.extend({
         saveKanbanCard: Function,
         index: Number,
         addNewKanbanCard: Function,
+        deleteKanbanCard: Function,
     },
     components: {
         KanbanCardDetails,
@@ -118,10 +119,12 @@ export default Vue.extend({
         },
         saveKanbanCardEmit(kanbanCard: any) {
             // Updates the higher component with the new card data as well as the index of the section this component is used for
-            this.saveKanbanCard(                {
+            this.saveKanbanCard(                
+                {
                     index: this.index,
                     newKanbanCard: {...kanbanCard} 
-                })
+                }
+            )
         }
     },
 })

@@ -5,7 +5,7 @@
     <div v-else>
         <draggable v-model="localCopyOfSection.SectionCards" group="section" v-bind="dragOptions" @start="drag=true" @end="drag=false" draggable=".kanban-card" @change="sectionOrderUpdated">
             <kanban-section-header slot="header" :sectionHeader="localCopyOfSection.SectionHeader" :saveKanbanSectionHeader="saveKanbanSectionHeader" :hasCards="localCopyOfSection.SectionCards.length > 0" :deleteSection="deleteSection"/>
-            <kanban-card v-for="(element, index) in localCopyOfSection.SectionCards" :key="index" :index="index" :kanbanCard="element" :saveKanbanCard="saveKanbanCard" class="kanban-card" />
+            <kanban-card v-for="(element, index) in localCopyOfSection.SectionCards" :key="index" :index="index" :kanbanCard="element" :saveKanbanCard="saveKanbanCard" :deleteKanbanCard="deleteKanbanCard" class="kanban-card" />
         </draggable>
         <kanban-card :kanbanCard="getNewKanbanCard()" :addNewKanbanCard="addNewKanbanCard" class="kanban-card" />
     </div>
@@ -73,6 +73,11 @@ export default Vue.extend({
                 this.localCopyOfSection.SectionCards.length, 
                 new CKanbanSectionCard('#' + (this.localCopyOfSection.SectionCards.length + 1)));
                 
+            this.updateKanbanSectionData();
+        },
+        deleteKanbanCard(sectionIndex: number) {
+            this.localCopyOfSection.SectionCards.splice(sectionIndex, 1);
+
             this.updateKanbanSectionData();
         },
         saveKanbanSectionHeader(newKanbanSectionHeader: string) {
