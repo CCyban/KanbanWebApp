@@ -26,9 +26,7 @@
             <div v-for="(kanbanSection, index) in localKanbanCopy.KanbanSections" :key="index" class="col-sm">
                 <kanban-section :kanbanSection="kanbanSection" :sectionIndex="index" :saveKanbanSection="saveKanbanSection" :deleteKanbanSection="deleteKanbanSection"></kanban-section>
             </div>
-            <div class="col-sm">
-            <kanban-section :kanbanSection="getNewKanbanSection()" :addKanbanSection="addKanbanSection"></kanban-section>
-            </div>
+            <kanban-section class="col-sm" :kanbanSection="getNewKanbanSection()" :addNewKanbanSection="addNewKanbanSection"></kanban-section>
         </div>
     </div>
 </template>
@@ -82,7 +80,7 @@ export default Vue.extend({
     deleteKanbanSection(sectionIndex: number) {
 		this.localKanbanCopy.KanbanSections.splice(sectionIndex, 1);
     },
-    addKanbanSection() {
+    addNewKanbanSection() {
         this.localKanbanCopy.KanbanSections.push(
             new CKanbanSection('#' + (this.localKanbanCopy.KanbanSections.length + 1))
         );

@@ -14,7 +14,7 @@
                 <h2 class="h3 text-uppercase">
                     <template v-if="isNew">
                         <div class="text-center">
-                        <b-icon-plus-circle />
+                            <b-icon-plus-circle />
                         </div>
                     </template>
                     <template v-else>
@@ -28,7 +28,7 @@
                     v-if="isNew"
                     variant="light"
                     size="sm"
-                    @click="addKanbanSection()"
+                    @click="addNewKanbanSection()"
                     class="mb-1"
                     v-b-tooltip.hover
                     title="Create New Section">
@@ -89,7 +89,7 @@ export default Vue.extend({
         hasCards: Boolean,
         deleteSection: Function,
         isNew: Boolean,
-        addKanbanSection: Function,
+        addNewKanbanSection: Function,
     },
     data() {
         return {

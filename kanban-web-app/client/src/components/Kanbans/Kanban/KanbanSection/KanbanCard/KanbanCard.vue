@@ -1,5 +1,34 @@
 <template>
-    <div class="draggable">
+    <div v-if="addNewKanbanCard">
+        <b-overlay
+            v-b-hover="hoverHandle"
+            :show="isCardHovered"
+            rounded="sm"
+            style="max-width: 20rem;"
+            class="mb-3 kanban-card-overlay"
+            opacity="0.6">
+            <b-card
+                class="unselectable card-brand-variant">
+                <h1 class="h4 text-center">
+                    <b-icon icon="plus-circle" />
+                </h1>
+            </b-card>
+            <template #overlay>
+                <div class="text-center">
+                <b-button
+                    variant="light"
+                    size="sm"
+                    @click="addNewKanbanCard()"
+                    v-b-tooltip.hover
+                    title="Create New Card">
+                        Add New
+                    <b-icon icon="plus-circle" />
+                </b-button>
+                </div>
+            </template>
+        </b-overlay>
+    </div>
+    <div v-else class="draggable">
         <b-overlay
             v-b-hover="hoverHandle"
             :show="isCardHovered"
@@ -67,6 +96,7 @@ export default Vue.extend({
         kanbanCard: Object,
         saveKanbanCard: Function,
         index: Number,
+        addNewKanbanCard: Function,
     },
     components: {
         KanbanCardDetails,
