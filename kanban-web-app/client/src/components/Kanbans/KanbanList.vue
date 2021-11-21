@@ -1,49 +1,58 @@
 <template>
 	<b-progress
-		v-if="isLoading"
+		v-if="kanbanDataLoading"
 		value="100"
 		variant="success"
 		animated
 	/>
-  <div v-else>
-	<router-link
-		v-for="kanbanBoard in kanbanData.Kanbans"
-		v-bind:key="kanbanBoard._id"
-		:to="'/Kanban/' + kanbanBoard._id"
-		tag="button"
-		class="col-sm btn btn-brand-variant btn-lg m-3 p-3">
-		<b-icon-kanban-fill
-				font-scale="2.75"
-				class="mb-4"/>
-		<b-card-title
-			v-text="kanbanBoard.KanbanTitle"
-		/>
-		<b-card-text
-			v-text="kanbanBoard.KanbanSections.length + (kanbanBoard.KanbanSections.length == 1 ? ' section' : ' sections')"
-		/>
-	</router-link>
+	<b-alert
+		v-else-if="kanbanDataErrored"
+		show
+		variant="danger"
+	>
+		An error has occured in the process of retrieving data. Please try again later.
+	</b-alert>
+	<div v-else-if="kanbanDataSuccessful">
+		<router-link
+			v-for="kanbanBoard in kanbanData.Kanbans"
+			v-bind:key="kanbanBoard._id"
+			:to="'/Kanban/' + kanbanBoard._id"
+			tag="button"
+			class="col-sm btn btn-brand-variant btn-lg m-3 p-3">
+			<b-icon-kanban-fill
+					font-scale="2.75"
+					class="mb-4"/>
+			<b-card-title
+				v-text="kanbanBoard.KanbanTitle"
+			/>
+			<b-card-text
+				v-text="kanbanBoard.KanbanSections.length + (kanbanBoard.KanbanSections.length == 1 ? ' section' : ' sections')"
+			/>
+		</router-link>
 
 
-	<router-link
-		to="/Kanban/New"
-		tag="button"
-		class="col-sm btn btn-brand-variant btn-lg m-3 p-3">
-		<b-icon-plus-circle-fill
-				font-scale="2.75"
-				class="mb-4"/>
-		<b-card-title>
-			Create New
-		</b-card-title>
-		<b-card-text>
-			Kanban Board
-		</b-card-text>
-	</router-link>
-  </div>
+		<router-link
+			to="/Kanban/New"
+			tag="button"
+			class="col-sm btn btn-brand-variant btn-lg m-3 p-3">
+			<b-icon-plus-circle-fill
+					font-scale="2.75"
+					class="mb-4"/>
+			<b-card-title>
+				Create New
+			</b-card-title>
+			<b-card-text>
+				Kanban Board
+			</b-card-text>
+		</router-link>
+	</div>
 </template>
 
 <script lang="ts">
 import { CKanbans } from '@/classes/CKanbans';
 import Vue from 'vue';
+import { apiDataState } from '@/enumerations/apiDataState'
+
 
 export default Vue.extend({
 	name: 'KanbanList',
@@ -51,10 +60,21 @@ export default Vue.extend({
 		kanbanData: {
 			type: CKanbans
 		},
-		isLoading: {
-			type: Boolean
+		kanbanDataState: {
+			type: Number
 		}
 	},
+	computed: {
+		kanbanDataErrored() {
+			return this.kanbanDataState === apiDataState.Errored;
+		},
+		kanbanDataLoading() {
+			return this.kanbanDataState === apiDataState.Loading;
+		},
+		kanbanDataSuccessful() {
+			return this.kanbanDataState == apiDataState.Successful;
+		}
+	}
 })
 </script>
 

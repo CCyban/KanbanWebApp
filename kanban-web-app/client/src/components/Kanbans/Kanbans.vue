@@ -10,7 +10,7 @@
             Kanbans<b-icon-caret-down-fill class="font-brand-simple"/>
         </h3>
     </div>
-    <KanbanList :kanbanData="kanbanData" :isLoading="isLoading"/>
+    <KanbanList :kanbanData="kanbanData" :kanbanDataState="kanbanDataState"/>
   </div>
 </template>
 
@@ -19,6 +19,7 @@ import Vue from 'vue';
 import axios from 'axios';
 import KanbanList from '../Kanbans/KanbanList.vue'
 import { CKanbans } from '@/classes/CKanbans';
+import { apiDataState } from '@/enumerations/apiDataState'
 
 export default Vue.extend({
 	name: 'Kanbans',
@@ -28,16 +29,17 @@ export default Vue.extend({
 	data() {
 		return {
 			kanbanData: undefined || new CKanbans(),
-			isLoading: true,
+			kanbanDataState: apiDataState.NotBegun,
 		}
 	},
 	created: function () {		
+		this.kanbanDataState = apiDataState.Loading;
 		axios.get('http://localhost:8090/kanbans/')
 			.then(res => {
 				this.kanbanData = new CKanbans(res.data);
-				this.isLoading = false;
+				this.kanbanDataState = apiDataState.Successful;
 			})
-			.catch(error => console.log(error));
+			.catch(() => this.kanbanDataState = apiDataState.Errored);
 	},
 })
 </script>

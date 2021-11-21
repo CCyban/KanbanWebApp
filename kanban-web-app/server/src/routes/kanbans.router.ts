@@ -3,14 +3,7 @@ import express, { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import { collections } from "../services/database.service";
 import { CKanban } from "../classes/CKanban";
-import { CKanbanCardComment } from "../classes/CKanbanCardComment";
-import { CKanbanSection } from "../classes/CKanbanSection";
-import { CKanbanSectionCard } from "../classes/CKanbanSectionCard";
-import { CKanbanSections } from "../classes/CKanbanSections";
-import { CKanbanCardComments } from "../classes/CKanbanCardComments";
-import { CKanbanSectionCards } from "../classes/CKanbanSectionCards";
 import { kanbanSchema } from "../models/MKanban";
-import { IKanban } from "../interfaces/IKanban";
 import { model } from "mongoose";
 
 // Global Config

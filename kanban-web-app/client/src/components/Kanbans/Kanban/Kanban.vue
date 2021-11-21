@@ -1,6 +1,6 @@
 <template>
     <div	
-        v-if="isLoading">
+        v-if="kanbanDataLoading">
         <h1>
             Loading Kanban...
         </h1>
@@ -10,8 +10,15 @@
             animated
         />
     </div>
+    <b-alert
+		v-else-if="kanbanDataErrored"
+		show
+		variant="danger"
+	>
+    		An error has occured in the process of retrieving data. Please try again later.
+	</b-alert>
     <div
-	 	v-else>
+	 	v-else-if="kanbanDataSuccessful">
         <kanban-title :id="id" :Title="localKanbanCopy.KanbanTitle" :updateTitle="updateKanbanTitle" :deleteKanban="deleteKanban" />
         <template v-if="hasDataChanged && !kanbanUpdateFailed">
             <hr />
@@ -57,6 +64,8 @@ import { CKanban } from '@/classes/CKanban';
 import { IKanban } from '@/interfaces/IKanban';
 import { CKanbanSection } from '@/classes/CKanbanSection';
 import { IKanbanSection } from '@/interfaces/IKanbanSection';
+import { apiDataState } from '@/enumerations/apiDataState'
+
 
 export default Vue.extend({
   name: 'Kanban',
@@ -70,29 +79,30 @@ export default Vue.extend({
         Kanban: undefined as unknown as IKanban,
 		localKanbanCopy: undefined as unknown as IKanban,
 		kanbanUpdateFailed: false,
-        isLoading: true,
+        kanbanDataState: apiDataState.NotBegun,
     }
   },
   created: function () {      
+    this.kanbanDataState = apiDataState.Loading;
+
     if (this.id === 'New') {
         const newKanban = new CKanban('New Kanban');
 
         axios.post('http://localhost:8090/kanbans/', newKanban)
         .then(res => { 
             this.id = res.data._id;
-            this.isLoading = false;
+            this.Kanban = newKanban;
+            this.kanbanDataState = apiDataState.Successful;
         })
-        .catch(error => console.log(error));
-
-        this.Kanban = newKanban;
+        .catch(() => this.kanbanDataState = apiDataState.Errored);
     }
     else {
         axios.get('http://localhost:8090/kanbans/' + this.id)
         .then(res => { 
             this.Kanban = res.data as CKanban
-            this.isLoading = false;
+            this.kanbanDataState = apiDataState.Successful;
         })
-        .catch(error => console.log(error));
+        .catch(() => this.kanbanDataState = apiDataState.Errored);
     }
   },
   methods: {
@@ -127,7 +137,7 @@ export default Vue.extend({
         if (confirmRequest) {
             axios.delete('http://localhost:8090/kanbans/' + this.id)
                 .then(res => this.$router.push({ path: '/kanban' }))
-                .catch(error => console.log(error));
+			    .catch(() => this.kanbanUpdateFailed = true);
         }
     }
   },
@@ -143,6 +153,15 @@ export default Vue.extend({
                 return JSON.stringify(this.Kanban) != JSON.stringify(this.localKanbanCopy);
             }
         },
+        kanbanDataErrored(): boolean {
+			return this.kanbanDataState === apiDataState.Errored;
+		},
+		kanbanDataLoading(): boolean {
+			return this.kanbanDataState === apiDataState.Loading;
+		},
+		kanbanDataSuccessful(): boolean {
+			return this.kanbanDataState == apiDataState.Successful;
+		}
     }
 })
 </script>
