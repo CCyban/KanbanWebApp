@@ -57,7 +57,7 @@
                 <b-button
                     class="btn-brand-variant"
                     :disabled="$v.$invalid"
-                    @click="attemptCreateAccount">
+                    @click="createAccountAttempt()">
                     Create Account
                 </b-button>
             </div>
@@ -68,6 +68,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { sameAs, maxLength, required } from 'vuelidate/lib/validators';
+import axios from 'axios';
+import { CAccount } from '@/classes/CAccount'
+
 
 export default Vue.extend({
     name: 'CreateAccount',
@@ -128,9 +131,13 @@ export default Vue.extend({
         }
     },
     methods: {
-        attemptCreateAccount() {
-            // run create account stuff here
-            console.log('attempt');
+        createAccountAttempt() {
+            axios.post('http://localhost:8090/accounts/', new CAccount(this.Username, this.Password))
+                .then(res => {
+                    localStorage.setItem('accountToken', res.data.accountToken);
+                    this.$router.push({ name: 'Home' })
+                })
+                .catch(() => console.log('Failed to create account (probably because username is already used). Add alert error logic here'));
         }
     }
 })

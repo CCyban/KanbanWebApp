@@ -32,7 +32,7 @@
                     class="mb-1"
                     v-b-tooltip.hover
                     title="Create New Section">
-                        Add New
+                        Create
                     <b-icon icon="plus-circle" />
                 </b-button>
                 <b-button

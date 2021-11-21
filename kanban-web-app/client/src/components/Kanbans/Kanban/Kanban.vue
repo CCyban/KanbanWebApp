@@ -73,74 +73,75 @@ export default Vue.extend({
     KanbanTitle,
     KanbanSection,
   },
-  data() {
-    return {
-        id: this.$route.params.id,
-        Kanban: undefined as unknown as IKanban,
-		localKanbanCopy: undefined as unknown as IKanban,
-		kanbanUpdateFailed: false,
-        kanbanDataState: apiDataState.NotBegun,
-    }
-  },
-  created: function () {      
-    this.kanbanDataState = apiDataState.Loading;
-
-    if (this.id === 'New') {
-        const newKanban = new CKanban('New Kanban');
-
-        axios.post('http://localhost:8090/kanbans/', newKanban)
-        .then(res => { 
-            this.id = res.data._id;
-            this.Kanban = newKanban;
-            this.kanbanDataState = apiDataState.Successful;
-        })
-        .catch(() => this.kanbanDataState = apiDataState.Errored);
-    }
-    else {
-        axios.get('http://localhost:8090/kanbans/' + this.id)
-        .then(res => { 
-            this.Kanban = res.data as CKanban
-            this.kanbanDataState = apiDataState.Successful;
-        })
-        .catch(() => this.kanbanDataState = apiDataState.Errored);
-    }
-  },
-  methods: {
-      // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
-    saveKanbanSection(payload: any) {
-        this.$set(this.localKanbanCopy.KanbanSections, payload.sectionIndex, JSON.parse(JSON.stringify(payload.newSection)));
-    },
-    deleteKanbanSection(sectionIndex: number) {
-		this.localKanbanCopy.KanbanSections.splice(sectionIndex, 1);
-    },
-    addNewKanbanSection() {
-        this.localKanbanCopy.KanbanSections.push(
-            new CKanbanSection('#' + (this.localKanbanCopy.KanbanSections.length + 1))
-        );
-    },
-    updateKanbanTitle(newTitle: string) {
-        this.localKanbanCopy.KanbanTitle = newTitle;
-    },
-	deepCloneKanban() {
-        this.localKanbanCopy = JSON.parse(JSON.stringify(this.Kanban));
-    },
-	saveKanban() {
-		axios.put('http://localhost:8090/kanbans/' + this.id, this.localKanbanCopy)
-			.then(res => res.status == 200 ? this.Kanban = this.localKanbanCopy : this.kanbanUpdateFailed = true)
-			.catch(() => this.kanbanUpdateFailed = true);
-	},
-    getNewKanbanSection() {
-        return new CKanbanSection();
-    },
-    deleteKanban() {
-        const confirmRequest = confirm("Are you absolutely sure you want to delete this Kanban? \nNo take-backsies!");
-        if (confirmRequest) {
-            axios.delete('http://localhost:8090/kanbans/' + this.id)
-                .then(res => this.$router.push({ path: '/kanban' }))
-			    .catch(() => this.kanbanUpdateFailed = true);
+    data() {
+        return {
+            id: this.$route.params.id,
+            Kanban: undefined as unknown as IKanban,
+            localKanbanCopy: undefined as unknown as IKanban,
+            kanbanUpdateFailed: false,
+            kanbanDataState: apiDataState.NotBegun,
+            accountToken: localStorage.getItem('accountToken') ?? "",
         }
-    }
-  },
+    },
+    created: function () {
+        this.kanbanDataState = apiDataState.Loading;
+
+        if (this.id === 'New') {
+            const newKanban = new CKanban('New Kanban');
+
+            axios.post('http://localhost:8090/kanbans/', newKanban, { headers: {"Authorization" : this.accountToken} })
+            .then(res => { 
+                this.id = res.data._id;
+                this.Kanban = newKanban;
+                this.kanbanDataState = apiDataState.Successful;
+            })
+            .catch(() => this.kanbanDataState = apiDataState.Errored);
+        }
+        else {
+            axios.get('http://localhost:8090/kanbans/' + this.id, { headers: {"Authorization" : this.accountToken} })
+            .then(res => { 
+                this.Kanban = res.data as CKanban
+                this.kanbanDataState = apiDataState.Successful;
+            })
+            .catch(() => this.kanbanDataState = apiDataState.Errored);
+        }
+    },
+    methods: {
+            // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
+        saveKanbanSection(payload: any) {
+            this.$set(this.localKanbanCopy.KanbanSections, payload.sectionIndex, JSON.parse(JSON.stringify(payload.newSection)));
+        },
+        deleteKanbanSection(sectionIndex: number) {
+            this.localKanbanCopy.KanbanSections.splice(sectionIndex, 1);
+        },
+        addNewKanbanSection() {
+            this.localKanbanCopy.KanbanSections.push(
+                new CKanbanSection('#' + (this.localKanbanCopy.KanbanSections.length + 1))
+            );
+        },
+        updateKanbanTitle(newTitle: string) {
+            this.localKanbanCopy.KanbanTitle = newTitle;
+        },
+        deepCloneKanban() {
+            this.localKanbanCopy = JSON.parse(JSON.stringify(this.Kanban));
+        },
+        saveKanban() {
+            axios.put('http://localhost:8090/kanbans/' + this.id, this.localKanbanCopy, { headers: {"Authorization" : this.accountToken} })
+                .then(res => res.status == 200 ? this.Kanban = this.localKanbanCopy : this.kanbanUpdateFailed = true)
+                .catch(() => this.kanbanUpdateFailed = true);
+        },
+        getNewKanbanSection() {
+            return new CKanbanSection();
+        },
+        deleteKanban() {
+            const confirmRequest = confirm("Are you absolutely sure you want to delete this Kanban? \nNo take-backsies!");
+            if (confirmRequest) {
+                axios.delete('http://localhost:8090/kanbans/' + this.id, { headers: {"Authorization" : this.accountToken} })
+                    .then(res => this.$router.push({ name: 'Kanbans' }))
+                    .catch(() => this.kanbanUpdateFailed = true);
+            }
+        }
+    },
 	watch: {
 		Kanban: function () {
 			this.deepCloneKanban();

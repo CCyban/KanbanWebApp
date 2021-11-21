@@ -62,7 +62,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import jwt from 'jsonwebtoken';
 import { maxLength } from 'vuelidate/lib/validators'
+import { CAccount } from '@/classes/CAccount';
+
 
 export default Vue.extend({    
     name: 'KanbanCardComments',
@@ -83,11 +86,14 @@ export default Vue.extend({
     },
     methods: {
         saveComment() {
+            // Get the username from account token
+            const Account: CAccount = jwt.decode(localStorage.getItem('accountToken') ?? "") as CAccount;
+
             // Component's event method to save a new comment on the card
             let localKanbanCardCopy = {...this.kanbanCard};
             localKanbanCardCopy.Comments.push({
                 Comment: this.newComment,
-                Author: 'You',
+                Author: Account.Username,
                 Date: new Date().toLocaleDateString('en-UK', { day:'2-digit', month: '2-digit', year: 'numeric' }),
             })
             this.saveKanbanCardEmit(localKanbanCardCopy);

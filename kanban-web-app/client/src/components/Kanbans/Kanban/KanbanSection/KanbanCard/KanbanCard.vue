@@ -21,7 +21,7 @@
                     @click="addNewKanbanCard()"
                     v-b-tooltip.hover
                     title="Create New Card">
-                        Add New
+                        Create
                     <b-icon icon="plus-circle" />
                 </b-button>
                 </div>

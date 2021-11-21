@@ -8,7 +8,7 @@ import { connect } from 'http2';
 import mongoose, { Connection } from 'mongoose'
 
 // Global Variables
-export const collections: { kanbans?: mongoose.Collection } = {}
+export const collections: { kanbans?: mongoose.Collection, accounts?: mongoose.Collection } = {}
 
 // Initalise connection
 export default async function connectToDatabase () {
@@ -21,16 +21,18 @@ export default async function connectToDatabase () {
     // TODO: GET ENVs working
 
 
-    const databaseName = "some_database2";
+    const databaseName = "kanbanWebAppDB";
 
     const dbConnection: Connection = await mongoose.createConnection('mongodb://localhost:27017/' + databaseName);
 
 
-    const kanbansCollection: mongoose.Collection = dbConnection.collection("some_collection2");
+    const kanbansCollection: mongoose.Collection = dbConnection.collection("Kanbans");
+    const accountsCollection: mongoose.Collection = dbConnection.collection("Accounts");
 
     collections.kanbans = kanbansCollection;
+    collections.accounts = accountsCollection;
 
     dbConnection.on('connected', function() {
-        console.log(`Successfully connected to database: ${databaseName} and collection: ${kanbansCollection.collectionName}`);
+        console.log('Successfully connected to database: '+ databaseName + ' with collections: ' + kanbansCollection.collectionName + ' & ' + accountsCollection.collectionName);
     });
 }

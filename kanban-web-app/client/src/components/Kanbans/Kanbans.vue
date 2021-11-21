@@ -10,7 +10,7 @@
             Kanbans<b-icon-caret-down-fill class="font-brand-simple"/>
         </h3>
     </div>
-    <KanbanList :kanbanData="kanbanData" :kanbanDataState="kanbanDataState"/>
+    <KanbanList :kanbanData="kanbanData" :kanbanDataState="kanbanDataState" />
   </div>
 </template>
 
@@ -32,9 +32,11 @@ export default Vue.extend({
 			kanbanDataState: apiDataState.NotBegun,
 		}
 	},
-	created: function () {		
+	created: function () {
+		const accountToken: string = localStorage.getItem('accountToken') ?? "";
+
 		this.kanbanDataState = apiDataState.Loading;
-		axios.get('http://localhost:8090/kanbans/')
+		axios.get('http://localhost:8090/kanbans/', { headers: {"Authorization" : accountToken} })
 			.then(res => {
 				this.kanbanData = new CKanbans(res.data);
 				this.kanbanDataState = apiDataState.Successful;

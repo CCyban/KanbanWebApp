@@ -1,10 +1,10 @@
 <template>
-	<b-jumbotron class="jumbotron-brand-variant p-5" header="Kanban Board Web App" lead="Made using VueJS, and other stuff">
+	<b-jumbotron class="jumbotron-brand-variant p-5" header="Kanban Board Web App" lead="Made using VueJS, ExpressJS, NodeJS, &amp; MongoDB alongside with Mongoose.">
 		<hr class="my-4" />
 		<b-row
 			class="vh-40">
-			<router-link
-				to="/Kanban"
+			<router-link				
+				:to="accountToken ? '/Kanban' : '/Account/SignIn' "
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
 				<b-icon-gear
@@ -18,7 +18,7 @@
 				</small>
 			</router-link>
 			<router-link
-				to="/User"
+				to="/Account"
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
 				<b-icon-newspaper
@@ -34,7 +34,12 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'Home',
+	name: 'Home',
+	data() {
+        return {
+			accountToken: localStorage.getItem('accountToken') ?? "",
+		}
+	}
 })
 </script>
 

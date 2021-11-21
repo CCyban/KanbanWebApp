@@ -13,7 +13,7 @@
         <b-row
             class="vh-60">
 			<router-link
-				:to="signedIn ? '/User/Settings' : '/User/SignIn'"
+				:to="accountToken ? '/Account/Settings' : '/Account/SignIn'"
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
                 <b-icon-gear
@@ -28,7 +28,7 @@
 			</router-link>
 			<div class="col d-flex flex-column ml-4 mr-4 mb-3 px-3">
 				<template
-					v-if="signedIn">
+					v-if="accountToken">
 					<b-button 
 						class="col-sm btn-brand-big"
 						size="lg"
@@ -42,7 +42,7 @@
 				<template
 					v-else>
 					<router-link
-						to="/User/SignIn"
+						to="/Account/SignIn"
 						tag="button"
 						class="btn btn-brand-big btn-lg h-50 mb-2">
 						<b-icon-box-arrow-in-left
@@ -51,7 +51,7 @@
 						<h3>Sign In</h3>
 					</router-link>
 					<router-link
-						to="/User/CreateAccount"
+						to="/Account/Create"
 						tag="button"
 						class="btn btn-brand-big btn-lg h-50 mt-2">
 						<b-icon-person-plus-fill
@@ -62,7 +62,7 @@
 				</template>
             </div>
 			<router-link
-				to="/User/PrivacyPolicy"
+				to="/Account/PrivacyPolicy"
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
 				<b-icon-newspaper
@@ -107,12 +107,13 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			signedIn: true,
+			accountToken: localStorage.getItem('accountToken') ?? "",
 		} 
 	},
 	methods: {
 		signOut() {
-			this.signedIn = false;
+			localStorage.setItem('accountToken', "")
+			this.accountToken = "";
 		}
 	}
 })

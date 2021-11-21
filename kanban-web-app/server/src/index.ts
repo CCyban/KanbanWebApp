@@ -5,6 +5,7 @@ import cors from 'cors';
 import connectToDatabase from "./services/database.service";
 import { kanbansRouter } from "./routes/kanbans.router";
 import { Console } from 'console';
+import { accountsRouter } from './routes/accounts.router';
 
 const app = express();
 const port = 8090;
@@ -14,6 +15,8 @@ app.use(cors());
 connectToDatabase()
     .then(() => {
         app.use("/kanbans", kanbansRouter);
+        app.use("/accounts", accountsRouter);
+
 
         app.listen(port, () => {
             console.log(`Server started at http://localhost:${port}`);
@@ -24,6 +27,11 @@ connectToDatabase()
         console.error("Database connection failed", error);
         process.exit();
     });
+
+// Basic route
+app.get("/", (req, res) => {
+    res.json({ message: "The server is running." });
+});
 
 
 // Been following this https://www.mongodb.com/compatibility/using-typescript-with-mongodb-tutorial

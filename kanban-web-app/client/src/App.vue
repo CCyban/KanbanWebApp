@@ -1,10 +1,10 @@
 <template>
-  <div id="app">
-    <Navbar />
-    <b-container role="main">
-     <router-view></router-view>
-    </b-container>
-  </div>
+	<div id="app">
+		<Navbar />
+		<b-container role="main">
+			<router-view></router-view>
+		</b-container>
+	</div>
 </template>
 
 <script lang="ts">
@@ -21,8 +21,6 @@ export default Vue.extend({
       signedIn: false,
     } 
   },
-  created: function () {
-    this.signedIn = Math.random() < 0.5;
-  },
+
 })
 </script>

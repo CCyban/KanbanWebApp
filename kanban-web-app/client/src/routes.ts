@@ -12,34 +12,49 @@ import { RouteConfig } from 'vue-router';
 export const routes: Array<RouteConfig> = [
     {
         path: '',
-        component: Home
+        name: 'Home',
+        component: Home,
+        props: true
     },
     {
-        path: '/kanban',
+        path: '/Kanban',
+        name: 'Kanbans',
         component: Kanbans,
+        props: true
     },
     {
-        path: '/kanban/:id',
-        component: Kanban
+        path: '/Kanban/:id',
+        name: 'Kanban',
+        component: Kanban,
+        props: true
     },
     {
-        path: '/user',
-        component: Account
+        path: '/Account',
+        name: 'Account',
+        component: Account,
+        props: true
     },
     {
-        path: '/user/createaccount',
-        component: CreateAccount
+        path: '/Account/Create',
+        name: 'CreateAccount',
+        component: CreateAccount,
+        props: true
     },
     {
-        path: '/user/signin',
-        component: SignIn
+        path: '/Account/SignIn',
+        name: 'SignIn',
+        component: SignIn,
+        props: true
     },
     {
-        path: '/user/settings',
-        component: Settings
+        path: '/Account/Settings',
+        name: 'Settings',
+        component: Settings,
+        props: true
     },
     {
-        path: '/user/privacypolicy',
+        path: '/Account/PrivacyPolicy',
+        name: 'PrivacyPolicy',
         component: PrivacyPolicy
     },
 ];

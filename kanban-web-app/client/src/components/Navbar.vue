@@ -3,7 +3,7 @@
     <b-navbar-nav>
       <b-nav-item class="navbar-item-brand-variant" to="/">Home</b-nav-item>
       <b-nav-item class="navbar-item-brand-variant" to="/Kanban">Kanbans</b-nav-item>
-      <b-nav-item class="navbar-item-brand-variant" to="/User">Account</b-nav-item>
+      <b-nav-item class="navbar-item-brand-variant" to="/Account">Account</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>

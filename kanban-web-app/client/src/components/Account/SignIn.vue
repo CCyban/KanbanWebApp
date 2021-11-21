@@ -40,7 +40,7 @@
                 <b-button
                     class="btn-brand-variant"
                     :disabled="$v.$invalid"
-                    @click="attemptSignIn()">
+                    @click="signInAttempt()">
                     Sign In
                 </b-button>
             </div>
@@ -52,6 +52,8 @@
 </template>
 
 <script lang="ts">
+import { CAccount } from '@/classes/CAccount';
+import axios from 'axios';
 import Vue from 'vue';
 import { maxLength, required, ValidationParams } from 'vuelidate/lib/validators';
 
@@ -61,6 +63,7 @@ export default Vue.extend({
         return {
             Username: "",
             Password: "",
+            accountToken: "",
         }
     },
     validations: {
@@ -98,9 +101,14 @@ export default Vue.extend({
         }
     },
     methods: {
-        attemptSignIn() {
-            // check sign in stuff here
-            console.log('attempt');
+        signInAttempt() {
+            axios.post('http://localhost:8090/accounts/', new CAccount(this.Username, this.Password))
+                .then(res => {
+                    this.accountToken = res.data.accountToken;
+                    localStorage.setItem("accountToken", this.accountToken);
+                    this.$router.push({ name: 'Home', params: { accountToken: this.accountToken }})
+                })
+                .catch(() => console.log('Failed to get account token (probably because details do not match). Add alert error logic here'));
         }
     }
 })
