@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import KanbanList from '../Kanbans/KanbanList.vue'
 import { CKanbans } from '@/classes/CKanbans';
 import { apiDataState } from '@/enumerations/apiDataState'
@@ -41,7 +41,15 @@ export default Vue.extend({
 				this.kanbanData = new CKanbans(res.data);
 				this.kanbanDataState = apiDataState.Successful;
 			})
-			.catch(() => this.kanbanDataState = apiDataState.Errored);
+			.catch((err: AxiosError) => {
+				if (err.response?.status == 401) {
+					localStorage.setItem('accountToken', "");
+					this.kanbanDataState = apiDataState.InvalidToken;
+				}
+				else {
+					this.kanbanDataState = apiDataState.Errored;
+				}
+			});
 	},
 })
 </script>

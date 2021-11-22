@@ -4,7 +4,7 @@
 		<b-row
 			class="vh-40">
 			<router-link				
-				:to="accountToken ? '/Kanban' : '/Account/SignIn' "
+				to="/Kanban"
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
 				<b-icon-gear
@@ -35,11 +35,6 @@ import Vue from 'vue';
 
 export default Vue.extend({
 	name: 'Home',
-	data() {
-        return {
-			accountToken: localStorage.getItem('accountToken') ?? "",
-		}
-	}
 })
 </script>
 

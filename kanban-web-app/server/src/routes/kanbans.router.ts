@@ -21,6 +21,7 @@ kanbansRouter.get("/", async (req: Request, res: Response) => {
     jwt.verify(token, 'jmNJL$rhQQjFV5%!pC8e5xQGo9gKtp', async (err) => {
         if (err) {
             // Invalid token, do not proceed with request
+            // 401 = Unauthorized
             return res.status(401).send({ message: "Invalid token" });
         }
         else {
@@ -28,13 +29,16 @@ kanbansRouter.get("/", async (req: Request, res: Response) => {
             if (collections.kanbans != undefined) {
                 try {
                 const kanbans = (await collections.kanbans.find({}).toArray()) as CKanban[];
-        
+                    // 200 = OK
                     res.status(200).send(kanbans);
-                } catch (error: any) {
-                    res.status(500).send(error.message);
+                } catch (err: Error | any) {
+                    // 500 = Internal Server Error
+                    res.status(500).send(err?.message);
                 }
             }
         }
+        // Cannot find the collection in MongoDB
+        // 500 = Internal Server Error
         return res.status(500).send();
     })
 });
@@ -45,6 +49,7 @@ kanbansRouter.get("/:id", async (req: Request, res: Response) => {
     jwt.verify(token, 'jmNJL$rhQQjFV5%!pC8e5xQGo9gKtp', async (err) => {
         if (err) {
             // Invalid token, do not proceed with request
+            // 401 = Unauthorized
             return res.status(401).send({ message: "Invalid token" });
         }
         else {
@@ -56,13 +61,17 @@ kanbansRouter.get("/:id", async (req: Request, res: Response) => {
                     const kanban = (await collections.kanbans.findOne(query)) as CKanban;
         
                     if (kanban) {
+                        // 200 = OK
                         res.status(200).send(kanban);
                     }
-                } catch (error: any) {
+                } catch (error: Error | any) {
+                    // 404 = Not Found
                     res.status(404).send(`Unable to find matching kanban with id: ${req.params.id}`);
                 }
             }
         }
+        // Cannot find the collection in MongoDB
+        // 500 = Internal Server Error
         return res.status(500).send();
     })
 });
@@ -87,16 +96,20 @@ kanbansRouter.post("/", async (req: Request, res: Response) => {
                     await kanbanDocument.validate();
 
                     // Now that the validation passed without issue, can proceed with adding the new kanban to the collection
+                    // 201 = Created
+                    // 500 = Internal Server Error
                     const Result = await collections.kanbans.insertOne(kanbanDocument);
                     Result
                         ? res.status(201).send({ _id: Result.insertedId })
                         : res.status(500).send("Failed to create a new kanban.");
 
-                } catch (Error: any) {
-                    console.error(Error);
-                    res.status(400).send(Error.message);
+                } catch (err: Error | any) {
+                    // 400 = Bad Request
+                    res.status(400).send(err?.message);
                 }
             }
+            // Cannot find the collection in MongoDB
+            // 500 = Internal Server Error
             return res.status(500).send();
         }
     })
@@ -109,6 +122,7 @@ kanbansRouter.put("/:id", async (req: Request, res: Response) => {
     jwt.verify(token, 'jmNJL$rhQQjFV5%!pC8e5xQGo9gKtp', async (err) => {
         if (err) {
             // Invalid token, do not proceed with request
+            // 401 = Unauthorized
             return res.status(401).send({ message: "Invalid token" });
         }
         else {
@@ -124,16 +138,19 @@ kanbansRouter.put("/:id", async (req: Request, res: Response) => {
                         delete updatedKanban._id;
                     }
                 
+                    // 200 = OK
+                    // 304 = Not Modified
                     const result = await collections.kanbans.updateOne(query, { $set: updatedKanban });
-
                     result
                         ? res.status(200).send(`Successfully updated kanban with id ${id}`)
                         : res.status(304).send(`Kanban with id: ${id} not updated`);
-                } catch (error: any) {
-                    console.error(error.message);
-                    res.status(400).send(error.message);
+                } catch (err: Error | any) {
+                    // 400 = Bad Request
+                    res.status(400).send(err?.message);
                 }
             }
+            // Cannot find the collection in MongoDB
+            // 500 = Internal Server Error
             return res.status(500).send();
         }
     })
@@ -146,6 +163,7 @@ kanbansRouter.delete("/:id", async (req: Request, res: Response) => {
     jwt.verify(token, 'jmNJL$rhQQjFV5%!pC8e5xQGo9gKtp', async (err) => {
         if (err) {
             // Invalid token, do not proceed with request
+            // 401 = Unauthorized
             return res.status(401).send({ message: "Invalid token" });
         }
         else {
@@ -158,17 +176,22 @@ kanbansRouter.delete("/:id", async (req: Request, res: Response) => {
                     const result = await collections.kanbans.deleteOne(query);
 
                     if (result && result.deletedCount) {
-                        res.status(202).send(`Successfully removed kanban with id ${id}`);
+                        // 200 = OK
+                        res.status(200).send(`Successfully removed kanban with id ${id}`);
                     } else if (!result) {
+                        // 400 = Bad Request
                         res.status(400).send(`Failed to remove kanban with id ${id}`);
                     } else if (!result.deletedCount) {
+                        // 404 = Not Found
                         res.status(404).send(`Kanban with id ${id} does not exist`);
                     }
-                } catch (error: any) {
-                    console.error(error.message);
-                    res.status(400).send(error.message);
+                } catch (err: Error | any) {
+                    // 400 = Bad Request
+                    res.status(400).send(err?.message);
                 }
             }
+            // Cannot find the collection in MongoDB
+            // 500 = Internal Server Error
             return res.status(500).send();
         }
     })

@@ -6,6 +6,17 @@
 		animated
 	/>
 	<b-alert
+		v-else-if="kanbanDataInvalidToken"
+		show
+		variant="danger">
+		<b-icon-exclamation-circle-fill font-scale="1.15" />
+		You do not have access to this. Please
+		<b-link
+			to="Account/SignIn">
+			Sign In.
+		</b-link>
+	</b-alert>
+	<b-alert
 		v-else-if="kanbanDataErrored"
 		show
 		variant="danger"
@@ -73,6 +84,9 @@ export default Vue.extend({
 		},
 		kanbanDataSuccessful() {
 			return this.kanbanDataState == apiDataState.Successful;
+		},
+		kanbanDataInvalidToken() {
+			return this.kanbanDataState == apiDataState.InvalidToken;
 		}
 	}
 })

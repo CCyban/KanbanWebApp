@@ -11,6 +11,17 @@
         />
     </div>
     <b-alert
+		v-else-if="kanbanDataInvalidToken"
+		show
+		variant="danger">
+        <b-icon-exclamation-circle-fill font-scale="1.15" />
+		You do not have access to this. Please
+		<b-link
+			:to="{ name: 'SignIn' }">
+			Sign In.
+		</b-link>
+	</b-alert>
+    <b-alert
 		v-else-if="kanbanDataErrored"
 		show
 		variant="danger"
@@ -53,7 +64,7 @@
 // General
 import Vue from 'vue';
 import { Route } from 'vue-router';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // Components
 import KanbanTitle from './KanbanTitle.vue'
@@ -95,7 +106,15 @@ export default Vue.extend({
                 this.Kanban = newKanban;
                 this.kanbanDataState = apiDataState.Successful;
             })
-            .catch(() => this.kanbanDataState = apiDataState.Errored);
+			.catch((err: AxiosError) => {
+				if (err.response?.status == 401) {
+					localStorage.setItem('accountToken', "");
+					this.kanbanDataState = apiDataState.InvalidToken;
+				}
+				else {
+					this.kanbanDataState = apiDataState.Errored;
+				}
+			});
         }
         else {
             axios.get('http://localhost:8090/kanbans/' + this.id, { headers: {"Authorization" : this.accountToken} })
@@ -103,7 +122,15 @@ export default Vue.extend({
                 this.Kanban = res.data as CKanban
                 this.kanbanDataState = apiDataState.Successful;
             })
-            .catch(() => this.kanbanDataState = apiDataState.Errored);
+			.catch((err: AxiosError) => {
+				if (err.response?.status == 401) {
+					localStorage.setItem('accountToken', "");
+					this.kanbanDataState = apiDataState.InvalidToken;
+				}
+				else {
+					this.kanbanDataState = apiDataState.Errored;
+				}
+			});
         }
     },
     methods: {
@@ -162,6 +189,9 @@ export default Vue.extend({
 		},
 		kanbanDataSuccessful(): boolean {
 			return this.kanbanDataState == apiDataState.Successful;
+		},
+        kanbanDataInvalidToken(): boolean {
+			return this.kanbanDataState == apiDataState.InvalidToken;
 		}
     }
 })

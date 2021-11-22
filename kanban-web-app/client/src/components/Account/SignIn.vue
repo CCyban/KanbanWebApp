@@ -43,6 +43,14 @@
                     @click="signInAttempt()">
                     Sign In
                 </b-button>
+                <b-alert variant="danger" :show="this.accountRequestDoesNotExist" class="text-center mt-4 mb-0 p-2" >
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        Cannot sign in. Please check your details are correct.
+                </b-alert>
+                <b-alert variant="danger" :show="this.accountRequestErrored" class="text-center mt-4 mb-0 p-2" >
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        An error occured. Please try again later.  
+                </b-alert>
             </div>
         </b-form>
 	</b-jumbotron>
@@ -53,7 +61,8 @@
 
 <script lang="ts">
 import { CAccount } from '@/classes/CAccount';
-import axios from 'axios';
+import { apiDataState } from '@/enumerations/apiDataState';
+import axios, { AxiosError } from 'axios';
 import Vue from 'vue';
 import { maxLength, required, ValidationParams } from 'vuelidate/lib/validators';
 
@@ -64,6 +73,7 @@ export default Vue.extend({
             Username: "",
             Password: "",
             accountToken: "",
+            accountRequestState: apiDataState.NotBegun
         }
     },
     validations: {
@@ -98,17 +108,30 @@ export default Vue.extend({
             else {
                 return "Invalid state, please refresh";
             }
-        }
+        },
+        accountRequestDoesNotExist(): boolean {
+			return this.accountRequestState == apiDataState.DoesNotExist;
+		},
+        accountRequestErrored(): boolean {
+			return this.accountRequestState == apiDataState.Errored;
+		}
     },
     methods: {
         signInAttempt() {
-            axios.post('http://localhost:8090/accounts/', new CAccount(this.Username, this.Password))
+            axios.post('http://localhost:8090/accounts/token', new CAccount(this.Username, this.Password))
                 .then(res => {
                     this.accountToken = res.data.accountToken;
                     localStorage.setItem("accountToken", this.accountToken);
                     this.$router.push({ name: 'Home', params: { accountToken: this.accountToken }})
                 })
-                .catch(() => console.log('Failed to get account token (probably because details do not match). Add alert error logic here'));
+                .catch((err: AxiosError) => {
+                    if (err.response?.status == 404) {
+                        this.accountRequestState = apiDataState.DoesNotExist;
+                    }
+                    else {
+                        this.accountRequestState = apiDataState.Errored;
+                    }
+                });
         }
     }
 })
@@ -133,6 +156,7 @@ export default Vue.extend({
             );
         transition: transform 0.5s;
         color: white;
+        font-size: 32px;
     }
     .btn-brand-variant:hover {
         background-image:

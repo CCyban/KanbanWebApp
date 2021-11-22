@@ -60,6 +60,14 @@
                     @click="createAccountAttempt()">
                     Create Account
                 </b-button>
+                <b-alert variant="danger" :show="this.accountRequestAlreadyExists" class="text-center mt-4 mb-0 p-2" >
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        Username is already in use. Please input a different one. 
+                </b-alert>
+                <b-alert variant="danger" :show="this.accountRequestErrored" class="text-center mt-4 mb-0 p-2" >
+                    <b-icon-exclamation-circle-fill font-scale="1.15" />
+                        An error occured. Please try again later.
+                </b-alert>
             </div>
         </b-form>
     </b-jumbotron>
@@ -68,8 +76,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { sameAs, maxLength, required } from 'vuelidate/lib/validators';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { CAccount } from '@/classes/CAccount'
+import { apiDataState } from '@/enumerations/apiDataState';
 
 
 export default Vue.extend({
@@ -79,6 +88,7 @@ export default Vue.extend({
             Username: "",
             Password: "",
             confirmPassword: "",
+            accountRequestState: apiDataState.NotBegun
         }
     },
     validations: {
@@ -128,16 +138,41 @@ export default Vue.extend({
             else {
                 return "Invalid state, please refresh";
             }
-        }
+        },
+        accountRequestAlreadyExists(): boolean {
+			return this.accountRequestState == apiDataState.AlreadyExists;
+		},
+        accountRequestErrored(): boolean {
+			return this.accountRequestState == apiDataState.Errored;
+		}
     },
     methods: {
         createAccountAttempt() {
-            axios.post('http://localhost:8090/accounts/', new CAccount(this.Username, this.Password))
+            const Account: CAccount = new CAccount(this.Username, this.Password);
+
+            axios.post('http://localhost:8090/accounts/', Account)
+                .then(res => {
+                    localStorage.setItem('accountToken', res.data.accountToken);
+                    this.getAccountToken(Account);
+                })
+			.catch((err: AxiosError) => {
+				if (err.response?.status == 409) {
+					this.accountRequestState = apiDataState.AlreadyExists;
+				}
+				else {
+					this.accountRequestState = apiDataState.Errored;
+				}
+			});
+        },
+        getAccountToken(Account: CAccount) {
+            axios.post('http://localhost:8090/accounts/token', Account)
                 .then(res => {
                     localStorage.setItem('accountToken', res.data.accountToken);
                     this.$router.push({ name: 'Home' })
                 })
-                .catch(() => console.log('Failed to create account (probably because username is already used). Add alert error logic here'));
+			.catch((err: AxiosError) => {
+					this.accountRequestState = apiDataState.Errored;
+			});
         }
     }
 })
@@ -162,6 +197,7 @@ export default Vue.extend({
             );
         transition: transform 0.5s;
         color: white;
+        font-size: 32px;
     }
     .btn-brand-variant:hover {
         background-image:

@@ -24,35 +24,58 @@ accountsRouter.post("/", async (req: Request, res: Response) => {
             await accountDocument.validate();
 
 
-            // Existing username/password match check
-            const doesAccountAlreadyExist = await collections.accounts.findOne(Account);
-            if (doesAccountAlreadyExist) {
-                // Send account token since the request matched the account details
-                res.status(200).send({ accountToken: generateAccessToken(Account) })
+            // Existing username check before account creation
+            const isUsernameAlreadyUsed = await collections.accounts.findOne({ Username: Account.Username }); 
+            if (isUsernameAlreadyUsed) {
+                // 409 = Conflict
+                res.status(409).send("Username already exists");
             }
             else {
-                // Existing username check before account creation
-                const isUsernameAlreadyUsed = await collections.accounts.findOne({ Username: Account.Username }); 
-                if (isUsernameAlreadyUsed) {
-                    res.status(400).send("Username already used");
-                }
-                else {
-                    // Create account with the given request details
-                    const Result = await collections.accounts.insertOne(accountDocument);
-
-                    // Send account token since the request made the account
-                    Result
-                        ? res.status(201).send({ accountToken: generateAccessToken(Account) })
-                        : res.status(500).send("Failed to create a new account & generate token.");
-                }
+                // 201 = Created
+                // 500 = Internal Server Error
+                const Result = await collections.accounts.insertOne(accountDocument);
+                Result
+                    ? res.status(201).send()
+                    : res.status(500).send("Failed to create a new account.");
             }
-        } catch (Error: any) {
-            console.error(Error);
-            res.status(400).send(Error.message);
+
+        } catch (err: Error | any) {
+            // 400 = Bad Request
+            res.status(400).send(err?.message);
         }
     }
 });
 
-function generateAccessToken(param: Object){
-    return jwt.sign(param, 'jmNJL$rhQQjFV5%!pC8e5xQGo9gKtp');
+
+// POST account data to get account token
+accountsRouter.post("/token", async (req: Request, res: Response) => {
+    if (collections.accounts != undefined) {
+        try {
+            // Validating the request data with the schema
+            const Account = req.body as CAccount;
+            const accountModel = model('AccountModel', accountSchema);
+            const accountDocument = new accountModel(Account);
+            await accountDocument.validate();
+
+
+            // Existing username/password match check
+            const doesExactAccountExist = await collections.accounts.findOne(Account);
+            if (doesExactAccountExist) {
+                // 200 = OK
+                res.status(200).send({ accountToken: generateAccountToken(Account) })
+            }
+            else {
+                // 404 = Not Found
+                res.status(404).send(); 
+            }
+        } catch (err: Error | any) {
+            // 400 = Bad Request
+            res.status(400).send(err?.message);
+        }
+    }
+});
+
+// Generates an 12-hour token used for authentication and authorization 
+function generateAccountToken (param: CAccount) {
+    return jwt.sign(param, 'jmNJL$rhQQjFV5%!pC8e5xQGo9gKtp', {expiresIn: '12h'} );
 }

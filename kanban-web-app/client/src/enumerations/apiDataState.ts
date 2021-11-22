@@ -2,5 +2,8 @@ export enum apiDataState {
     NotBegun,
     Loading,
     Successful,
-    Errored
+    Errored,
+    InvalidToken,
+    AlreadyExists,
+    DoesNotExist,
 }
