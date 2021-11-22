@@ -6,6 +6,8 @@ import CreateAccount from './components/Account/CreateAccount.vue'
 import SignIn from './components/Account/SignIn.vue'
 import Settings from './components/Account/Settings.vue'
 import PrivacyPolicy from './components/Account/PrivacyPolicy.vue'
+import ChangePassword from './components/Account/ChangePassword.vue'
+import DeleteAccount from './components/Account/DeleteAccount.vue'
 
 import { RouteConfig } from 'vue-router';
 
@@ -57,4 +59,14 @@ export const routes: Array<RouteConfig> = [
         name: 'PrivacyPolicy',
         component: PrivacyPolicy
     },
+    {
+        path: '/Account/ChangePassword',
+        name: 'ChangePassword',
+        component: ChangePassword
+    },
+    {
+        path: '/Account/Delete',
+        name: 'DeleteAccount',
+        component: DeleteAccount
+    }
 ];

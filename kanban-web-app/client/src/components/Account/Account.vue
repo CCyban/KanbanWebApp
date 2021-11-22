@@ -13,7 +13,8 @@
         <b-row
             class="vh-60">
 			<router-link
-				:to="accountToken ? '/Account/Settings' : '/Account/SignIn'"
+				to="/Account/Settings"
+				:disabled = !accountToken
 				tag="button"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
                 <b-icon-gear

@@ -7,13 +7,11 @@ import { kanbanSchema } from "../models/MKanban";
 import { model } from "mongoose";
 import jwt from 'jsonwebtoken';
 
-
 // Global Config
 export const kanbansRouter = express.Router();
-
 kanbansRouter.use(express.json());
 
-// GET
+// GET kanbans
 kanbansRouter.get("/", async (req: Request, res: Response) => {
     const token: string = req.headers["authorization"] ?? "";
 
@@ -43,6 +41,7 @@ kanbansRouter.get("/", async (req: Request, res: Response) => {
     })
 });
 
+// GET kanban
 kanbansRouter.get("/:id", async (req: Request, res: Response) => {
     const token: string = req.headers["authorization"] ?? "";
 
@@ -76,7 +75,7 @@ kanbansRouter.get("/:id", async (req: Request, res: Response) => {
     })
 });
 
-// POST
+// POST kanban
 kanbansRouter.post("/", async (req: Request, res: Response) => {
     const token: string = req.headers["authorization"] ?? "";
 
@@ -115,7 +114,7 @@ kanbansRouter.post("/", async (req: Request, res: Response) => {
     })
 });
 
-// PUT
+// PUT kanban
 kanbansRouter.put("/:id", async (req: Request, res: Response) => {
     const token: string = req.headers["authorization"] ?? "";
 
@@ -156,7 +155,7 @@ kanbansRouter.put("/:id", async (req: Request, res: Response) => {
     })
 });
 
-// DELETE
+// DELETE kanban
 kanbansRouter.delete("/:id", async (req: Request, res: Response) => {
     const token: string = req.headers["authorization"] ?? "";
 

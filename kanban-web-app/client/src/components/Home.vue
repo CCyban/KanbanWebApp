@@ -6,6 +6,7 @@
 			<router-link				
 				to="/Kanban"
 				tag="button"
+				:disabled="accountToken == ''"
 				class="col-sm btn btn-brand-big mb-3 btn-lg">
 				<b-icon-gear
 					font-scale="2.75"
@@ -35,6 +36,11 @@ import Vue from 'vue';
 
 export default Vue.extend({
 	name: 'Home',
+	data() {
+		return {
+			accountToken: localStorage.getItem('accountToken') ?? "",
+		} 
+	},
 })
 </script>
 
