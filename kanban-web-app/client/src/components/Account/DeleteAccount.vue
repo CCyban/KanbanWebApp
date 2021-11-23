@@ -64,8 +64,8 @@
 <script lang="ts">
 
 // General Imports
-import axios from 'axios';
 import Vue from 'vue';
+import axios from 'axios';
 
 // Enumerations
 import { apiDataState } from '@/enumerations/apiDataState';
@@ -102,8 +102,8 @@ export default Vue.extend({
                 });
         }
     },
+    // If the user is not signed in (does not have a token) on component creation, this will redirect them to the sign in page
     created: function () {
-        // If the user is not signed in (does not have a token), then redirect them to the sign in page
 		const accountToken: string = localStorage.getItem('accountToken') ?? "";
         if (accountToken == "") {
             this.$router.push({ name: 'SignIn' })

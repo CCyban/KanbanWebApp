@@ -159,6 +159,8 @@ export default Vue.extend({
 		}
     },
     methods: {
+        // API request: POSTs account data to the server to add an account
+        // If successful then the client will react accordingly, if failed then an error alert will be shown.
         createAccountAttempt() {
             const Account: CAccount = new CAccount(this.Username, this.Password);
 
@@ -176,6 +178,8 @@ export default Vue.extend({
 				}
 			});
         },
+        // API request: POSTs account data to the server for a token response
+        // If successful then the client will react accordingly, if failed then an error alert will be shown.
         getAccountToken(Account: CAccount) {
             axios.post('http://localhost:8090/accounts/token', Account)
                 .then(res => {

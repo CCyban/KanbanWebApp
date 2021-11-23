@@ -95,8 +95,8 @@ export default Vue.extend({
         }
     },
 
-    // API request: Gets the kanban data resource from the server OR creates a new kanban depending on user choice
-    // If successful then the client will react accordingly, if failed then an error alert will be shown.
+    // API request: GETs the kanban data resource from the server OR creates a new kanban depending on user choice
+    // If successful then the client will react accordingly, if failed then an error alert will be shown. A progress bar is shown until the server returns a response.
     created: function () {
         this.kanbanDataState = apiDataState.Loading;
 
@@ -161,7 +161,7 @@ export default Vue.extend({
         deepCloneKanban() {
             this.localKanbanCopy = JSON.parse(JSON.stringify(this.Kanban));
         },
-        // API request: Save the latest state of the Kanban to the server.
+        // API request: PUTs the latest state of the Kanban to the server.
         // If successful then the client will react accordingly, if failed then an error alert will be shown.
         saveKanban() {
             axios.put('http://localhost:8090/kanbans/' + this.id, this.localKanbanCopy, { headers: {"Authorization" : this.accountToken} })
@@ -172,7 +172,7 @@ export default Vue.extend({
         getNewKanbanSection() {
             return new CKanbanSection();
         },
-        // API request: Deletes the kanban this component is representing off the server.
+        // API request: DELETEs the kanban this component is representing off the server.
         // If successful then the client will react accordingly, if failed then an error alert will be shown.
         deleteKanban() {
             const confirmRequest = confirm("Are you absolutely sure you want to delete this Kanban? \nNo take-backsies!");

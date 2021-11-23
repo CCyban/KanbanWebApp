@@ -54,17 +54,20 @@
             </div>
         </b-form>
 	</b-jumbotron>
-
-
-
 </template>
 
 <script lang="ts">
-import { CAccount } from '@/classes/CAccount';
-import { apiDataState } from '@/enumerations/apiDataState';
-import axios, { AxiosError } from 'axios';
+
+// General Imports
 import Vue from 'vue';
+import axios, { AxiosError } from 'axios';
 import { maxLength, required, ValidationParams } from 'vuelidate/lib/validators';
+
+// Classes
+import { CAccount } from '@/classes/CAccount';
+
+// Enumerations
+import { apiDataState } from '@/enumerations/apiDataState';
 
 export default Vue.extend({
     name: 'SignIn',
@@ -76,6 +79,7 @@ export default Vue.extend({
             accountRequestState: apiDataState.NotBegun
         }
     },
+    // Vuelidate validation to cover the component's data changes
     validations: {
             Username: {
                 required: required,
@@ -87,6 +91,7 @@ export default Vue.extend({
         }
     },
     computed: {
+        // Computed string property based on the state of the Username. Each state gives a different string of feedback.
         usernameFeedback(): string {
             if (!this.$v.Username.required) {
                 return "Username required";
@@ -98,6 +103,7 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         },
+        // Computed string property based on the state of the Password. Each state gives a different string of feedback.
         passwordFeedback(): string {
             if (!this.$v.Password.required) {
                 return "Password required";
@@ -109,6 +115,9 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         },
+
+        // Computed boolean properties based on the enumeration states of the accountRequestState.
+        // Needed because enumeration checking is not supported through inline code on the template.
         accountRequestDoesNotExist(): boolean {
 			return this.accountRequestState == apiDataState.DoesNotExist;
 		},
@@ -117,6 +126,8 @@ export default Vue.extend({
 		}
     },
     methods: {
+        // API request: POSTs account data to the server for a token response
+        // If successful then the client will react accordingly, if failed then an error alert will be shown.
         signInAttempt() {
             axios.post('http://localhost:8090/accounts/token', new CAccount(this.Username, this.Password))
                 .then(res => {
@@ -146,7 +157,6 @@ export default Vue.extend({
             );
 		color: white;
 	}
-
     .btn-brand-variant {
         border-style: none;
         background-image:

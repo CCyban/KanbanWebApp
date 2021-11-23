@@ -40,8 +40,6 @@
 				v-text="kanbanBoard.KanbanSections.length + (kanbanBoard.KanbanSections.length == 1 ? ' section' : ' sections')"
 			/>
 		</router-link>
-
-
 		<router-link
 			to="/Kanban/New"
 			tag="button"
@@ -60,10 +58,15 @@
 </template>
 
 <script lang="ts">
-import { CKanbans } from '@/classes/CKanbans';
-import Vue from 'vue';
-import { apiDataState } from '@/enumerations/apiDataState'
 
+// General Imports
+import Vue from 'vue';
+
+// Classes
+import { CKanbans } from '@/classes/CKanbans';
+
+// Enumerations
+import { apiDataState } from '@/enumerations/apiDataState'
 
 export default Vue.extend({
 	name: 'KanbanList',
@@ -75,6 +78,8 @@ export default Vue.extend({
 			type: Number
 		}
 	},
+	// Computed boolean properties based on the enumeration states of the kanbanDataState.
+	// Needed because enumeration checking is not supported through inline code on the template.
 	computed: {
 		kanbanDataErrored() {
 			return this.kanbanDataState === apiDataState.Errored;
@@ -92,7 +97,6 @@ export default Vue.extend({
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 	.btn-brand-variant {
 		background-image:

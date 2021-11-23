@@ -112,6 +112,7 @@ export default Vue.extend({
 		} 
 	},
 	methods: {
+		// Sign out click event. This simply cleans the localStorage of the token data, meaning the user is signed out.
 		signOut() {
 			localStorage.setItem('accountToken', "")
 			this.accountToken = "";

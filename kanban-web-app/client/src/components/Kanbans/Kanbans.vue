@@ -15,11 +15,22 @@
 </template>
 
 <script lang="ts">
+
+// General Imports
 import Vue from 'vue';
 import axios, { AxiosError } from 'axios';
-import KanbanList from '../Kanbans/KanbanList.vue'
+
+// Classes
 import { CKanbans } from '@/classes/CKanbans';
+
+// Interfaces
+import { IKanbans } from '@/interfaces/IKanbans';
+
+// Enumerations
 import { apiDataState } from '@/enumerations/apiDataState'
+
+// Vue Components
+import KanbanList from '../Kanbans/KanbanList.vue'
 
 export default Vue.extend({
 	name: 'Kanbans',
@@ -28,10 +39,12 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			kanbanData: undefined || new CKanbans(),
+			kanbanData: undefined as unknown as IKanbans,
 			kanbanDataState: apiDataState.NotBegun,
 		}
 	},
+	// API request: GETs a list of all kanbans from the server
+    // If successful then the client will react accordingly, if failed then an error alert will be shown. A progress bar is shown until the server returns a response.
 	created: function () {
 		const accountToken: string = localStorage.getItem('accountToken') ?? "";
 

@@ -63,10 +63,14 @@
 </template>
 
 <script lang="ts">
-import { apiDataState } from '@/enumerations/apiDataState';
-import axios from 'axios';
+
+// General Imports
 import Vue from 'vue';
+import axios from 'axios';
 import { maxLength, required, sameAs } from 'vuelidate/lib/validators';
+
+// Enumerations
+import { apiDataState } from '@/enumerations/apiDataState';
 
 export default Vue.extend({
     name: 'ChangePassword',
@@ -77,6 +81,7 @@ export default Vue.extend({
             accountRequestState: apiDataState.NotBegun
         }
     },
+    // Vuelidate validation to cover the component's data changes
     validations: {
         Password: {
             required: required,
@@ -88,6 +93,7 @@ export default Vue.extend({
         }
     },
     computed: {
+        // Computed string property based on the state of the Password. Each state gives a different string of feedback.
         passwordFeedback(): string {
             if (!this.$v.Password.required) {
                 return "Password required";
@@ -99,6 +105,7 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         },
+        // Computed string property based on the state of the confirmPassword. Each state gives a different string of feedback.
         confirmPasswordFeedback(): string {
             if (!this.$v.confirmPassword.required) {
                 return "Confirmation Password required";
@@ -110,6 +117,9 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         },
+
+        // Computed boolean properties based on the enumeration states of the accountRequestState.
+        // Needed because enumeration checking is not supported through inline code on the template.
         accountRequestErrored(): boolean {
 			return this.accountRequestState == apiDataState.Errored;
 		},
@@ -118,6 +128,8 @@ export default Vue.extend({
 		}
     },
     methods: {
+        // API request: PUTs new password data to the server to change the current password of the signed in (token's) account.
+        // If successful then the client will react accordingly, if failed then an error alert will be shown.
         changePasswordAttempt() {
             const accountToken: string = localStorage.getItem('accountToken') ?? "";
 
@@ -131,6 +143,7 @@ export default Vue.extend({
                 });
         },
     },
+    // If the user is not signed in (does not have a token) on component creation, this will redirect them to the sign in page
     created: function () {
 		const accountToken: string = localStorage.getItem('accountToken') ?? "";
         if (accountToken == "") {
