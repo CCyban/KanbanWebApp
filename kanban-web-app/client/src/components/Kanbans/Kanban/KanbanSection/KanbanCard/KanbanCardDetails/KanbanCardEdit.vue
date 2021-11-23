@@ -201,9 +201,12 @@
 </template>
 
 <script lang="ts">
+
+// General Imports
 import Vue, { PropType } from 'vue';
 import { required, minValue, maxValue, maxLength } from 'vuelidate/lib/validators'
 
+// Interfaces
 import { IKanbanSectionCard } from '@/interfaces/IKanbanSectionCard'
 
 export default Vue.extend({
@@ -254,7 +257,7 @@ export default Vue.extend({
         }
     },
     beforeMount: function() {
-        // Creates a raw object copy
+        // Creates a copy of the kanban card data this component is supposed to represent before it is mounted
         this.localKanbanCardCopy = {...this.kanbanCard};
     },
     computed: {

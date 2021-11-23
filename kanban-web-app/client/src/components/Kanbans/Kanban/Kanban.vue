@@ -61,10 +61,12 @@
 </template>
 
 <script lang="ts">
+
 // General
 import Vue from 'vue';
-import { Route } from 'vue-router';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+// Vetur will think the below import is not used therefore not required, but it is wrong so ignore thinking otherwise. Maybe they'll fix it someday.
+import { Route } from 'vue-router';
 
 // Components
 import KanbanTitle from './KanbanTitle.vue'
@@ -74,9 +76,7 @@ import KanbanSection from './KanbanSection/KanbanSection.vue'
 import { CKanban } from '@/classes/CKanban';
 import { IKanban } from '@/interfaces/IKanban';
 import { CKanbanSection } from '@/classes/CKanbanSection';
-import { IKanbanSection } from '@/interfaces/IKanbanSection';
 import { apiDataState } from '@/enumerations/apiDataState'
-
 
 export default Vue.extend({
   name: 'Kanban',
@@ -94,9 +94,13 @@ export default Vue.extend({
             accountToken: localStorage.getItem('accountToken') ?? "",
         }
     },
+
+    // API request: Gets the kanban data resource from the server OR creates a new kanban depending on user choice
+    // If successful then the client will react accordingly, if failed then an error alert will be shown.
     created: function () {
         this.kanbanDataState = apiDataState.Loading;
 
+        // If the user selected 'Create New Kanban Board', this will proceed and run a POST request for a new one.
         if (this.id === 'New') {
             const newKanban = new CKanban('New Kanban');
 
@@ -116,6 +120,7 @@ export default Vue.extend({
 				}
 			});
         }
+        // If the user selected an existing kanban board, this will proceed and run a GET request for its details.
         else {
             axios.get('http://localhost:8090/kanbans/' + this.id, { headers: {"Authorization" : this.accountToken} })
             .then(res => { 
@@ -134,32 +139,41 @@ export default Vue.extend({
         }
     },
     methods: {
-            // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
+        // The root saving method that is used to save the state of the entire kanban board. Used for saving a section at a time.
         saveKanbanSection(payload: any) {
             this.$set(this.localKanbanCopy.KanbanSections, payload.sectionIndex, JSON.parse(JSON.stringify(payload.newSection)));
         },
+        // Deletes a kanban section from the kanban.
         deleteKanbanSection(sectionIndex: number) {
             this.localKanbanCopy.KanbanSections.splice(sectionIndex, 1);
         },
+        // Adds a kanban section to the kanban.
         addNewKanbanSection() {
             this.localKanbanCopy.KanbanSections.push(
                 new CKanbanSection('#' + (this.localKanbanCopy.KanbanSections.length + 1))
             );
         },
+        // Updates the kanban's title.
         updateKanbanTitle(newTitle: string) {
             this.localKanbanCopy.KanbanTitle = newTitle;
         },
+        // Deep clones the kanban to form a local copy.
         deepCloneKanban() {
             this.localKanbanCopy = JSON.parse(JSON.stringify(this.Kanban));
         },
+        // API request: Save the latest state of the Kanban to the server.
+        // If successful then the client will react accordingly, if failed then an error alert will be shown.
         saveKanban() {
             axios.put('http://localhost:8090/kanbans/' + this.id, this.localKanbanCopy, { headers: {"Authorization" : this.accountToken} })
                 .then(res => res.status == 200 ? this.Kanban = this.localKanbanCopy : this.kanbanUpdateFailed = true)
                 .catch(() => this.kanbanUpdateFailed = true);
         },
+        // Creates a blank and new kanban section
         getNewKanbanSection() {
             return new CKanbanSection();
         },
+        // API request: Deletes the kanban this component is representing off the server.
+        // If successful then the client will react accordingly, if failed then an error alert will be shown.
         deleteKanban() {
             const confirmRequest = confirm("Are you absolutely sure you want to delete this Kanban? \nNo take-backsies!");
             if (confirmRequest) {
@@ -170,6 +184,7 @@ export default Vue.extend({
         }
     },
 	watch: {
+        // Re-Deep clones the kanban to form a local copy each time the main kanban data gets updated
 		Kanban: function () {
 			this.deepCloneKanban();
 		}
@@ -181,6 +196,8 @@ export default Vue.extend({
                 return JSON.stringify(this.Kanban) != JSON.stringify(this.localKanbanCopy);
             }
         },
+        // Computed boolean properties based on the enumeration states of the kanbanDataState.
+        // Needed because enumeration checking is not supported through inline code on the template.
         kanbanDataErrored(): boolean {
 			return this.kanbanDataState === apiDataState.Errored;
 		},

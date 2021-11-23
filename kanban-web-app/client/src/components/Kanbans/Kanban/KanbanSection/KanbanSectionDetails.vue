@@ -46,6 +46,7 @@
             </b-form-text>
                 <div class="d-grid gap-2 my-2">
                     <b-button
+                        id="deleteSectionButton"
                         variant="warning"
                         :disabled="hasCards"
                         v-b-toggle.delete-collapse
@@ -57,7 +58,7 @@
                 <b-collapse id="delete-collapse">
                     <div class="d-grid gap-2">
                         <b-button
-                            id="deleteSectionButton"
+                            id="deleteSectionConfirmationButton"
                             variant="danger"
                             block
                             :disabled="hasCards"
@@ -74,6 +75,8 @@
 
 
 <script lang="ts">
+
+// General Imports
 import Vue from 'vue';
 import { required, maxLength } from 'vuelidate/lib/validators'
 
@@ -97,6 +100,7 @@ export default Vue.extend({
         },
     },
     computed: {
+        // Computed string property based on the states of the localSectionHeaderCopy. Each state gives a different string of feedback.
         invalidFeedback() : String {
             if (!this.$v.localSectionHeaderCopy.required) {
                 return "Requires input"

@@ -75,7 +75,11 @@
 </template>
 
 <script lang="ts">
+
+// General Imports
 import Vue from 'vue';
+
+// Vue Components
 import kanbanSectionDetails from './KanbanSectionDetails.vue'
 
 export default Vue.extend({
@@ -99,14 +103,16 @@ export default Vue.extend({
         }
     },
     beforeMount: function() {
+        // Creates a copy of the kanban's section's header data this component is supposed to represent before it is mounted
         this.localSectionHeaderCopy = this.sectionHeader;
     },
     methods: {
-        hoverHandle(isHovered: any) {
-            // Hover event on the card is used to toggle a boolean to show the overlay of said card
+        hoverHandle(isHovered: boolean) {
+            // Hover event on the card is linked to toggle a isCardHovered boolean to show the overlay of said card
             this.isCardHovered = isHovered;
         },
         closeModal() {
+            // Method to close the kanban section editing modal
             this.showEditModal = false;
         },
     }

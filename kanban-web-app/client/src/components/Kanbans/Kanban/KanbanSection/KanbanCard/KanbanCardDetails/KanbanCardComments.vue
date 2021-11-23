@@ -61,16 +61,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+
+// General Imports
+import Vue, { PropType } from 'vue';
 import jwt from 'jsonwebtoken';
 import { maxLength } from 'vuelidate/lib/validators'
+
+// Classes
 import { CAccount } from '@/classes/CAccount';
 
+// Interfaces
+import { IKanbanSectionCard } from '@/interfaces/IKanbanSectionCard';
 
 export default Vue.extend({    
     name: 'KanbanCardComments',
     props: {
-        kanbanCard: Object,
+        kanbanCard: Object as PropType<IKanbanSectionCard>,
         saveKanbanCardEmit: Function,
     },
     data() {

@@ -3,6 +3,7 @@
         <kanban-card-edit :kanbanCard="kanbanCard" :saveKanbanCardEmit="saveKanbanCardEmit" />
         <hr class="my-4" />
         <kanban-card-comments :kanbanCard="kanbanCard" :saveKanbanCardEmit="saveKanbanCardEmit" />
+        <hr class="my-4" />
         <b-form-group
             label-for="deleteCardButton">
             <template #label>
@@ -10,6 +11,7 @@
             </template>
             <div class="d-grid gap-2 my-2">
                 <b-button
+                    id="deleteCardButton"
                     variant="warning"
                     v-b-toggle.delete-collapse
                     v-b-tooltip.hover
@@ -20,7 +22,7 @@
             <b-collapse id="delete-collapse">
                 <div class="d-grid gap-2">
                     <b-button
-                        id="deleteCardButton"
+                        id="deleteCardConfirmationButton"
                         variant="danger"
                         block
                         @click="deleteKanbanCard()"
@@ -35,14 +37,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+
+// General Imports
+import Vue, { PropType } from 'vue';
+
+// Interfaces
+import { IKanbanSectionCard } from '@/interfaces/IKanbanSectionCard';
+
+// Vue Components
 import KanbanCardEdit from './KanbanCardEdit.vue'
 import KanbanCardComments from './KanbanCardComments.vue'
 
 export default Vue.extend({
     name: 'KanbanCardDetails',
     props: {
-        kanbanCard: Object,
+        kanbanCard: Object as PropType<IKanbanSectionCard>,
         saveKanbanCardEmit: Function,
         deleteKanbanCard: Function,
     },

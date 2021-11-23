@@ -74,12 +74,17 @@
 </template>
 
 <script lang="ts">
+
+// General Imports
 import Vue from 'vue';
 import { sameAs, maxLength, required } from 'vuelidate/lib/validators';
 import axios, { AxiosError } from 'axios';
-import { CAccount } from '@/classes/CAccount'
-import { apiDataState } from '@/enumerations/apiDataState';
 
+// Classes
+import { CAccount } from '@/classes/CAccount'
+
+// Enumerations
+import { apiDataState } from '@/enumerations/apiDataState';
 
 export default Vue.extend({
     name: 'CreateAccount',
@@ -91,6 +96,7 @@ export default Vue.extend({
             accountRequestState: apiDataState.NotBegun
         }
     },
+    // Vuelidate validation to cover the component's data changes
     validations: {
         Username: {
             required: required,
@@ -106,6 +112,7 @@ export default Vue.extend({
         },
     },
     computed: {
+        // Computed string property based on the state of the Username. Each state gives a different string of feedback.
         usernameFeedback(): string {
             if (!this.$v.Username.required) {
                 return "Username required";
@@ -117,6 +124,7 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         },
+        // Computed string property based on the state of the Password. Each state gives a different string of feedback.
         passwordFeedback(): string {
             if (!this.$v.Password.required) {
                 return "Password required";
@@ -128,6 +136,7 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         },
+        // Computed string property based on the state of the confirmPassword. Each state gives a different string of feedback.
         confirmPasswordFeedback(): string {
             if (!this.$v.confirmPassword.required) {
                 return "Confirmation Password required";
@@ -139,6 +148,9 @@ export default Vue.extend({
                 return "Invalid state, please refresh";
             }
         },
+
+        // Computed boolean properties based on the enumeration states of the accountRequestState.
+        // Needed because enumeration checking is not supported through inline code on the template.
         accountRequestAlreadyExists(): boolean {
 			return this.accountRequestState == apiDataState.AlreadyExists;
 		},
@@ -187,7 +199,6 @@ export default Vue.extend({
             );
 		color: white;
 	}
-
     .btn-brand-variant {
         border-style: none;
         background-image:

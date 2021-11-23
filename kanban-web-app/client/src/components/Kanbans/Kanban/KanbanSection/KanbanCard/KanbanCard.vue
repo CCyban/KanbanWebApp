@@ -41,7 +41,7 @@
                 <h1 class="h4">
                     {{ kanbanCard.Title }}
                 </h1>
-                <b-card-text>
+                <b-card-text v-if="kanbanCard.assignedTo">
                     <p><b-avatar />{{ kanbanCard.assignedTo }}</p>
                 </b-card-text>
                 <b-card-text class="text-truncate">
@@ -87,15 +87,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+
+// General Imports
+import Vue, { PropType } from 'vue';
+
+// Interfaces
+import { IKanbanSectionCard } from '@/interfaces/IKanbanSectionCard';
+
+// Vue Components
 import KanbanCardDetails from './KanbanCardDetails/KanbanCardDetails.vue'
 
 export default Vue.extend({
     name: 'KanbanCard',
     props: {
-        kanbanCard: Object,
-        saveKanbanCard: Function,
         index: Number,
+        kanbanCard: Object as PropType<IKanbanSectionCard>,
+        saveKanbanCard: Function,
         addNewKanbanCard: Function,
         deleteKanbanCard: Function,
     },
@@ -106,19 +113,19 @@ export default Vue.extend({
         return {
             isCardHovered: false,
             showModal: false,
-            kabanCard: Object,
         }
     },
     methods: {
+        // Hover event on the card is used to toggle a boolean to show the overlay of said card
         hoverHandle(isHovered: boolean) {
-            // Hover event on the card is used to toggle a boolean to show the overlay of said card
             this.isCardHovered = isHovered; 
         },
+        // Toggles the editing modal of the kanban card's details
         toggleModal() {
             this.showModal = !this.showModal;
         },
+        // Updates the higher component with the new card data as well as the index of the section this component is used for
         saveKanbanCardEmit(kanbanCard: any) {
-            // Updates the higher component with the new card data as well as the index of the section this component is used for
             this.saveKanbanCard(                
                 {
                     index: this.index,
@@ -130,22 +137,17 @@ export default Vue.extend({
 })
 </script>
 
-
 <style scoped>
     .kanban-card-overlay {
         cursor: grab;
         transition: transform 0.25s;
     }
-
     .unselectable {
         -webkit-user-select: none; /* Safari */        
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* IE10+/Edge */
         user-select: none; /* Standard */
     }
-</style>
-
-<style scoped>
     .card-brand-variant {
         background-image:
             linear-gradient(

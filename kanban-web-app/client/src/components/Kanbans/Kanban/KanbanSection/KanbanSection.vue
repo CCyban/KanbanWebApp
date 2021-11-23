@@ -12,11 +12,20 @@
 </template>
 
 <script lang="ts">
-import { CKanbanSectionCard } from '@/classes/CKanbanSectionCard';
-import { IKanbanSection } from '@/interfaces/IKanbanSection';
-import { IKanbanSections } from '@/interfaces/IKanbanSections';
-import Vue from 'vue';
+
+// General Imports
+import Vue, { PropType } from 'vue';
+import jwt from 'jsonwebtoken';
 import draggable from 'vuedraggable'
+
+// Classes
+import { CAccount } from '@/classes/CAccount';
+import { CKanbanSectionCard } from '@/classes/CKanbanSectionCard';
+
+// Interfaces
+import { IKanbanSection } from '@/interfaces/IKanbanSection';
+
+// Vue Components
 import KanbanCard from './KanbanCard/KanbanCard.vue'
 import KanbanSectionHeader from './KanbanSectionHeader.vue'
 
@@ -28,7 +37,7 @@ export default Vue.extend({
       KanbanSectionHeader,
     },
     props: {
-        kanbanSection: Object,
+        kanbanSection: Object as PropType<IKanbanSection>,
         sectionIndex: Number,
         saveKanbanSection: Function,
         deleteKanbanSection: Function,
@@ -46,6 +55,7 @@ export default Vue.extend({
         }
     },
     computed: {
+        // VueDraggable's drag options for the kanban cards
         dragOptions() {
             return {
                 animation: 200,
@@ -55,35 +65,48 @@ export default Vue.extend({
         },
         hasDataChanged: {
             get(): boolean {
-                // Detects if the kanban section's data has been altered
+                // Detects if the kanban section's data has been altered so we know when to show the 'save kanban changes' option
                 return JSON.stringify(this.kanbanSection) != JSON.stringify(this.localCopyOfSection);
             }
         },
     },
     methods: {
-        saveKanbanCard(cursedObject: any) {
+        saveKanbanCard(payload: any) {
             // Receives a change to the local copy & calls a method to pass the update further up
-            this.$set(this.localCopyOfSection.SectionCards, cursedObject.index, cursedObject.newKanbanCard);
+            this.$set(this.localCopyOfSection.SectionCards, payload.index, payload.newKanbanCard);
 
             this.updateKanbanSectionData();
         },
         addNewKanbanCard() {
+            // Setting basic properties of a new Kanban Card
+            const newKanbanSectionCard = new CKanbanSectionCard();
+            newKanbanSectionCard.Title = '#' + (this.localCopyOfSection.SectionCards.length + 1);
+
+            const Account: CAccount = jwt.decode(localStorage.getItem('accountToken') ?? "") as CAccount;
+            newKanbanSectionCard.Author = Account.Username;
+
+            newKanbanSectionCard.dateCreated = newKanbanSectionCard.lastUpdated = new Date().toLocaleDateString('en-UK', { day:'2-digit', month: '2-digit', year: 'numeric' });
+
+            // Added the newly created card to the list of cards
             this.$set(
                 this.localCopyOfSection.SectionCards, 
                 this.localCopyOfSection.SectionCards.length, 
-                new CKanbanSectionCard('#' + (this.localCopyOfSection.SectionCards.length + 1)));
+                newKanbanSectionCard);
                 
+            // Emits the update to the higher-level components
             this.updateKanbanSectionData();
         },
         deleteKanbanCard(sectionIndex: number) {
             this.localCopyOfSection.SectionCards.splice(sectionIndex, 1);
 
+            // Emits the update to the higher-level components
             this.updateKanbanSectionData();
         },
         saveKanbanSectionHeader(newKanbanSectionHeader: string) {
             // Receives a change to the local copy & calls a method to pass the update further up
             this.localCopyOfSection.SectionHeader = newKanbanSectionHeader;
 
+            // Emits the update to the higher-level components
             this.updateKanbanSectionData();
         },
         sectionOrderUpdated() {
@@ -98,14 +121,16 @@ export default Vue.extend({
             })
         },
         deleteSection() {
-            // Add text
+            // Emits a delete method for the kanban section this component itself is representing
             this.deleteKanbanSection(this.sectionIndex);
         },
         getNewKanbanCard() {
+            // Creates an new and empty kanban card
             return new CKanbanSectionCard();
         }
     },
     beforeMount: function() {
+        // Creates a copy of the kanban's section data this component is supposed to represent before it is mounted
         this.localCopyOfSection = JSON.parse(JSON.stringify(this.kanbanSection));
     },
 })
