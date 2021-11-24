@@ -1,5 +1,11 @@
 # kanban-web-app : client
 
+## Important
+There is one key requirement before running the below or batch files:
+
+- Requires NodeJS (preferably no older than version 12). <br /> You can download NodeJS from their offical page: https://nodejs.org/en/download/.
+
+
 ## Project setup
 ```
 npm install
@@ -14,8 +20,3 @@ npm run serve
 ```
 npm run build
 ```
-
-## Important
-There is one key requirement before running the above or batch files:
-
-- Requires NodeJS (preferably no older than version 12). <br /> You can download it from their offical page: https://nodejs.org/en/download/.
