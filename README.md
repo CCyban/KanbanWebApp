@@ -6,13 +6,13 @@ The web application allows you to create/edit/delete/read Kanbans and the data i
 
 This utilises a MEVN web application stack.
 
-A MEVN stack conists of:
+An MEVN stack conists of:
 - [<b>M</b>ongoDB](https://www.mongodb.com/)
 - [<b>E</b>xpressJS](https://expressjs.com/)
 - [<b>V</b>ueJS](https://vuejs.org/)
 - [<b>N</b>odeJS](https://nodejs.org/en/)
 
-My MEVN stack also includes [Mongoose](https://mongoosejs.com/) (a popular ODM for MongoDB) & primary is made using [TypeScript](https://www.typescriptlang.org/).
+My MEVN stack also includes [Mongoose](https://mongoosejs.com/) (a popular ODM for MongoDB) & is primary made using [TypeScript](https://www.typescriptlang.org/).
 
 <hr />
 
