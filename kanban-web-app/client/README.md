@@ -15,7 +15,7 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Important
+There is one key requirement before running the above or batch files:
+
+- Requires NodeJS (preferably no older than version 12). <br /> You can download it from their offical page: https://nodejs.org/en/download/.
