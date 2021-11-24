@@ -29,3 +29,8 @@ npm run build
 ```
 npm run start
 ```
+
+### Runs unit tests with coverage details
+```
+npm run test
+```
