@@ -12,7 +12,7 @@ An MEVN stack conists of:
 - [<b>V</b>ueJS](https://vuejs.org/)
 - [<b>N</b>odeJS](https://nodejs.org/en/)
 
-My MEVN stack also includes [Mongoose](https://mongoosejs.com/) (a popular ODM for MongoDB) & is primary made using [TypeScript](https://www.typescriptlang.org/).
+My MEVN stack also includes [Mongoose](https://mongoosejs.com/) (a popular ODM for MongoDB) & is primary made using [TypeScript](https://www.typescriptlang.org/). It also contains unit tests made using [Jest](https://jestjs.io/).
 
 <hr />
 
