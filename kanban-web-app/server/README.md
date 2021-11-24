@@ -1,7 +1,7 @@
 # kanban-web-app : server
 
 ## Important
-There are two key requirements before running the above or batch files:
+There are two key requirements before running the below or batch files:
 
 - This requires the latest version of NodeJS version 12 or above to run. <br /> You can download it from their offical page: https://nodejs.org/en/download/. <br />
 Anything below will fail as [whatwg-url](https://www.npmjs.com/package/whatwg-url) (a popular package this uses) uses node APIs that were introduced in v12.
