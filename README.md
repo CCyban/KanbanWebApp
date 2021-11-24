@@ -62,11 +62,12 @@ There are two ways to compile & run the client and server, I have made batch fil
 <br />![image](https://user-images.githubusercontent.com/47162481/143315969-5f41a003-8f8a-4d3c-9925-ea7cc35768f1.png)
 
 
-## Any issues? Read more READMEs to ensure you have not missed anything.
+## Any issues? Read more READMEs to ensure you have not missed anything
 - [Client README](https://github.com/CCyban/KanbanWebApp/tree/main/kanban-web-app/client#readme)
 - [Server README](https://github.com/CCyban/KanbanWebApp/tree/main/kanban-web-app/server#readme)
 
 ## How to run the Unit Tests
+- Make sure you have done the package installation for the server files as mentioned in an above section
 - Go into the Server folder and do <code>npm run test</code>
 - The unit test results & coverage should look something like this: ![image](https://user-images.githubusercontent.com/47162481/143316886-c3c64120-97e3-475f-909d-a41aa2dfab4c.png)
 
