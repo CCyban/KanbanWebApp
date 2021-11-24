@@ -1,16 +1,20 @@
 # kanban-web-app : server
 
-## Project setup
+## Project Packages setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles & Runs the server
 ```
 npm run dev
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+
+## Important
+There are two key requirements before running the above or batch files:
+
+- This requires the latest version of NodeJS version 12 or above to run. <br /> You can download it from their offical page: https://nodejs.org/en/download/. <br />
+Anything below will fail as [whatwg-url](https://www.npmjs.com/package/whatwg-url) (a popular package this uses) uses node APIs that were introduced in v12.
+
+- This also requires a localhost MongoDB server to be set up without any authentication. <br /> You can find instructions on how to do so using their documentation here: https://docs.mongodb.com/guides/server/install/.
