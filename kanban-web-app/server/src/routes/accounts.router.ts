@@ -73,7 +73,7 @@ accountsRouter.post("/token", async (req: Request, res: Response) => {
 });
 
 // PUT request to alter password
-accountsRouter.put("/changePassword", async (req: Request, res: Response) => {
+accountsRouter.put("/", async (req: Request, res: Response) => {
     const token: string = req.headers["authorization"] ?? "";
 
     jwt.verify(token, 'jmNJL$rhQQjFV5%!pC8e5xQGo9gKtp', async (err, decode) => {

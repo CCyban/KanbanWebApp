@@ -133,7 +133,7 @@ export default Vue.extend({
         changePasswordAttempt() {
             const accountToken: string = localStorage.getItem('accountToken') ?? "";
 
-            axios.put('http://localhost:8090/accounts/changePassword', { newPassword: this.Password }, { headers: {"Authorization" : accountToken} })
+            axios.put('http://localhost:8090/accounts', { newPassword: this.Password }, { headers: {"Authorization" : accountToken} })
                 .then(() => {
                     localStorage.setItem("accountToken", "");
                     this.accountRequestState = apiDataState.Successful;

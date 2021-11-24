@@ -10,6 +10,8 @@ import mongoose, { Connection } from 'mongoose'
 // Global Variables
 export const collections: { kanbans?: mongoose.Collection, accounts?: mongoose.Collection } = {}
 
+export let dbConnection: mongoose.Connection;
+
 // Initalise connection
 export default async function connectToDatabase () {
 
@@ -23,7 +25,7 @@ export default async function connectToDatabase () {
 
     const databaseName = "kanbanWebAppDB";
 
-    const dbConnection: Connection = await mongoose.createConnection('mongodb://localhost:27017/' + databaseName);
+    dbConnection = await mongoose.createConnection('mongodb://localhost:27017/' + databaseName);
 
 
     const kanbansCollection: mongoose.Collection = dbConnection.collection("Kanbans");
