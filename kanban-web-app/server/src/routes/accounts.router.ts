@@ -97,8 +97,8 @@ accountsRouter.put("/", async (req: Request, res: Response) => {
                     // 304 = Not Modified
                     const result = await collections.accounts.updateOne(query, { $set: updatedAccount });
                     result
-                        ? res.status(200).send(`Successfully updated account with id ${existingAccount?._id}`)
-                        : res.status(304).send(`Account with id: ${existingAccount?._id} not updated`);
+                        ? res.status(200).send("Successfully updated account with id " + existingAccount?._id)
+                        : res.status(304).send("Account with id: " + existingAccount?._id +  " not updated");
                 } catch (err: Error | any) {
                     // 400 = Bad Request
                     res.status(400).send(err?.message);
@@ -133,13 +133,13 @@ accountsRouter.delete("/", async (req: Request, res: Response) => {
 
                     if (result && result.deletedCount) {
                         // 200 = OK
-                        res.status(200).send(`Successfully removed account with id ${existingAccount?._id}`);
+                        res.status(200).send("Successfully removed account with id " + existingAccount?._id);
                     } else if (!result) {
                         // 400 = Bad Request
-                        res.status(400).send(`Failed to remove account with id ${existingAccount?._id}`);
+                        res.status(400).send("Failed to remove account with id " + existingAccount?._id);
                     } else if (!result.deletedCount) {
                         // 404 = Not Found
-                        res.status(404).send(`Account with id ${existingAccount?._id} does not exist`);
+                        res.status(404).send("Account with id " + existingAccount?._id + " does not exist");
                     }
                 } catch (err: Error | any) {
                     // 400 = Bad Request

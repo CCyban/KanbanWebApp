@@ -65,7 +65,7 @@ kanbansRouter.get("/:id", async (req: Request, res: Response) => {
                     }
                 } catch (error: Error | any) {
                     // 404 = Not Found
-                    res.status(404).send(`Unable to find matching kanban with id: ${req.params.id}`);
+                    res.status(404).send("Unable to find matching kanban with id: " + req.params.id);
                 }
             }
         }
@@ -141,8 +141,8 @@ kanbansRouter.put("/:id", async (req: Request, res: Response) => {
                     // 304 = Not Modified
                     const result = await collections.kanbans.updateOne(query, { $set: updatedKanban });
                     result
-                        ? res.status(200).send(`Successfully updated kanban with id ${id}`)
-                        : res.status(304).send(`Kanban with id: ${id} not updated`);
+                        ? res.status(200).send("Successfully updated kanban with id " + id)
+                        : res.status(304).send("Kanban with id: " + id + " not updated");
                 } catch (err: Error | any) {
                     // 400 = Bad Request
                     res.status(400).send(err?.message);
@@ -176,13 +176,13 @@ kanbansRouter.delete("/:id", async (req: Request, res: Response) => {
 
                     if (result && result.deletedCount) {
                         // 200 = OK
-                        res.status(200).send(`Successfully removed kanban with id ${id}`);
+                        res.status(200).send("Successfully removed kanban with id " +  id);
                     } else if (!result) {
                         // 400 = Bad Request
-                        res.status(400).send(`Failed to remove kanban with id ${id}`);
+                        res.status(400).send("Failed to remove kanban with id " + id);
                     } else if (!result.deletedCount) {
                         // 404 = Not Found
-                        res.status(404).send(`Kanban with id ${id} does not exist`);
+                        res.status(404).send("Kanban with id " + id + " does not exist");
                     }
                 } catch (err: Error | any) {
                     // 400 = Bad Request

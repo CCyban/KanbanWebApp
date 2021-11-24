@@ -1,19 +1,22 @@
+
+// General Testing Imports
 import app, { server } from '../../index'
 import { dbConnection } from '../../services/database.service'
-
 import request from "supertest"
+
+// Classes for the tests to use
 import { CKanban } from '../../classes/CKanban';
 import { CKanbanSection } from '../../classes/CKanbanSection';
 import { CKanbanSectionCard } from '../../classes/CKanbanSectionCard';
 import { CKanbanCardComment } from '../../classes/CKanbanCardComment';
 
-
 // Test data for the tests to use
 import { accountToken } from './accounts.test';
 let newKanbanId: string;
 let fetchedKanbans: Array<CKanban>;
+let nonExistingDocumentId: "619a68f607afdcb57d594ce2";
 
-
+//#region Large kanban classes of kanban data for testing purposes
 const someKanban: CKanban = new CKanban(
     "Sprint 13.3.8000",
     [
@@ -40,8 +43,7 @@ const someKanban: CKanban = new CKanban(
             ]
         ),
     ]
-)
-
+);
 const someOtherKanban: CKanban = new CKanban(
     "Sprint 13.3.8000",
     [
@@ -100,7 +102,9 @@ const someOtherKanban: CKanban = new CKanban(
             ]
         )
     ]
-)
+);
+//#endregion
+
 
 describe("POST /kanbans", () => {
     it("Returns status 201 if a kanban is successfully created with a valid token", async () => {
@@ -109,51 +113,97 @@ describe("POST /kanbans", () => {
             .post("/kanbans")
             .send(someKanban)
             .set("Authorization", accountToken);
-
         expect(res.statusCode).toEqual(201);
-
         expect(res.body._id).toBeTruthy;
         newKanbanId = res.body._id;
     })
 });
 
+describe("POST /kanbans", () => {
+    it("Returns status 401 if a kanban is not created with a invalid token", async () => {
 
-describe("GET /kanban", () => {
+        const res = await request(app)
+            .post("/kanbans")
+            .send(someKanban);
+        expect(res.statusCode).toEqual(401);
+        expect(res.body._id).toBeFalsy;
+    })
+});
+
+describe("GET /kanbans", () => {
     it("Returns status 200 with a body if kanbans are successfully fetched with a valid token", async () => {
 
         const res = await request(app)
             .get("/kanbans")
             .set("Authorization", accountToken);
-
         expect(res.statusCode).toEqual(200);
-
         expect(res.body).toBeTruthy;
         fetchedKanbans = res.body;
     })
 });
 
 describe("GET /kanbans", () => {
+    it("Returns status 401 without a body if a kanbans are not fetched with a invalid token", async () => {
+
+        const res = await request(app)
+            .post("/kanbans")
+            .send(someKanban);
+        expect(res.statusCode).toEqual(401);
+        expect(res.body._id).toBeFalsy;
+    })
+});
+
+describe("GET /kanbans/id", () => {
     it("Returns status 200 with a body if a specific kanban is successfully fetched with a valid token", async () => {
 
         const res = await request(app)
             .get("/kanbans/" + newKanbanId)
             .set("Authorization", accountToken);
-
         expect(res.statusCode).toEqual(200);
         expect(res.body).toBeTruthy;
     })
 });
 
-describe("PUT /kanbans", () => {
+describe("GET /kanbans/id", () => {
+    it("Returns status 401 without a body if a specific kanban is not fetched with a invalid token", async () => {
+
+        const res = await request(app)
+            .get("/kanbans/" + newKanbanId);
+        expect(res.statusCode).toEqual(401);
+        expect(res.body).toBeFalsy;
+    })
+});
+
+describe("GET /kanbans/id", () => {
+    it("Returns status 404 if a nonexisting kanban cannot be fetched with a valid token", async () => {
+
+        const res = await request(app)
+            .get("/kanbans/" + nonExistingDocumentId)
+            .set("Authorization", accountToken);
+        expect(res.statusCode).toEqual(404);
+    })
+});
+
+describe("PUT /kanbans/id", () => {
     it("Returns status 200 with a body if a specific kanban is successfully updated with a valid token", async () => {
 
         const res = await request(app)
             .put("/kanbans/" + newKanbanId)
             .send(someOtherKanban)
             .set("Authorization", accountToken);
-
         expect(res.statusCode).toEqual(200);
         expect(res.body).toBeTruthy;
+    })
+});
+
+describe("PUT /kanbans/id", () => {
+    it("Returns status 401 without a body if a specific kanban is not updated with a invalid token", async () => {
+
+        const res = await request(app)
+            .put("/kanbans/" + newKanbanId)
+            .send(someOtherKanban);
+        expect(res.statusCode).toEqual(401);
+        expect(res.body).toBeFalsy;
     })
 });
 
@@ -163,9 +213,18 @@ describe("DELETE /kanbans", () => {
         const res = await request(app)
             .delete("/kanbans/" + newKanbanId)
             .set("Authorization", accountToken);
-
         expect(res.statusCode).toEqual(200);
         expect(res.body).toBeTruthy;
+    })
+});
+
+describe("DELETE /kanbans/id", () => {
+    it("Returns status 401 without a body if a specific kanban is not deleted with a invalid token", async () => {
+
+        const res = await request(app)
+            .delete("/kanbans/" + newKanbanId);
+        expect(res.statusCode).toEqual(401);
+        expect(res.body).toBeFalsy;
     })
 });
 
